@@ -12,11 +12,11 @@ let firstYear = new Date().getFullYear();
 let operationsFII = {}
 let tableOperationsFII = {}
 let lossesSalesFii = {};
+let LOCAL = true;
 
 /**
 * ############### constants ###############
 */
-const LOCAL = true;
 const LIMIT_SWING_TRADE = 20000;
 const LIMIT_SWING_EXTERIOR = 35000;
 const SUM_SWING_TRADE_FREE = {};
