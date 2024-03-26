@@ -16,6 +16,7 @@ let lossesSalesFii = {};
 /**
 * ############### constants ###############
 */
+const LOCAL = true;
 const LIMIT_SWING_TRADE = 20000;
 const LIMIT_SWING_EXTERIOR = 35000;
 const SUM_SWING_TRADE_FREE = {};

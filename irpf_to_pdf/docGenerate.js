@@ -393,7 +393,7 @@ function downloadPdf() {
     console.log("operationsFII", operationsFII)
 
     _.map(operationsFII, (opYear, indexYear) => _.map([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], (mes) => {
-        if (mes === 1) { // corrigir aqui
+        if (mes === 1) {
             if (tableOperationsFII.hasOwnProperty(indexYear)) {
                 if (tableOperationsFII[indexYear].hasOwnProperty(mes)) {
                     tableOperationsFII[indexYear][mes] = [
@@ -449,7 +449,6 @@ function downloadPdf() {
             }
 
         } else {
-            debugger;
             tableOperationsFII[indexYear][mes] = [
                 MONTHS_LABEL[mes].slice(0, 3),
                 getNode(operationsFII[indexYear], mes),
@@ -475,16 +474,16 @@ function downloadPdf() {
             table_data.push([
                 tableOperationsFII[year][mes][0],
                 tableOperationsFII[year][mes][1] !== 0 ? { text: convertCurrencyRealWithoutCoin(getNode(operationsFII[year], mes)), style: { color: "blue", bold: true } } : convertCurrencyRealWithoutCoin(0),
-                convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][2]),
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][3]), style: { color: "#c9c9c9", fillColor: "#e5e5e5" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][4]), style: { color: "#c9c9c9", fillColor: "#e5e5e5" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][5]), style: { color: "#c9c9c9", fillColor: "#e5e5e5" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][6]), style: { color: "#c9c9c9", fillColor: "#e5e5e5" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][7]), style: { color: "#c9c9c9", fillColor: "#e5e5e5" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][8]), style: { color: "#c9c9c9", fillColor: "#e5e5e5" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][9]), style: { color: "#c9c9c9", fillColor: "#e5e5e5" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][10]), style: { color: "#c9c9c9", fillColor: "#e5e5e5" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][11]), style: { color: "#c9c9c9", fillColor: "#e5e5e5" } },
+                mes === 1? convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][2]) : {text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][2]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
+                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][3]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
+                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][4]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
+                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][5]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
+                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][6]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
+                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][7]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
+                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][8]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
+                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][9]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
+                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][10]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
+                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][11]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
             ])
         })
         return table_data;

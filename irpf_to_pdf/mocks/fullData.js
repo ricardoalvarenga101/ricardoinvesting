@@ -30,7 +30,8 @@ const mockFullData = {
                         "ticker": "CPLE6",
                         "name": "CIA PARANAENSE DE EN",
                         "type": "Renda Variável",
-                        "value": 49.530000000000015,
+                        "value": -50,
+                        // "value": 49.530000000000015,
                         "operation": "SWING TRADE DE AÇÃO",
                         "transaction": 311.61
                     },
@@ -55,7 +56,8 @@ const mockFullData = {
                         "name": "FUNDO DE INVESTIMENT",
                         "type": "Renda Variável",
                         "operation": "VENDA DE FII/FIAGRO",
-                        "value": 0.719999999999942,
+                        // "value": 0.719999999999942,
+                        "value": 4,
                         "transaction": 543.5999999999999
                     }
                 ]
@@ -89,7 +91,8 @@ const mockFullData = {
                         "ticker": "SANB4",
                         "name": "BANCO SANTANDER BRAS",
                         "type": "Renda Variável",
-                        "value": 2.340000000000014,
+                        "value": -2,
+                        // "value": 2.340000000000014,
                         "operation": "SWING TRADE DE AÇÃO",
                         "transaction": 264.78000000000003
                     },
