@@ -33,6 +33,7 @@ function getJson(data) {
     document.getElementById("btn_generate").style.display = "block";
     document.getElementById("loading_spinner").style.display = "none";
     document.getElementById("btn_download").style.display = "block";
+    document.getElementById("btn_back").style.display = "block";
     document.getElementById("txt_await").style.display = "none";
     pdfDefinition = generatePdf();
     console.log("operationsFull", operationsFull);
