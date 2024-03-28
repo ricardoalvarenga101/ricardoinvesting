@@ -16,8 +16,7 @@ function getFirstYear(data) {
     document_number = document.getElementById("input_cpf").value;
 }
 
-function getJson(data) {
-    console.log("data", data)
+function getJson(data) {    
     itensWalletFiltered = data.itensWallletFiltered;
     provents = composeProvents(data.provents);
 
@@ -35,7 +34,8 @@ function getJson(data) {
     document.getElementById("loading_spinner").style.display = "none";
     document.getElementById("btn_download").style.display = "block";
     document.getElementById("txt_await").style.display = "none";
-    console.log(operationsFull);
+    pdfDefinition = generatePdf();
+    console.log("operationsFull", operationsFull);
 }
 
 function onChange() {
