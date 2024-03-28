@@ -364,7 +364,7 @@ function generatePdf() {
 
     docDefinition.content.push({
         pageBreak: "before",
-        text: "\nOperações Fundos de Investimentos Imobiliários (FII e FIAGROS)",
+        text: "Operações Fundos de Investimentos Imobiliários (FII e FIAGROS)\n\n",
         style: "title"
     })
     docDefinition.content.push(

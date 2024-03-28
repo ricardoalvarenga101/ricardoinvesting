@@ -227,7 +227,7 @@ function composeCommonOperationAndDayTrade(operations, yearAnalysis, monthAnalys
             widths: [200, "*", "*"],
             body: [
                 composeHeaderTable(["Resultados", "Operações Comuns", "Day-Trade"]),
-                [{ text: "Mercado à Vista - Ações", style: { color: "black" } }, { text: totalCommon, style: { color: "blue", bold: true } }, totalTrade],
+                [{ text: "Mercado à Vista - Ações", style: { color: "black" } }, { text: totalCommon, style: { color: "blue", bold: true } }, {text: totalTrade, style: { color: "blue", bold: true } }],
             ]
         }
     }
@@ -240,12 +240,12 @@ function composeCommonOperationAndDayTrade(operations, yearAnalysis, monthAnalys
             widths: [200, "*", "*"],
             body: [
                 composeHeaderTable(["Resultados", "Operações Comuns", "Day-Trade"]),
-                [{ text: "RESULTADO LÍQUIDO DO MÊS", style: { color: "black" } }, { text: totalCommon, style: { color: "blue", bold: true } }, convertCurrencyReal(0)],
+                [{ text: "RESULTADO LÍQUIDO DO MÊS", style: { color: "black" } }, { text: totalCommon, style: { color: "blue", bold: true } }, {text: convertCurrencyReal(0), style: { color: "blue", bold: true } }],
                 [{ text: "Resultado negativo até o mês anterior", style: { color: "black" } }, convertCurrencyReal(Math.abs(negativePastCommon)), convertCurrencyReal(negativePastTrade)],
-                [{ text: "BASE DE CÁLCULO DO IMPOSTO", style: { color: "black" } }, { text: convertCurrencyReal(baseCalcCommon), style: { color: "blue", bold: true } }, convertCurrencyReal(baseCalcTrade)],
+                [{ text: "BASE DE CÁLCULO DO IMPOSTO", style: { color: "black" } }, { text: convertCurrencyReal(baseCalcCommon), style: { color: "blue", bold: true } }, {text: convertCurrencyReal(baseCalcTrade), style: { color: "blue", bold: true } }],
                 [{ text: "Prejuízo a compensar", style: { color: "black" } }, convertCurrencyReal(Math.abs(prejuizoCompensarComum)), convertCurrencyReal(prejuizoCompensarTrade)],
                 [{ text: "Alíquota do imposto", style: { color: "black" } }, { text: "15%", style: { color: "black" } }, { text: "20%", style: { color: "black" } }],
-                [{ text: "IMPOSTO DEVIDO", style: { color: "black" } }, { text: taxCal(baseCalcCommon, 0.15), style: { color: "blue", bold: true } }, taxCal(baseCalcTrade, 0.20)],
+                [{ text: "IMPOSTO DEVIDO", style: { color: "black" } }, { text: taxCal(baseCalcCommon, 0.15), style: { color: "blue", bold: true } }, {text: taxCal(baseCalcTrade, 0.20), style: { color: "blue", bold: true } }],
             ]
         }
     }
