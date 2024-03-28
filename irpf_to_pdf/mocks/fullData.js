@@ -30,7 +30,17 @@ const mockFullData = {
                         "ticker": "CPLE6",
                         "name": "CIA PARANAENSE DE EN",
                         "type": "Renda Variável",
-                        "value": -50,
+                        "value": -5,
+                        // "value": 49.530000000000015,
+                        "operation": "SWING TRADE DE AÇÃO",
+                        "transaction": 311.61
+                    },
+                    {
+                        "classe": "Ação",
+                        "ticker": "CPLE6",
+                        "name": "CIA PARANAENSE DE EN",
+                        "type": "Renda Variável",
+                        "value": -5,
                         // "value": 49.530000000000015,
                         "operation": "SWING TRADE DE AÇÃO",
                         "transaction": 311.61
@@ -41,7 +51,60 @@ const mockFullData = {
                         "name": "GUARDIAN LOGISTICA F",
                         "type": "Renda Variável",
                         "operation": "DIREITOS DE SUBSCRIÇÃO",
-                        "value": 0.10000000000000009,
+                        "value": 1,
+                        "transaction": 3.2
+                    },
+                    {
+                        "classe": "Ação",
+                        "ticker": "CPLE6",
+                        "name": "CIA PARANAENSE DE EN",
+                        "type": "Renda Variável",
+                        "value": 1,
+                        // "value": 49.530000000000015,
+                        "operation": "SWING TRADE DE AÇÃO",
+                        "transaction": 1000
+                    },
+                    {
+                        "classe": "Ação",
+                        "ticker": "CPLE6",
+                        "name": "CIA PARANAENSE DE EN",
+                        "type": "Renda Variável",
+                        "value": 1,
+                        // "value": 49.530000000000015,
+                        "operation": "DAY TRADE DE AÇÃO",
+                        "transaction": 1000
+                    },
+                ]
+            },
+            "12": {
+                "operations": [
+                    {
+                        "classe": "Ação",
+                        "ticker": "CPLE6",
+                        "name": "CIA PARANAENSE DE EN",
+                        "type": "Renda Variável",
+                        "value": 50,
+                        // "value": 49.530000000000015,
+                        "operation": "SWING TRADE DE AÇÃO",
+                        "transaction": 311.61
+                    },
+                    {
+                        "classe": "Ação",
+                        "ticker": "CPLE6",
+                        "name": "CIA PARANAENSE DE EN",
+                        "type": "Renda Variável",
+                        "value": -1,
+                        // "value": 49.530000000000015,
+                        "operation": "SWING TRADE DE AÇÃO",
+                        "transaction": 311.61
+                    },
+                    {
+                        "classe": "FII",
+                        "ticker": "GARE12",
+                        "name": "GUARDIAN LOGISTICA F",
+                        "type": "Renda Variável",
+                        "operation": "DIREITOS DE SUBSCRIÇÃO",
+                        "value": 1,
                         "transaction": 3.2
                     }
                 ]
