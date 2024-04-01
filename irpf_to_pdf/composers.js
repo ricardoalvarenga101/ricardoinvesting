@@ -422,7 +422,7 @@ function composeHeaderTable(text = [], fillColor = "#300668", color = "white") {
 }
 
 function composerExternalDividends(docDefinition) {
-    if (provents.hasOwnProperty("external") && Object.keys(provents["external"]).length > 0) {
+    if (provents.hasOwnProperty("external") && provents["external"] && Object.keys(provents["external"]).length > 0) {
 
         const table = {
             dividends: {
