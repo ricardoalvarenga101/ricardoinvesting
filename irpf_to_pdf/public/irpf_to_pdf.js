@@ -1166,6 +1166,7 @@ function composeListYears() {
 }
 
 function composeProvents(provents) {
+    console.log("dados mock", provents)
     const externalProvents = provents && provents.hasOwnProperty("external") ? provents.external : null;
     if (provents && provents.hasOwnProperty("external")) { delete provents.external }
     const sortProvents = Object.keys(provents).sort();

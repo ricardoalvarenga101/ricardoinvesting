@@ -423,6 +423,62 @@ function composeHeaderTable(text = [], fillColor = "#300668", color = "white") {
 
 function composerExternalDividends(docDefinition) {
     if (provents.hasOwnProperty("external") && Object.keys(provents["external"]).length > 0) {
+
+        const table = {
+            dividends: {
+                1: {values: [], amount: 0},
+                2: {values: [], amount: 0},
+                3: {values: [], amount: 0},
+                4: {values: [], amount: 0},
+                5: {values: [], amount: 0},
+                6: {values: [], amount: 0},
+                7: {values: [], amount: 0},
+                8: {values: [], amount: 0},
+                9: {values: [], amount: 0},
+                10: {values: [], amount: 0},
+                11: {values: [], amount: 0},
+                12: {values: [], amount: 0},
+            },
+            tax: {
+                1: {values: [], amount: 0},
+                2: {values: [], amount: 0},
+                3: {values: [], amount: 0},
+                4: {values: [], amount: 0},
+                5: {values: [], amount: 0},
+                6: {values: [], amount: 0},
+                7: {values: [], amount: 0},
+                8: {values: [], amount: 0},
+                9: {values: [], amount: 0},
+                10: {values: [], amount: 0},
+                11: {values: [], amount: 0},
+                12: {values: [], amount: 0},
+
+            }
+
+        }
+
+        _.map(provents.external, (ticker) => {
+            _.map(ticker.dividendPerMonth, (value, month) => {
+                const currentMonth = Number(month) + 1;
+                table.dividends[currentMonth].values.push(value)
+                table.dividends[currentMonth].amount = _.sum(table.dividends[currentMonth].values)
+            })
+            _.map(ticker.taxPerMonth, (value, month) => {
+                const currentMonth = Number(month) + 1;
+                table.tax[currentMonth].values.push(value)
+                table.tax[currentMonth].amount = _.sum(table.tax[currentMonth].values)
+            })
+
+        })
+
+        const tablePdf = []
+        _.map(table.dividends, (mes, indexMonth) => {
+            if (mes.values.length) {
+                tablePdf.push([MONTHS_LABEL[indexMonth], convertCurrencyReal(table.dividends[indexMonth].amount), convertCurrencyReal(table.tax[indexMonth].amount)]);
+            }
+        })
+         
+
         const title = {
             pageBreak: "before",
             text: "Carnê-Leão (Dividendos recebidos no exterior)",
@@ -432,17 +488,30 @@ function composerExternalDividends(docDefinition) {
         const content1 = {
             text: [
                 "\nOs ",
-                {text: "dividendos recebidos nos Estados Unidos", style: "negrito"},
+                { text: "dividendos recebidos nos Estados Unidos", style: "negrito" },
                 " tem seu imposto de renda retido na fonte, mas devem ser declarados através do Programa Carnê-Leão.\n\n",
-                {text: "O Carnê-Leão Online pode ser acessado pelo e-CAC "},
-                {text: "[CLIQUE AQUI]", link:"https://www.gov.br/pt-br/servicos/apurar-carne-leao", color:"#815ae8"},
-                {text: "\n\n Veja vídeo tutorial ensinando como deve ser o prenchimento dos dados: "},
-                {text: "[VÍDEO TUTORIAL]", link: "https://youtu.be/bYZH-D4h51Y?si=SogRBTtyjGkL_MgN", color: "#815ae8"}
-                
+                { text: "O Carnê-Leão Online pode ser acessado pelo e-CAC " },
+                { text: "[CLIQUE AQUI]", link: "https://www.gov.br/pt-br/servicos/apurar-carne-leao", color: "#815ae8" },
+                { text: "\n\n Veja vídeo tutorial ensinando como deve ser o prenchimento dos dados: " },
+                { text: "[VÍDEO TUTORIAL]\n", link: "https://youtu.be/bYZH-D4h51Y?si=SogRBTtyjGkL_MgN", color: "#815ae8" }
+
             ]
         }
+
+        const content2 = {
+            style: "table",
+            table: {
+                widths: [70, "*", "*"],
+                body: [
+                    composeHeaderTable(["Mês", "Rendimentos do exterior (R$)", "Imposto pago no exterior"]),
+                    ...tablePdf,
+                ]
+            },
+        }
+
         docDefinition.content.push(title);
         docDefinition.content.push(content1);
+        docDefinition.content.push(content2);
     }
     return null
 
@@ -482,7 +551,12 @@ function composeTaxExternal(docDefinition) {
                 widths: [340, "*"],
                 body: [
                     composeHeaderTable(["Imposto", "Valor"]),
-                    ["02. Imposto pago no exterior pelo titular e pelos dependentes", convertCurrencyReal(taxAmount)]
+                    [{
+                        text: [
+                            { text: "02.", style: "negrito" },
+                            " Imposto pago no exterior pelo titular e pelos dependentes"
+                        ]
+                    }, convertCurrencyReal(taxAmount)]
                 ]
             },
         }

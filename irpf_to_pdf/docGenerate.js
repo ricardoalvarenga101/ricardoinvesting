@@ -27,8 +27,7 @@ function generatePdf() {
                 ul: [
                     `Bens e direitos (Posição acionária em 31/12/${year})`,
                     'Rendimentos isentos e não tributáveis (Vendas abaixo de R$20.000,00, ativos isentos e dividendos)',
-                    'Rendimentos sujeitos a tributação exclusiva (Proventos tributados como JCP)',
-                    'Ganho de Capital (Para ativos adquiridos no exterior ou criptomoedas)',
+                    'Rendimentos sujeitos a tributação exclusiva (Proventos tributados como JCP)',                    
                     'Renda variável (Operações comuns / Day-Trade / Fundos Imobiliários)'
                 ]
             },
@@ -116,7 +115,7 @@ function generatePdf() {
                 table: {
                     widths: ['auto', 'auto', "auto", 100, 160, 60, 60],
                     body: [
-                        composeHeaderTable(["Grupo", "Cód.", "Local.", "CNPJ", "Discriminação", `Situação 31/12/${year}`, `Situação 31/12/${year}`]),
+                        composeHeaderTable(["Grupo", "Cód.", "Local.", "CNPJ", "Discriminação", `Situação 31/12/${year-1}`, `Situação 31/12/${year}`]),
                         ...composeBensDireitos(),
                     ]
                 },

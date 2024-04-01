@@ -16,8 +16,7 @@ function getFirstYear(data) {
     document_number = document.getElementById("input_cpf").value;
 }
 
-function getJson(data) { 
-    console.log("dados mock", data) 
+function getJson(data) {
     itensWalletFiltered = data.itensWallletFiltered;
     provents = composeProvents(data.provents);
 
