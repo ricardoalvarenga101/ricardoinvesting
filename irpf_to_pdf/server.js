@@ -10,7 +10,7 @@ function _getFirstYear() {
     document.getElementById("txt_await_form").style.display = "flex";
     name = (document.getElementById("input_name").value).toUpperCase();
     document_number = document.getElementById("input_cpf").value;
-    if (LOCAL) {
+    if (_local) {
         getFirstYear(2022) // test local
     } else {
         google.script.run
@@ -27,7 +27,7 @@ function _loadingData() {
     document.getElementById("txt_await").style.display = "flex";
     name = (document.getElementById("input_name").value).toUpperCase();
     document_number = document.getElementById("input_cpf").value;
-    if (LOCAL) {
+    if (_local) {
         getJson(mockFullData) // test local
     } else {
         google.script.run

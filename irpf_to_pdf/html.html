@@ -68,13 +68,13 @@
         </form>
         <button class="btn btn-success btn-block" type="button" onclick="downloadPdf()" style="display: none"
           id="btn_download">
-          <i class="bi bi-cloud-arrow-down-fill"></i>
-          Baixar Relatório
+          <i class="bi bi-file-earmark-arrow-down"></i>
+          Baixar
         </button>
         
-        <button class="btn btn-primary btn-block" type="button" onclick="window.location.reload()" style="display: none"
+        <button class="btn btn-light btn-block" type="button" onclick="window.location.reload()" style="display: none"
           id="btn_back">
-          <i class="bi bi-skip-backward-circle-fill"></i> 
+          <i class="bi bi-arrow-counterclockwise"></i>
           Voltar
         </button>
       </div>
@@ -98,8 +98,17 @@
   <script type="text/javascript" src="server.js"></script>
   <script type="text/javascript" src="docGenerate.js"></script>
 
+    
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ricardoalvarenga101/ricardoinvesting@feature/v4.0/irpf_to_pdf/public/docGenerate-min.js?v=<?= new Date().getDay() ?>"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ricardoalvarenga101/ricardoinvesting@feature/v4.0/irpf_to_pdf/public/vars-min.js?v1"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ricardoalvarenga101/ricardoinvesting@feature/v4.0/irpf_to_pdf/public/utils-min.js?v1"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ricardoalvarenga101/ricardoinvesting@feature/v4.0/irpf_to_pdf/public/composers-min.js?v1"></script>    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ricardoalvarenga101/ricardoinvesting@feature/v4.0/irpf_to_pdf/public/server-min.js?v1"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ricardoalvarenga101/ricardoinvesting@feature/v4.0/irpf_to_pdf/public/processData-min.js?v1"></script> -->
+
   <script type="text/javascript">
 
+    _local=true
 
     $("#input_cpf").mask("000.000.000-00");
 

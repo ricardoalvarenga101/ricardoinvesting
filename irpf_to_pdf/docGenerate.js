@@ -301,7 +301,8 @@ function generatePdf() {
             print4: "https://i.ibb.co/fk65Jw9/print4.png",
             print5: "https://i.ibb.co/G7Tm0mD/print-5.png",
             print6: "https://i.ibb.co/xSvNxT6/print-6.png",
-            print7: "https://i.ibb.co/MggZg8Q/print-7.png"
+            print7: "https://i.ibb.co/MggZg8Q/print-7.png",
+            print8: "https://i.ibb.co/WDjfkTL/print-8.png"
         },
         styles: {
             table: {
@@ -518,6 +519,10 @@ function generatePdf() {
             }
         },
     )
+
+    composeTaxExternal(docDefinition);
+    composerExternalDividends(docDefinition);
+
     return docDefinition;
 }
 

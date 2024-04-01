@@ -30,7 +30,7 @@ let operationsFII = {}
 let tableOperationsFII = {}
 let lossesSalesFii = {};
 let pdfDefinition = {}
-let LOCAL = true;
+let _local = false;
 
 /**
 * ############### constants ###############
