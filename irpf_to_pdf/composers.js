@@ -518,7 +518,7 @@ function composerExternalDividends(docDefinition) {
 }
 
 function composeTaxExternal(docDefinition) {
-    if (provents.hasOwnProperty("external") && Object.keys(provents["external"]).length > 0) {
+    if (provents.hasOwnProperty("external") && provents["external"] && Object.keys(provents["external"]).length > 0) {
         let taxAmount = 0
         _.map(provents["external"], (item) => {
             taxAmount += item.amountTax;
