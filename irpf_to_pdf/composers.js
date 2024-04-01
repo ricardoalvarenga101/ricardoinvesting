@@ -426,32 +426,32 @@ function composerExternalDividends(docDefinition) {
 
         const table = {
             dividends: {
-                1: {values: [], amount: 0},
-                2: {values: [], amount: 0},
-                3: {values: [], amount: 0},
-                4: {values: [], amount: 0},
-                5: {values: [], amount: 0},
-                6: {values: [], amount: 0},
-                7: {values: [], amount: 0},
-                8: {values: [], amount: 0},
-                9: {values: [], amount: 0},
-                10: {values: [], amount: 0},
-                11: {values: [], amount: 0},
-                12: {values: [], amount: 0},
+                1: { values: [], amount: 0 },
+                2: { values: [], amount: 0 },
+                3: { values: [], amount: 0 },
+                4: { values: [], amount: 0 },
+                5: { values: [], amount: 0 },
+                6: { values: [], amount: 0 },
+                7: { values: [], amount: 0 },
+                8: { values: [], amount: 0 },
+                9: { values: [], amount: 0 },
+                10: { values: [], amount: 0 },
+                11: { values: [], amount: 0 },
+                12: { values: [], amount: 0 },
             },
             tax: {
-                1: {values: [], amount: 0},
-                2: {values: [], amount: 0},
-                3: {values: [], amount: 0},
-                4: {values: [], amount: 0},
-                5: {values: [], amount: 0},
-                6: {values: [], amount: 0},
-                7: {values: [], amount: 0},
-                8: {values: [], amount: 0},
-                9: {values: [], amount: 0},
-                10: {values: [], amount: 0},
-                11: {values: [], amount: 0},
-                12: {values: [], amount: 0},
+                1: { values: [], amount: 0 },
+                2: { values: [], amount: 0 },
+                3: { values: [], amount: 0 },
+                4: { values: [], amount: 0 },
+                5: { values: [], amount: 0 },
+                6: { values: [], amount: 0 },
+                7: { values: [], amount: 0 },
+                8: { values: [], amount: 0 },
+                9: { values: [], amount: 0 },
+                10: { values: [], amount: 0 },
+                11: { values: [], amount: 0 },
+                12: { values: [], amount: 0 },
 
             }
 
@@ -477,7 +477,7 @@ function composerExternalDividends(docDefinition) {
                 tablePdf.push([MONTHS_LABEL[indexMonth], convertCurrencyReal(table.dividends[indexMonth].amount), convertCurrencyReal(table.tax[indexMonth].amount)]);
             }
         })
-         
+
 
         const title = {
             pageBreak: "before",
@@ -568,4 +568,26 @@ function composeTaxExternal(docDefinition) {
         return null
     }
     return null
+}
+
+function renderRendimentsJCP() {
+    if (!provents.rendimentsJCP.length) {
+        return [{}];
+    }
+    const title = {
+        text: "\n\nRendimentos sobre JCP",
+        style: "title"
+    }
+    const content1 = {
+        style: "table",
+        table: {
+            widths: [30, "*", "*", "*", "*"],
+            body: [
+                composeHeaderTable(["Tipo", "CNPJ", "Nome da fonte pagadora", "Descrição", "Valor"]),
+                ...provents.rendimentsJCP,
+            ]
+        },
+        pageBreak: "after"
+    }
+    return [title, content1]
 }

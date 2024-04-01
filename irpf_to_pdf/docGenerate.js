@@ -251,21 +251,7 @@ function generatePdf() {
                     ]
                 },
             },
-            {
-                text: "\n\nRendimentos sobre JCP",
-                style: "title"
-            },
-            {
-                style: "table",
-                table: {
-                    widths: [30, "*", "*", "*", "*"],
-                    body: [
-                        composeHeaderTable(["Tipo", "CNPJ", "Nome da fonte pagadora", "Descrição", "Valor"]),
-                        ...provents.rendimentsJCP,
-                    ]
-                },
-                pageBreak: "after"
-            },
+            ...renderRendimentsJCP(),            
             {
                 text: "Renda variável (Vendas de ativos no Brasil com DARF ou no prejuízo)",
                 style: "title"
