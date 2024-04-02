@@ -63,7 +63,7 @@ function generatePdf() {
                     `O primeiro passo para a declaração do IRPF ${Number(year)+1} pelo leitor é realizar o download do programa disponibilizado através do site da Receita Federal do Brasil.\n`,
                     `Repare que o IRPF de ${Number(year)+1} é referente ao fechamento de ${year} e a receita costuma disponibilizar o aplicativo para download próximo do final de fevereiro.`,
                     "\nPode encontrar o link de instalação no site da Receita Federal ",
-                    { text: "clicando aqui", link: "https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/download/pgd/dirpf", color: '#815ae8' }, "\n A instalação do programa é rápida e fácil, ao abrir o instalador, serão dados todos os passos para que o programa seja instalado adequadamente na sua máquina. Após abrir o programa, o investidor deverá:\n\n"
+                    { text: "[BAIXAR AQUI]", link: "https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/download/pgd/dirpf", color: '#815ae8' }, "\n A instalação do programa é rápida e fácil, ao abrir o instalador, serão dados todos os passos para que o programa seja instalado adequadamente na sua máquina. Após abrir o programa, o investidor deverá:\n\n"
                 ]
             },
             {
