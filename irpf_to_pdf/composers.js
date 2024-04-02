@@ -586,8 +586,32 @@ function renderRendimentsJCP() {
                 composeHeaderTable(["Tipo", "CNPJ", "Nome da fonte pagadora", "Descrição", "Valor"]),
                 ...provents.rendimentsJCP,
             ]
-        },
-        pageBreak: "after"
+        }
     }
     return [title, content1]
+}
+
+function composeTableOperationsFII() {        
+    const table_data = [];
+    debugger        
+    _.map([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], (mes) => {
+        if(tableOperationsFII.hasOwnProperty(year) && tableOperationsFII[year].hasOwnProperty(mes)) {
+            table_data.push([
+                tableOperationsFII[year][mes][0],
+                tableOperationsFII[year][mes][1] !== 0 ? { text: convertCurrencyRealWithoutCoin(getNode(operationsFII[year], mes)), style: { color: "blue", bold: true } } : convertCurrencyRealWithoutCoin(0),
+                mes === 1? convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][2]) : {text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][2]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
+                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][3]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
+                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][4]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
+                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][5]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
+                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][6]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
+                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][7]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
+                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][8]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
+                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][9]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
+                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][10]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
+                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][11]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
+            ])
+        }
+    })
+    return table_data;
+
 }
