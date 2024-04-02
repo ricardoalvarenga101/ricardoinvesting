@@ -8,6 +8,8 @@ function _getFirstYear() {
     document.getElementById("loading_spinner").style.display = "flex";
     document.getElementById("txt_await").style.display = "none";
     document.getElementById("txt_await_form").style.display = "flex";
+    document.getElementById("btn_download").style.display = "none";
+    document.getElementById("btn_back").style.display = "none";
     name = (document.getElementById("input_name").value).toUpperCase();
     document_number = document.getElementById("input_cpf").value;
     if (_local) {
