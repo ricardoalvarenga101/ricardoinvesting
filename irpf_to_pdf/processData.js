@@ -4,12 +4,12 @@
 
 function getFirstYear(data) {
     firstYear = data;
-    composeListYears();
     document.getElementById("btn_generate").style.display = "block";
     document.getElementById("ir_form").style.display = "inline";
     document.getElementById("loading_spinner").style.display = "none";
     document.getElementById("txt_await").style.display = "none";
     document.getElementById("txt_await_form").style.display = "none";
+    composeListYears();
     name = (document.getElementById("input_name").value).toUpperCase();
     const e = document.getElementById("year_select");
     year = e.options[e.selectedIndex].value;
@@ -17,7 +17,6 @@ function getFirstYear(data) {
 }
 
 function getJson(data) {
-    console.log("data", data)
     itensWalletFiltered = data.itensWallletFiltered;
     provents = composeProvents(data.provents);
 
@@ -33,9 +32,10 @@ function getJson(data) {
     composeSwingTradeFree(operationsFull);
     document.getElementById("btn_generate").style.display = "block";
     document.getElementById("loading_spinner").style.display = "none";
-    document.getElementById("btn_download").style.display = "block";
+    document.getElementById("btn_download").style.display = "block";    
     document.getElementById("txt_await").style.display = "none";
-    console.log(operationsFull);
+    pdfDefinition = generatePdf();
+    console.log("operationsFull", operationsFull);
 }
 
 function onChange() {

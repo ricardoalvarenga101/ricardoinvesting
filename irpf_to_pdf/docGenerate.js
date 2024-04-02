@@ -1,5 +1,5 @@
-function downloadPdf() {
-    docDefinition = {
+function generatePdf() {
+    const docDefinition = {
         content: [
             {
                 stack: [
@@ -12,8 +12,8 @@ function downloadPdf() {
             },
             {
                 text: [
-                    `${name}\n`,
-                    `CPF: ${document_number}`,
+                    `${name || "<Não informado>"}\n`,
+                    `CPF: ${document_number || "<Não informado>"}`,
                 ],
                 style: { alignment: 'right' },
                 pageBreak: 'after'
@@ -27,9 +27,11 @@ function downloadPdf() {
                 ul: [
                     `Bens e direitos (Posição acionária em 31/12/${year})`,
                     'Rendimentos isentos e não tributáveis (Vendas abaixo de R$20.000,00, ativos isentos e dividendos)',
-                    'Rendimentos sujeitos a tributação exclusiva (Proventos tributados como JCP)',
-                    'Ganho de Capital (Para ativos adquiridos no exterior ou criptomoedas)',
-                    'Renda variável (Operações comuns / Day-Trade / Fundos Imobiliários)'
+                    'Rendimentos sujeitos a tributação exclusiva (Proventos tributados como JCP)',                    
+                    'Renda variável (Operações comuns / Day-Trade / Fundos Imobiliários)',
+                    {text: "Não contempla bonificações", color: "red"},
+                    {text: "Não contempla ganho de capital em vendas de criptoativos", color: "red"},
+                    {text: "Não contempla ganho de capital nas vendas de ativos do exterior", color: "red"}
                 ]
             },
             {
@@ -41,7 +43,7 @@ function downloadPdf() {
                     "Toda a informação contida no relatório foi gerada com base nos dados informados pelo utilizador da planilha, ficando sob responsabilidade do investidor a conferência dos dados cadastrados e o preenchimento da declaração de imposto de renda.",
                     " Este relatório",
                     { text: " não será sua única fonte", style: { bold: true } },
-                    " de consulta para preencher sua declaração, procure também os informes fornecidos por outras instituições que geraram renda ou rendimentos durante o ano de 2023.\n\nExemplo de outras informações que deverá procurar para sua declaração:\n",
+                    ` de consulta para preencher sua declaração, procure também os informes fornecidos por outras instituições que geraram renda ou rendimentos durante o ano de ${year}.\n\nExemplo de outras informações que deverá procurar para sua declaração:\n`,
                 ]
             },
             {
@@ -58,15 +60,15 @@ function downloadPdf() {
             },
             {
                 text: [
-                    `O primeiro passo para a declaração do IRPF ${year} pelo leitor é realizar o download do programa disponibilizado através do site da Receita Federal do Brasil.\n`,
-                    `Repare que o IRPF de ${year} é referente ao fechamento de 2023 e a receita costuma disponibilizar o aplicativo para download próximo do final de fevereiro.`,
+                    `O primeiro passo para a declaração do IRPF ${Number(year)+1} pelo leitor é realizar o download do programa disponibilizado através do site da Receita Federal do Brasil.\n`,
+                    `Repare que o IRPF de ${Number(year)+1} é referente ao fechamento de ${year} e a receita costuma disponibilizar o aplicativo para download próximo do final de fevereiro.`,
                     "\nPode encontrar o link de instalação no site da Receita Federal ",
                     { text: "clicando aqui", link: "https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/download/pgd/dirpf", color: '#815ae8' }, "\n A instalação do programa é rápida e fácil, ao abrir o instalador, serão dados todos os passos para que o programa seja instalado adequadamente na sua máquina. Após abrir o programa, o investidor deverá:\n\n"
                 ]
             },
             {
                 ol: [
-                    `Importar a declaração realizada no ano de ${year} (competência ${year - 1}), caso tenha declarado no ano anterior;\n`,
+                    `Importar a declaração realizada no ano de ${Number(year)+1} (competência ${year}), caso tenha declarado no ano anterior;\n`,
                     "Criar uma nova Declaração, caso seja a primeira vez declarando o imposto de renda\n\n"
                 ]
             },
@@ -76,7 +78,7 @@ function downloadPdf() {
                 pageBreak: 'after'
             },
             {
-                text: "\n\nBens e direitos (Ativos sob sua custódia)\n\n",
+                text: "Bens e direitos (Ativos sob sua custódia)\n\n",
                 style: "title",
             },
             {
@@ -116,7 +118,7 @@ function downloadPdf() {
                 table: {
                     widths: ['auto', 'auto', "auto", 100, 160, 60, 60],
                     body: [
-                        composeHeaderTable(["Grupo", "Cód.", "Local.", "CNPJ", "Discriminação", `Situação 31/12/${year}`, `Situação 31/12/${year}`]),
+                        composeHeaderTable(["Grupo", "Cód.", "Local.", "CNPJ", "Discriminação", `Situação 31/12/${year-1}`, `Situação 31/12/${year}`]),
                         ...composeBensDireitos(),
                     ]
                 },
@@ -154,7 +156,7 @@ function downloadPdf() {
             {
                 pageBreak: "before",
                 text: [
-                    "\n\nPara cada linha da tabela abaixo efetue um lançamento através do botão ",
+                    "Para cada linha da tabela abaixo efetue um lançamento através do botão ",
                     { text: "'Novo'", style: "negrito" },
                     ", preencha os dados da tabela e confirme em ",
                     { text: "'OK'", style: "negrito" }
@@ -252,24 +254,11 @@ function downloadPdf() {
                     ]
                 },
             },
-            {
-                text: "\n\nRendimentos sobre JCP",
-                style: "title"
-            },
-            {
-                style: "table",
-                table: {
-                    widths: [30, "*", "*", "*", "*"],
-                    body: [
-                        composeHeaderTable(["Tipo", "CNPJ", "Nome da fonte pagadora", "Descrição", "Valor"]),
-                        ...provents.rendimentsJCP,
-                    ]
-                },
-                pageBreak: "after"
-            },
+            ...renderRendimentsJCP(),            
             {
                 text: "Renda variável (Vendas de ativos no Brasil com DARF ou no prejuízo)",
-                style: "title"
+                style: "title",
+                pageBreak: "before",
             },
             {
                 text: "\nEsta seção irá lhe demonstrar quais resultados obteve na bolsa do brasil e como deverá declarar os lucros, prejuízos e IR já pago.",
@@ -283,7 +272,7 @@ function downloadPdf() {
                     "\nAs operações de venda envolvendo ações, opções, futuros, ETF e BDR serão declaradas nessa seção e de forma mensal.Somente constam nessa seção suas vendas que foram",
                     { text: " tributadas", style: "negrito" },
                     " fora da isenção. Para vendas isentas, faça o lançamento na seção Rendimentos Isentos conforme mencionado acima. Abaixo descrevemos todos lançamentos que deverá fazer com base na apuração realizada em nossa plataforma.",
-                    "\n\nOperações com fundos imobiliários não entram nesta seção, caso vendeu FIIs durante o ano de 2023, iremos demonstrar na seção \"Operações Fundos Investimento Imobiliário\"\n\n"
+                    `\n\nOperações com fundos imobiliários não entram nesta seção, caso vendeu FIIs durante o ano de ${year}, iremos demonstrar na seção \"Operações Fundos Investimento Imobiliário\"\n\n`
                 ]
             },
             {
@@ -301,7 +290,8 @@ function downloadPdf() {
             print4: "https://i.ibb.co/fk65Jw9/print4.png",
             print5: "https://i.ibb.co/G7Tm0mD/print-5.png",
             print6: "https://i.ibb.co/xSvNxT6/print-6.png",
-            print7: "https://i.ibb.co/MggZg8Q/print-7.png"
+            print7: "https://i.ibb.co/MggZg8Q/print-7.png",
+            print8: "https://i.ibb.co/WDjfkTL/print-8.png"
         },
         styles: {
             table: {
@@ -338,17 +328,33 @@ function downloadPdf() {
     };
 
     // mount common operation
-    _.map(operationsFull[year], (month, indexMonth) => {
-        const co = composeCommonOperationAndDayTrade(operationsFull[year][indexMonth], year, indexMonth);
-        docDefinition.content.push(co.title);
-        docDefinition.content.push(co.content1);
-        docDefinition.content.push(co.content2);
-        docDefinition.content.push(co.content3);
+    const tableCommonOperationAndDayTrade = composeTableCommonOperationAndDayTrade(operationsFull);
+    let tableCommonOperationAndDayTradeFiltered = {};
+    _.map(tableCommonOperationAndDayTrade, (year, indexYear)=> _.map(year, (month, indexMonth) => {
+        if(Object.keys(month).length > 0) {
+            if(tableCommonOperationAndDayTradeFiltered.hasOwnProperty(indexYear)) {
+                tableCommonOperationAndDayTradeFiltered[indexYear].push(indexMonth)
+            } else {
+                tableCommonOperationAndDayTradeFiltered[indexYear] = [indexMonth]
+            }
+        }
+    }))    
+    
+    console.log("tableCommonOperationAndDayTrade", tableCommonOperationAndDayTrade)
+    console.log("tableCommonOperationAndDayTradeFiltered", tableCommonOperationAndDayTradeFiltered)
+    _.map(tableCommonOperationAndDayTrade[year], (month, indexMonth) => {
+        const co = composeCommonOperationAndDayTrade(month, year, indexMonth, operationsFull, tableCommonOperationAndDayTradeFiltered[year], tableCommonOperationAndDayTrade);
+        if (co) {
+            docDefinition.content.push(co.title);
+            docDefinition.content.push(co.content1);
+            docDefinition.content.push(co.content2);
+            docDefinition.content.push(co.content3);
+        }
     });
 
     docDefinition.content.push({
         pageBreak: "before",
-        text: "\nOperações Fundos de Investimentos Imobiliários (FII e FIAGROS)",
+        text: "Operações Fundos de Investimentos Imobiliários (FII e FIAGROS)\n\n",
         style: "title"
     })
     docDefinition.content.push(
@@ -371,6 +377,8 @@ function downloadPdf() {
         text: "\n"
     })
 
+    debugger
+
     _.map(operationsFull, (itemYear, indexYear) => _.map(itemYear, (month, indexMonth) => {
         const co = composeOperationsFII(operationsFull[indexYear][indexMonth], indexYear, indexMonth);
         if (co) {
@@ -389,11 +397,16 @@ function downloadPdf() {
             }
         }
     }));
-    console.log("Losses ", lossesSalesFii);
-    console.log("operationsFII", operationsFII)
+
+    if(!operationsFII.hasOwnProperty(year)) {
+        operationsFII[year] = {
+            1: 0
+        }
+    }
+
 
     _.map(operationsFII, (opYear, indexYear) => _.map([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], (mes) => {
-        if (mes === 1) { // corrigir aqui
+        if (mes === 1) {
             if (tableOperationsFII.hasOwnProperty(indexYear)) {
                 if (tableOperationsFII[indexYear].hasOwnProperty(mes)) {
                     tableOperationsFII[indexYear][mes] = [
@@ -449,7 +462,6 @@ function downloadPdf() {
             }
 
         } else {
-            debugger;
             tableOperationsFII[indexYear][mes] = [
                 MONTHS_LABEL[mes].slice(0, 3),
                 getNode(operationsFII[indexYear], mes),
@@ -467,29 +479,6 @@ function downloadPdf() {
         }
     }))
 
-    function composeTableOperationsFII() {
-        debugger;
-        const table_data = [];
-        console.log("tableOperationsFII", tableOperationsFII)
-        _.map([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], (mes) => {
-            table_data.push([
-                tableOperationsFII[year][mes][0],
-                tableOperationsFII[year][mes][1] !== 0 ? { text: convertCurrencyRealWithoutCoin(getNode(operationsFII[year], mes)), style: { color: "blue", bold: true } } : convertCurrencyRealWithoutCoin(0),
-                convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][2]),
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][3]), style: { color: "#c9c9c9", fillColor: "#e5e5e5" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][4]), style: { color: "#c9c9c9", fillColor: "#e5e5e5" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][5]), style: { color: "#c9c9c9", fillColor: "#e5e5e5" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][6]), style: { color: "#c9c9c9", fillColor: "#e5e5e5" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][7]), style: { color: "#c9c9c9", fillColor: "#e5e5e5" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][8]), style: { color: "#c9c9c9", fillColor: "#e5e5e5" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][9]), style: { color: "#c9c9c9", fillColor: "#e5e5e5" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][10]), style: { color: "#c9c9c9", fillColor: "#e5e5e5" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][11]), style: { color: "#c9c9c9", fillColor: "#e5e5e5" } },
-            ])
-        })
-        return table_data;
-
-    }
 
     docDefinition.content.push(
         {
@@ -505,5 +494,12 @@ function downloadPdf() {
         },
     )
 
-    pdfMake.createPdf(docDefinition).open();
+    composeTaxExternal(docDefinition);
+    composerExternalDividends(docDefinition);
+
+    return docDefinition;
+}
+
+function downloadPdf() {
+    pdfMake.createPdf(pdfDefinition).open();
 }

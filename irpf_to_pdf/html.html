@@ -51,11 +51,11 @@
             <select id="year_select" onchange="onChange()" class="form-control"></select>
           </div>
           <div class="form-group">
-            <label for="input_name">Nome:</label>
+            <label for="input_name">Nome: (opcional)</label>
             <input type="text" class="form-control" style="text-transform: capitalize" id="input_name" placeholder="">
           </div>
           <div class="form-group">
-            <label for="input_cpf">CPF:</label>
+            <label for="input_cpf">CPF: (opcional)</label>
             <input type="text" class="form-control" id="input_cpf" placeholder="">
           </div>
 
@@ -68,8 +68,8 @@
         </form>
         <button class="btn btn-success btn-block" type="button" onclick="downloadPdf()" style="display: none"
           id="btn_download">
-          <i class="bi bi-cloud-arrow-down-fill"></i>
-          Baixar Relatório
+          <i class="bi bi-file-earmark-arrow-down"></i>
+          Baixar
         </button>
       </div>
     </div>
@@ -92,8 +92,17 @@
   <script type="text/javascript" src="server.js"></script>
   <script type="text/javascript" src="docGenerate.js"></script>
 
+    
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ricardoalvarenga101/ricardoinvesting@feature/v4.0/irpf_to_pdf/public/docGenerate-min.js?v=<?= new Date().getDay() ?>"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ricardoalvarenga101/ricardoinvesting@feature/v4.0/irpf_to_pdf/public/vars-min.js?v1"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ricardoalvarenga101/ricardoinvesting@feature/v4.0/irpf_to_pdf/public/utils-min.js?v1"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ricardoalvarenga101/ricardoinvesting@feature/v4.0/irpf_to_pdf/public/composers-min.js?v1"></script>    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ricardoalvarenga101/ricardoinvesting@feature/v4.0/irpf_to_pdf/public/server-min.js?v1"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ricardoalvarenga101/ricardoinvesting@feature/v4.0/irpf_to_pdf/public/processData-min.js?v1"></script> -->
+
   <script type="text/javascript">
 
+    _local=true
 
     $("#input_cpf").mask("000.000.000-00");
 

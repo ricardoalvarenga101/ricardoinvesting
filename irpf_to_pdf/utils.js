@@ -1,8 +1,52 @@
 /**
 * ############### utils ###############
 */
+
+function getOtherLastPosition(operations, year, initialPosition) {
+    const listMonths = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].reverse();    
+    let lastRegister = {}
+    for(let i=13-initialPosition; i < listMonths.length; i++) {
+        if (Object.keys(operations[year][listMonths[i]]).length > 0) {
+            lastRegister = { op: operations[year][listMonths[i]], year, month: listMonths[i] };
+            break;
+
+        }
+    }
+    return lastRegister 
+}
+
+function getLastOrFirstPositionYear(operations, year, sort=1) {
+    let listMonths = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    if(sort===-1) {
+        listMonths.reverse()
+    }
+    let lastRegister = {}
+    for(let i=0; i < listMonths.length; i++) {
+        if (Object.keys(operations[year][listMonths[i]]).length > 0) {
+            lastRegister = { op: operations[year][listMonths[i]], year, month: listMonths[i] };
+            break;
+
+        }
+    }
+    return lastRegister 
+}
+
+function sumAccumulator(operations, year, keySum, breakMonth = false) {
+    let acc = 0
+    const op = operations[year]
+    _.map(op, (month, indexMonth) => {
+        if (Object.keys(month).length > 0) {
+            if (breakMonth && breakMonth <= indexMonth) {
+                acc += month[keySum];
+            } else {
+                acc += month[keySum];
+            }
+        }
+    })
+    return acc;
+}
+
 function subtractionLosses(valueA, valueB) {
-    debugger;
     if (valueA >= valueB) {
         return 0
     }
@@ -88,4 +132,16 @@ function getCodes(classe) {
         cod,
         locale
     }
+}
+
+function calcLossesAcumulator(historyAcumulator, mountLoss) {
+    const sub = historyAcumulator - mountLoss;
+    return sub;
+}
+
+function checkNegativeSald(value) {
+    if (value <= 0) {
+        return 0
+    }
+    return value;
 }

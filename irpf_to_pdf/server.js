@@ -8,13 +8,18 @@ function _getFirstYear() {
     document.getElementById("loading_spinner").style.display = "flex";
     document.getElementById("txt_await").style.display = "none";
     document.getElementById("txt_await_form").style.display = "flex";
+    document.getElementById("btn_download").style.display = "none";
+
     name = (document.getElementById("input_name").value).toUpperCase();
     document_number = document.getElementById("input_cpf").value;
-    getFirstYear(2022) // test local
-    // google.script.run
-    //   .withSuccessHandler(getFirstYear)
-    //   .withFailureHandler(errorLoadingData)
-    //   .getFirstYear();
+    if (_local) {
+        getFirstYear(2022) // test local
+    } else {
+        google.script.run
+            .withSuccessHandler(getFirstYear)
+            .withFailureHandler(errorLoadingData)
+            .getFirstYear();
+    }
 }
 
 function _loadingData() {
@@ -24,9 +29,12 @@ function _loadingData() {
     document.getElementById("txt_await").style.display = "flex";
     name = (document.getElementById("input_name").value).toUpperCase();
     document_number = document.getElementById("input_cpf").value;
-    getJson(mockFullData) // test local
-    // google.script.run
-    //   .withSuccessHandler(getJson)
-    //   .withFailureHandler(errorLoadingData)
-    //   .irReportLoadingData(year, false, true);
+    if (_local) {
+        getJson(mockFullData2024) // test local
+    } else {
+        google.script.run
+            .withSuccessHandler(getJson)
+            .withFailureHandler(errorLoadingData)
+            .irReportLoadingData(year, false, true);
+    }
 }
