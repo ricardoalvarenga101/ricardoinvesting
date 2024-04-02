@@ -10,6 +10,8 @@ function getFirstYear(data) {
     document.getElementById("loading_spinner").style.display = "none";
     document.getElementById("txt_await").style.display = "none";
     document.getElementById("txt_await_form").style.display = "none";
+    document.getElementById("btn_download").style.display = "none";
+    document.getElementById("btn_back").style.display = "none";
     name = (document.getElementById("input_name").value).toUpperCase();
     const e = document.getElementById("year_select");
     year = e.options[e.selectedIndex].value;
