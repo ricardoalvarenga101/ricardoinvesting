@@ -6,5 +6,5 @@ Imposto de Renda Pessoa Física com base na planilha de investimentos do @ricard
 
 # Concatenar arquivos
 ```
-cat ./irpf_to_pdf/vars.js ./irpf_to_pdf/utils.js ./irpf_to_pdf/server.js ./irpf_to_pdf/processData.js ./irpf_to_pdf/docGenerate.js ./irpf_to_pdf/composers.js > ./irpf_to_pdf/public/irpf-to-pdf.js
+cat ./irpf_to_pdf/vars.js ./irpf_to_pdf/utils.js ./irpf_to_pdf/server.js ./irpf_to_pdf/processData.js ./irpf_to_pdf/docGenerate.js ./irpf_to_pdf/composers.js ./irpf_to_pdf/renders.js > ./irpf_to_pdf/public/irpf-to-pdf.js
 ```

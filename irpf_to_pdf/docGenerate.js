@@ -55,7 +55,7 @@ function generatePdf() {
                 pageBreak: 'after'
             },
             {
-                text: "\n\nInstalação do programa\n\n",
+                text: "Instalação do programa\n\n",
                 style: "title",
             },
             {
@@ -159,126 +159,14 @@ function generatePdf() {
                     "Para cada linha da tabela abaixo efetue um lançamento através do botão ",
                     { text: "'Novo'", style: "negrito" },
                     ", preencha os dados da tabela e confirme em ",
-                    { text: "'OK'", style: "negrito" }
+                    { text: "'OK'\n\n", style: "negrito" }
                 ]
             },
-            {
-                text: "\nDividendos",
-                style: "title"
-            },
-            {
-                style: "table",
-                table: {
-                    widths: [30, "*", 200, "*"],
-                    body: [
-                        composeHeaderTable(["Tipo", "CNPJ", "Nome da fonte pagadora", "Valor"]),
-                        ...provents.dividends,
-                    ]
-                },
-                pageBreak: "after"
-            },
-            {
-                text: "Rendimentos de (FII, FIAGRO e FI-INFRA)",
-                style: "title"
-            },
-            {
-                style: "table",
-                table: {
-                    widths: [20, "*", 100, "*", "*"],
-                    body: [
-                        composeHeaderTable(["Tipo", "CNPJ", "Nome da fonte pagadora", "Descrição", "Valor"]),
-                        ...provents.rendiments,
-                    ]
-                }
-            },
-            {
-                text: "\n\nVendas abaixo de R$20.000,00 no mês",
-                style: "title"
-            },
-            {
-                style: "table",
-                table: {
-                    widths: [30, "*"],
-                    body: [
-                        composeHeaderTable(["Tipo", "Valor"]),
-                        ["20", SUM_SWING_TRADE_FREE.hasOwnProperty(year) ? convertCurrencyReal(SUM_SWING_TRADE_FREE[year]) : convertCurrencyReal(0)]
-                    ]
-                },
-                pageBreak: "after"
-            },
-            {
-                text: "Rendimentos sujeitos a tributação exclusiva (Proventos tributados como JCP)",
-                style: "title"
-            },
-            {
-                text: [
-                    "\n\nEsta seção irá lhe demonstrar quais ",
-                    { text: "rendimentos tiveram tributação", style: "negrito" },
-                    " retida na fonte durante e o ano, não será necessário pagar imposto adicional sobre eles, mas precisará declará-los na seção de mesmo nome."
-                ]
-            },
-            {
-                text: "\nItens contemplados no relatório:",
-                ul: [
-                    "Juros sobre capital",
-                    "Outros proventos tributados",
-                ]
-            },
-            {
-                text: "\nLocal e exemplo de preenchimento:\n",
-                style: "subheader"
-            },
-            {
-                image: "print5",
-                width: 505,
-            },
-            {
-                text: [
-                    "\n\nPara cada linha da tabela abaixo efetue um lançamento através do botão ",
-                    { text: "'Novo'", style: "negrito" },
-                    ", preencha os dados da tabela e confirme em ",
-                    { text: "'OK'", style: "negrito" }
-                ]
-            },
-            {
-                text: "\nJCP (juros sobre capital próprio - valor líquido)",
-                style: "title"
-            },
-            {
-                style: "table",
-                table: {
-                    widths: [30, "*", "*", "*"],
-                    body: [
-                        composeHeaderTable(["Tipo", "CNPJ", "Nome da fonte pagadora", "Valor"]),
-                        ...provents.jcp,
-                    ]
-                },
-            },
+            ...renderDividends(),   
+            ...renderRendimentsIsentos(),            
+            ...renderLow20kMonth(),
+            ...renderJCPs(),           
             ...renderRendimentsJCP(),            
-            {
-                text: "Renda variável (Vendas de ativos no Brasil com DARF ou no prejuízo)",
-                style: "title",
-                pageBreak: "before",
-            },
-            {
-                text: "\nEsta seção irá lhe demonstrar quais resultados obteve na bolsa do brasil e como deverá declarar os lucros, prejuízos e IR já pago.",
-            },
-            {
-                text: "\nOperações Comuns / Day-Trade",
-                style: "title"
-            },
-            {
-                text: [
-                    "\nAs operações de venda envolvendo ações, opções, futuros, ETF e BDR serão declaradas nessa seção e de forma mensal.Somente constam nessa seção suas vendas que foram",
-                    { text: " tributadas", style: "negrito" },
-                    " fora da isenção. Para vendas isentas, faça o lançamento na seção Rendimentos Isentos conforme mencionado acima. Abaixo descrevemos todos lançamentos que deverá fazer com base na apuração realizada em nossa plataforma.",
-                    `\n\nOperações com fundos imobiliários não entram nesta seção, caso vendeu FIIs durante o ano de ${year}, iremos demonstrar na seção \"Operações Fundos Investimento Imobiliário\"\n\n`
-                ]
-            },
-            {
-                image: "print6",
-                width: 505,
-            },
         ],
         pageMargin: [0, 0],
         defaultStyle: { alignment: "justify" },
@@ -326,175 +214,13 @@ function generatePdf() {
             }
         }
     };
-
-    // mount common operation
-    const tableCommonOperationAndDayTrade = composeTableCommonOperationAndDayTrade(operationsFull);
-    let tableCommonOperationAndDayTradeFiltered = {};
-    _.map(tableCommonOperationAndDayTrade, (year, indexYear)=> _.map(year, (month, indexMonth) => {
-        if(Object.keys(month).length > 0) {
-            if(tableCommonOperationAndDayTradeFiltered.hasOwnProperty(indexYear)) {
-                tableCommonOperationAndDayTradeFiltered[indexYear].push(indexMonth)
-            } else {
-                tableCommonOperationAndDayTradeFiltered[indexYear] = [indexMonth]
-            }
-        }
-    }))    
     
-    console.log("tableCommonOperationAndDayTrade", tableCommonOperationAndDayTrade)
-    console.log("tableCommonOperationAndDayTradeFiltered", tableCommonOperationAndDayTradeFiltered)
-    _.map(tableCommonOperationAndDayTrade[year], (month, indexMonth) => {
-        const co = composeCommonOperationAndDayTrade(month, year, indexMonth, operationsFull, tableCommonOperationAndDayTradeFiltered[year], tableCommonOperationAndDayTrade);
-        if (co) {
-            docDefinition.content.push(co.title);
-            docDefinition.content.push(co.content1);
-            docDefinition.content.push(co.content2);
-            docDefinition.content.push(co.content3);
-        }
-    });
+    renderCommonsOperations(docDefinition);
 
-    docDefinition.content.push({
-        pageBreak: "before",
-        text: "Operações Fundos de Investimentos Imobiliários (FII e FIAGROS)\n\n",
-        style: "title"
-    })
-    docDefinition.content.push(
-        {
-            text: [
-                "As operações de venda envolvendo ",
-                { text: "fundos imobiliários", style: { "text-decorator": "underline", bold: true } },
-                " serão declaradas nessa seção e de forma mensal. Toda venda de fundo imobiliário é tributada, abaixo poderá verificar seus ganhos/prejuízos apurados de acordo com seus lançamentos.\n\n"
-            ]
-        }
-    )
-    docDefinition.content.push(
-        {
-            image: "print7",
-            width: 505,
-        },
-    )
-
-    docDefinition.content.push({
-        text: "\n"
-    })
-
-    debugger
-
-    _.map(operationsFull, (itemYear, indexYear) => _.map(itemYear, (month, indexMonth) => {
-        const co = composeOperationsFII(operationsFull[indexYear][indexMonth], indexYear, indexMonth);
-        if (co) {
-            if (operationsFII.hasOwnProperty(indexYear)) {
-                if (operationsFII[indexYear].hasOwnProperty(indexMonth)) {
-                    operationsFII[indexYear][indexMonth] = co;
-                } else {
-                    operationsFII[indexYear] = {
-                        [indexMonth]: co
-                    };
-                }
-            } else {
-                operationsFII[indexYear] = {
-                    [indexMonth]: co
-                };
-            }
-        }
-    }));
-
-    if(!operationsFII.hasOwnProperty(year)) {
-        operationsFII[year] = {
-            1: 0
-        }
-    }
-
-
-    _.map(operationsFII, (opYear, indexYear) => _.map([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], (mes) => {
-        if (mes === 1) {
-            if (tableOperationsFII.hasOwnProperty(indexYear)) {
-                if (tableOperationsFII[indexYear].hasOwnProperty(mes)) {
-                    tableOperationsFII[indexYear][mes] = [
-                        MONTHS_LABEL[mes].slice(0, 3),
-                        getNode(operationsFII[indexYear], mes),
-                        tableOperationsFII[indexYear - 1][12][2] > 0 ? tableOperationsFII[indexYear - 1][12][2] * -1 : 0,
-                        0,
-                        0,
-                        "20%",
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                    ]
-
-                } else {
-                    tableOperationsFII[indexYear] = {
-                        [mes]: [
-                            MONTHS_LABEL[mes].slice(0, 3),
-                            getNode(operationsFII[indexYear], mes),
-                            tableOperationsFII[indexYear - 1][12][2] > 0 ? tableOperationsFII[indexYear - 1][12][2] * -1 : 0,
-                            0,
-                            0,
-                            "20%",
-                            0,
-                            0,
-                            0,
-                            0,
-                            0,
-                            0,
-                        ]
-                    }
-                }
-            } else {
-                tableOperationsFII[indexYear] = {
-                    [mes]: [
-                        MONTHS_LABEL[mes].slice(0, 3),
-                        getNode(operationsFII[indexYear], mes),
-                        tableOperationsFII.hasOwnProperty(indexYear - 1) ? tableOperationsFII[indexYear - 1][12][2] > 0 ? tableOperationsFII[indexYear - 1][12][2] : 0 : 0,
-                        0,
-                        0,
-                        "20%",
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                    ]
-                }
-            }
-
-        } else {
-            tableOperationsFII[indexYear][mes] = [
-                MONTHS_LABEL[mes].slice(0, 3),
-                getNode(operationsFII[indexYear], mes),
-                subtractionLosses(tableOperationsFII[indexYear][mes - 1][1], tableOperationsFII[indexYear][mes - 1][2]),
-                0,
-                0,
-                "20%",
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-            ]
-        }
-    }))
-
-
-    docDefinition.content.push(
-        {
-            style: "tableOperation",
-            table: {
-                widths: [25, 35, 35, 35, 35, 35, 33, 33, 28, 30, 35, 35],
-                body: [
-                    composeHeaderTable(["Mês", "Resultado líquido do mês", "Resultado negativo até o mês anterior", "Base de cálculo do imposto", "Prejuízo a compensar", "Alíquota do imposto", "Imposto devido", "Saldo IR retido", "IR retido", "IR a compensar", "Imposto a pagar", "Imposto Pago"]),
-                    ...composeTableOperationsFII()
-
-                ]
-            }
-        },
-    )
+    renderOperationsFII(docDefinition);    
 
     composeTaxExternal(docDefinition);
+    
     composerExternalDividends(docDefinition);
 
     return docDefinition;

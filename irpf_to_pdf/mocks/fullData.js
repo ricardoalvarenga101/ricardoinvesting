@@ -2759,3 +2759,1172 @@ const mockFullData2024 = {
         }
     }
 }
+
+const mockRobert2023 = {
+    "sells": {
+        "2022": {
+            "1": {
+                "operations": [
+                    {
+                        "ticker": "HCTR11",
+                        "classe": "FII",
+                        "name": "HECTARE CE",
+                        "document_number_principal": "30.248.180/0001-96",
+                        "document_number_admin": "",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": 28.249999999999886,
+                        "transaction": 3186.75
+                    },
+                    {
+                        "classe": "FII",
+                        "ticker": "DEVA11",
+                        "name": "DEVANT RECEBÍVEIS IM",
+                        "document_number_principal": "37.087.810/0001-37",
+                        "document_number_admin": "",
+                        "type": "Renda Variável",
+                        "value": 76.80000000000007,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 2506.56
+                    },
+                    {
+                        "classe": "FII",
+                        "ticker": "HGLG11",
+                        "name": "CSHG LOGÍSTICA",
+                        "document_number_admin": "",
+                        "document_number_principal": "11.728.688/0001-47",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": 95.83999999999969,
+                        "transaction": 2699.2
+                    },
+                    {
+                        "classe": "FII",
+                        "ticker": "XPML11",
+                        "name": "XP MALLS",
+                        "document_number_admin": "",
+                        "document_number_principal": "28.757.546/0001-00",
+                        "type": "Renda Variável",
+                        "value": 6.599999999999966,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 1433.8500000000001
+                    }
+                ]
+            },
+            "2": {
+                "operations": [
+                    {
+                        "classe": "FII",
+                        "ticker": "VSLH11",
+                        "name": "VERSALHES RECEBÍVEIS",
+                        "document_number_principal": "36.244.015/0001-42",
+                        "document_number_admin": "",
+                        "type": "Renda Variável",
+                        "value": -2.7000000000001023,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 880.1999999999999
+                    }
+                ]
+            },
+            "3": {
+                "operations": [
+                    {
+                        "classe": "FII",
+                        "ticker": "RECR11",
+                        "name": "REC RECEBÍVEIS IMOBI",
+                        "document_number_admin": "13.486.793/0001-42",
+                        "document_number_principal": "28.152.272/0001-26",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": 59.51999999999998,
+                        "transaction": 3238.4
+                    },
+                    {
+                        "ticker": "CPTS11",
+                        "classe": "FII",
+                        "name": "CAPITÂNIA SECURITIES",
+                        "document_number_principal": "18.979.895/0001-13",
+                        "document_number_admin": "",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": -1.7999999999998975,
+                        "transaction": 3470.4
+                    },
+                    {
+                        "classe": "FII",
+                        "ticker": "CPTS11",
+                        "name": "CAPITÂNIA SECURITIES",
+                        "document_number_admin": "",
+                        "document_number_principal": "18.979.895/0001-13",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": -48.95999999999998,
+                        "transaction": 3474
+                    },
+                    {
+                        "ticker": "DEVA11",
+                        "classe": "FII",
+                        "name": "DEVANT RECEBÍVEIS IM",
+                        "document_number_principal": "37.087.810/0001-37",
+                        "document_number_admin": "",
+                        "type": "Renda Variável",
+                        "value": 10.79999999999984,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 3962.7999999999997
+                    },
+                    {
+                        "classe": "FII",
+                        "ticker": "RECR11",
+                        "name": "REC RECEBÍVEIS IMOBI",
+                        "document_number_principal": "28.152.272/0001-26",
+                        "document_number_admin": "13.486.793/0001-42",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": 7.250000000000156,
+                        "transaction": 2488.5
+                    },
+                    {
+                        "classe": "FII",
+                        "ticker": "DEVA11",
+                        "name": "DEVANT RECEBÍVEIS IM",
+                        "document_number_principal": "37.087.810/0001-37",
+                        "document_number_admin": "",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": 0,
+                        "transaction": 992.3000000000001
+                    },
+                    {
+                        "classe": "FII",
+                        "ticker": "CVBI11",
+                        "name": "VBI CRI",
+                        "document_number_principal": "28.729.197/0001-13",
+                        "document_number_admin": "13.486.793/0001-42",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": 5.250000000000199,
+                        "transaction": 3558.8
+                    }
+                ]
+            },
+            "4": {
+                "operations": [
+                    {
+                        "classe": "FII",
+                        "ticker": "HGRU11",
+                        "name": "CSHG RENDA URBANA",
+                        "document_number_principal": "29.641.226/0001-53",
+                        "document_number_admin": "",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": 0.7800000000000296,
+                        "transaction": 1494.0900000000001
+                    },
+                    {
+                        "ticker": "MXRF11",
+                        "classe": "FII",
+                        "name": "MAXI RENDA",
+                        "document_number_admin": "",
+                        "document_number_principal": "97.521.225/0001-25",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": -3.199999999999932,
+                        "transaction": 792.8
+                    }
+                ]
+            },
+            "5": {
+                "operations": [
+                    {
+                        "ticker": "DEVA11",
+                        "classe": "FII",
+                        "name": "DEVANT RECEBÍVEIS IM",
+                        "document_number_admin": "",
+                        "document_number_principal": "37.087.810/0001-37",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": -12.399999999999807,
+                        "transaction": 1921.8000000000002
+                    },
+                    {
+                        "classe": "FII",
+                        "ticker": "DEVA11",
+                        "name": "DEVANT RECEBÍVEIS IM",
+                        "document_number_principal": "37.087.810/0001-37",
+                        "document_number_admin": "",
+                        "type": "Renda Variável",
+                        "value": 13.350000000000009,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 1464
+                    },
+                    {
+                        "classe": "FII",
+                        "ticker": "CPTS11",
+                        "name": "CAPITÂNIA SECURITIES",
+                        "document_number_principal": "18.979.895/0001-13",
+                        "document_number_admin": "",
+                        "type": "Renda Variável",
+                        "value": -9.20000000000016,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 1880.3999999999999
+                    }
+                ]
+            },
+            "7": {
+                "operations": [
+                    {
+                        "ticker": "DEVA11",
+                        "classe": "FII",
+                        "name": "DEVANT RECEBÍVEIS IM",
+                        "document_number_admin": "",
+                        "document_number_principal": "37.087.810/0001-37",
+                        "type": "Renda Variável",
+                        "value": 60.45000000000002,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 1501.5
+                    },
+                    {
+                        "classe": "FII",
+                        "ticker": "KNSC11",
+                        "name": "KINEA SECURITIES FDO",
+                        "document_number_principal": "35.864.448/0001-38",
+                        "document_number_admin": "62.418.140/0001-31",
+                        "type": "Renda Variável",
+                        "value": 0.7500000000000284,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 2311
+                    }
+                ]
+            },
+            "8": {
+                "operations": [
+                    {
+                        "ticker": "CPTS11",
+                        "classe": "FII",
+                        "name": "CAPITÂNIA SECURITIES",
+                        "document_number_admin": "",
+                        "document_number_principal": "18.979.895/0001-13",
+                        "type": "Renda Variável",
+                        "value": -103.19999999999993,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 3600
+                    }
+                ]
+            },
+            "11": {
+                "operations": [
+                    {
+                        "classe": "FI-INFRA",
+                        "ticker": "CPTI11",
+                        "name": "CAPIÂNIA INFRA",
+                        "document_number_principal": "38.065.012/0001-77",
+                        "document_number_admin": "59.281.253/0001-23",
+                        "type": "Renda Variável",
+                        "value": 0.9300000000000352,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 3098.4500000000003
+                    },
+                    {
+                        "classe": "FII",
+                        "ticker": "RZTR11",
+                        "name": "FUNDO DE INVESTIMENT",
+                        "document_number_admin": "",
+                        "document_number_principal": "36.501.128/0001-86",
+                        "type": "Renda Variável",
+                        "value": 0.17999999999992156,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 601.26
+                    },
+                    {
+                        "ticker": "RZTR11",
+                        "classe": "FII",
+                        "name": "FUNDO DE INVESTIMENT",
+                        "document_number_principal": "36.501.128/0001-86",
+                        "document_number_admin": "",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": 0.7199999999996862,
+                        "transaction": 2405.04
+                    }
+                ]
+            },
+            "12": {
+                "operations": [
+                    {
+                        "ticker": "BODB11",
+                        "classe": "FI-INFRA",
+                        "name": "BOCAINA INFRA - FDO ",
+                        "document_number_principal": "41.771.670/0001-99",
+                        "document_number_admin": "59.281.253/0001-23",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": 4.1999999999999105,
+                        "transaction": 1944.6
+                    },
+                    {
+                        "ticker": "URPR11",
+                        "classe": "FII",
+                        "name": "URCA PRIME RENDA",
+                        "document_number_principal": "34.508.872/0001-87",
+                        "document_number_admin": "22.610.500/0001-88",
+                        "type": "Renda Variável",
+                        "value": 1.3800000000000523,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 4651.06
+                    },
+                    {
+                        "ticker": "BODB11",
+                        "classe": "FI-INFRA",
+                        "name": "BOCAINA INFRA - FDO ",
+                        "document_number_admin": "59.281.253/0001-23",
+                        "document_number_principal": "41.771.670/0001-99",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FI INFRA",
+                        "value": 4.1999999999999105,
+                        "transaction": 1944.6
+                    }
+                ]
+            }
+        },
+        "2023": {
+            "1": {
+                "operations": [
+                    {
+                        "classe": "Fiagro",
+                        "ticker": "VGIA11",
+                        "name": "VALORA CRA FDO INV N",
+                        "document_number_principal": "41.081.088/0001-09",
+                        "document_number_admin": "",
+                        "type": "Renda Variável",
+                        "value": 1.499999999999968,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 1489.5
+                    }
+                ]
+            },
+            "3": {
+                "operations": [
+                    {
+                        "ticker": "KDIF11",
+                        "classe": "FI-INFRA",
+                        "name": "KINEA INFRA - FDO IN",
+                        "document_number_principal": "26.324.298/0001-89",
+                        "document_number_admin": "62.418.140/0001-31",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FI INFRA",
+                        "value": 2.6399999999999864,
+                        "transaction": 749.9399999999999
+                    },
+                    {
+                        "ticker": "SNAG11",
+                        "classe": "Fiagro",
+                        "name": "FIAGRO SUNO",
+                        "document_number_principal": "28.152.777/0001-90",
+                        "document_number_admin": "62.285.390/0001-40",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": 2.0999999999999552,
+                        "transaction": 2118.9
+                    },
+                    {
+                        "ticker": "HSML11",
+                        "classe": "FII",
+                        "name": "HSI MALLS",
+                        "document_number_admin": "62.318.407/0001-19",
+                        "document_number_principal": "32.892.018/0001-31",
+                        "type": "Renda Variável",
+                        "value": -71.6099999999999,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 869.11
+                    },
+                    {
+                        "classe": "FII",
+                        "ticker": "BTLG11",
+                        "name": "BTG PACTUAL LOGÍSTIC",
+                        "document_number_admin": "59.281.253/0001-23",
+                        "document_number_principal": "11.839.593/0001-09",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": -241.18000000000004,
+                        "transaction": 2883
+                    }
+                ]
+            },
+            "4": {
+                "operations": [
+                    {
+                        "ticker": "KNSC11",
+                        "classe": "FII",
+                        "name": "KINEA SECURITIES FDO",
+                        "document_number_admin": "62.418.140/0001-31",
+                        "document_number_principal": "35.864.448/0001-38",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": -23.12999999999994,
+                        "transaction": 765
+                    },
+                    {
+                        "ticker": "RECR11",
+                        "classe": "FII",
+                        "name": "REC RECEBÍVEIS IMOBI",
+                        "document_number_admin": "13.486.793/0001-42",
+                        "document_number_principal": "28.152.272/0001-26",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": -458.24999999999994,
+                        "transaction": 1922
+                    },
+                    {
+                        "ticker": "URPR11",
+                        "classe": "FII",
+                        "name": "URCA PRIME RENDA",
+                        "document_number_admin": "22.610.500/0001-88",
+                        "document_number_principal": "34.508.872/0001-87",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": -183.73000000000002,
+                        "transaction": 1695.75
+                    },
+                    {
+                        "ticker": "CVBI11",
+                        "classe": "FII",
+                        "name": "VBI CRI",
+                        "document_number_principal": "28.729.197/0001-13",
+                        "document_number_admin": "13.486.793/0001-42",
+                        "type": "Renda Variável",
+                        "value": -492.7999999999997,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 3420
+                    },
+                    {
+                        "classe": "FII",
+                        "ticker": "KNSC11",
+                        "name": "KINEA SECURITIES FDO",
+                        "document_number_principal": "35.864.448/0001-38",
+                        "document_number_admin": "62.418.140/0001-31",
+                        "type": "Renda Variável",
+                        "value": -12.639999999999986,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 687.92
+                    },
+                    {
+                        "ticker": "RECR11",
+                        "classe": "FII",
+                        "name": "REC RECEBÍVEIS IMOBI",
+                        "document_number_principal": "28.152.272/0001-26",
+                        "document_number_admin": "13.486.793/0001-42",
+                        "type": "Renda Variável",
+                        "value": -140.39999999999992,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 811.7
+                    }
+                ]
+            },
+            "5": {
+                "operations": [
+                    {
+                        "ticker": "KNSC11",
+                        "classe": "FII",
+                        "name": "KINEA SECURITIES FDO",
+                        "document_number_admin": "62.418.140/0001-31",
+                        "document_number_principal": "35.864.448/0001-38",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": 6.800000000000068,
+                        "transaction": 1758.1999999999998
+                    }
+                ]
+            },
+            "6": {
+                "operations": [
+                    {
+                        "ticker": "SNAG11",
+                        "classe": "Fiagro",
+                        "name": "FIAGRO SUNO",
+                        "document_number_principal": "28.152.777/0001-90",
+                        "document_number_admin": "62.285.390/0001-40",
+                        "type": "Renda Variável",
+                        "value": 5.999999999999872,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 3009
+                    }
+                ]
+            },
+            "7": {
+                "operations": [
+                    {
+                        "ticker": "SNAG11",
+                        "classe": "Fiagro",
+                        "name": "FIAGRO SUNO",
+                        "document_number_admin": "62.285.390/0001-40",
+                        "document_number_principal": "28.152.777/0001-90",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": 0.9999999999999787,
+                        "transaction": 1002
+                    },
+                    {
+                        "classe": "FII",
+                        "ticker": "URPR11",
+                        "name": "URCA PRIME RENDA",
+                        "document_number_principal": "34.508.872/0001-87",
+                        "document_number_admin": "22.610.500/0001-88",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": 39.05999999999999,
+                        "transaction": 2116.59
+                    }
+                ]
+            },
+            "8": {
+                "operations": [
+                    {
+                        "ticker": "CVBI11",
+                        "classe": "FII",
+                        "name": "VBI CRI",
+                        "document_number_admin": "13.486.793/0001-42",
+                        "document_number_principal": "28.729.197/0001-13",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": 1.8199999999999363,
+                        "transaction": 677.9499999999999
+                    },
+                    {
+                        "classe": "FI-INFRA",
+                        "ticker": "KDIF11",
+                        "name": "KINEA INFRA - FDO IN",
+                        "document_number_admin": "62.418.140/0001-31",
+                        "document_number_principal": "26.324.298/0001-89",
+                        "type": "Renda Variável",
+                        "value": 47.80000000000001,
+                        "operation": "VENDA DE FI INFRA",
+                        "transaction": 667.1500000000001
+                    },
+                    {
+                        "ticker": "KNSC11",
+                        "classe": "FII",
+                        "name": "KINEA SECURITIES FDO",
+                        "document_number_principal": "35.864.448/0001-38",
+                        "document_number_admin": "62.418.140/0001-31",
+                        "type": "Renda Variável",
+                        "value": 24.65000000000005,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 1510.11
+                    }
+                ]
+            },
+            "9": {
+                "operations": [
+                    {
+                        "classe": "FII",
+                        "ticker": "RECR11",
+                        "name": "REC RECEBÍVEIS IMOBI",
+                        "document_number_principal": "28.152.272/0001-26",
+                        "document_number_admin": "13.486.793/0001-42",
+                        "type": "Renda Variável",
+                        "value": 16.899999999999977,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 934.9
+                    },
+                    {
+                        "classe": "FII",
+                        "ticker": "RECR11",
+                        "name": "REC RECEBÍVEIS IMOBI",
+                        "document_number_principal": "28.152.272/0001-26",
+                        "document_number_admin": "13.486.793/0001-42",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": 3.2999999999999687,
+                        "transaction": 1013.0999999999999
+                    }
+                ]
+            },
+            "10": {
+                "operations": [
+                    {
+                        "classe": "FI-INFRA",
+                        "ticker": "BODB11",
+                        "name": "BOCAINA INFRA - FDO ",
+                        "document_number_admin": "59.281.253/0001-23",
+                        "document_number_principal": "41.771.670/0001-99",
+                        "type": "Renda Variável",
+                        "value": 35.69999999999985,
+                        "operation": "VENDA DE FI INFRA",
+                        "transaction": 1601.4
+                    }
+                ]
+            },
+            "12": {
+                "operations": [
+                    {
+                        "ticker": "BTLG11",
+                        "classe": "FII",
+                        "name": "BTG PACTUAL LOGÍSTIC",
+                        "document_number_principal": "11.839.593/0001-09",
+                        "document_number_admin": "59.281.253/0001-23",
+                        "type": "Renda Variável",
+                        "value": 1.080000000000041,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 3619.7999999999997
+                    }
+                ]
+            }
+        },
+        "2024": {
+            "2": {
+                "operations": [
+                    {
+                        "classe": "Fiagro",
+                        "ticker": "SNAG11",
+                        "name": "FIAGRO SUNO",
+                        "document_number_principal": "28.152.777/0001-90",
+                        "document_number_admin": "62.285.390/0001-40",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": 1.589999999999966,
+                        "transaction": 534.77
+                    },
+                    {
+                        "classe": "FII",
+                        "ticker": "CVBI11",
+                        "name": "VBI CRI",
+                        "document_number_admin": "13.486.793/0001-42",
+                        "document_number_principal": "28.729.197/0001-13",
+                        "type": "Renda Variável",
+                        "value": 22.720000000000255,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 3039.36
+                    }
+                ]
+            },
+            "3": {
+                "operations": [
+                    {
+                        "classe": "FII",
+                        "ticker": "RECR11",
+                        "name": "REC RECEBÍVEIS IMOBI",
+                        "document_number_admin": "13.486.793/0001-42",
+                        "document_number_principal": "28.152.272/0001-26",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": -18.88000000000011,
+                        "transaction": 2827.52
+                    }
+                ]
+            }
+        }
+    },
+    "itensWallletFiltered": [
+        {
+            "qtd": 30,
+            "ticker": "BTLG11",
+            "classe": "FII",
+            "this_year": "R$ 3.002,90",
+            "investiment": "R$ 3.002,90",
+            "averageCambio": "R$ 0,00",
+            "name": "BTG PACTUAL LOGÍSTICA",
+            "document_number_admin": "59.281.253/0001-23",
+            "document_number_principal": "11.839.593/0001-09",
+            "description": "(BTLG11) - 30 COTAS DE BTG PACTUAL LOGÍSTICA, CNPJ: 59.281.253/0001-23, CÓDIGO DE NEGOCIAÇÃO: BTLG11. PREÇO MÉDIO DE R$ 100,10 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 3.002,90",
+            "pm": "R$ 100,10",
+            "past_year": "R$ 5.051,20"
+        },
+        {
+            "qtd": 25,
+            "ticker": "CPTI11",
+            "classe": "FI-INFRA",
+            "this_year": "R$ 2.428,92",
+            "investiment": "R$ 2.428,92",
+            "averageCambio": "R$ 0,00",
+            "name": "CAPIÂNIA INFRA",
+            "description": "(CPTI11) - 25 COTAS DE CAPIÂNIA INFRA, CNPJ: 59.281.253/0001-23, CÓDIGO DE NEGOCIAÇÃO: CPTI11. PREÇO MÉDIO DE R$ 97,16 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 2.428,92",
+            "document_number_admin": "59.281.253/0001-23",
+            "document_number_principal": "38.065.012/0001-77",
+            "pm": "R$ 97,16",
+            "past_year": "R$ 0,00"
+        },
+        {
+            "qtd": 30,
+            "classe": "FII",
+            "ticker": "CVBI11",
+            "investiment": "R$ 2.831,72",
+            "this_year": "R$ 2.831,72",
+            "averageCambio": "R$ 0,00",
+            "name": "VBI CRI",
+            "document_number_principal": "28.729.197/0001-13",
+            "description": "(CVBI11) - 30 COTAS DE VBI CRI, CNPJ: 13.486.793/0001-42, CÓDIGO DE NEGOCIAÇÃO: CVBI11. PREÇO MÉDIO DE R$ 94,39 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 2.831,72",
+            "document_number_admin": "13.486.793/0001-42",
+            "pm": "R$ 94,39",
+            "past_year": "R$ 5.028,35"
+        },
+        {
+            "qtd": 11,
+            "ticker": "HSML11",
+            "classe": "FII",
+            "this_year": "R$ 940,25",
+            "investiment": "R$ 940,25",
+            "averageCambio": "R$ 0,00",
+            "name": "HSI MALLS",
+            "document_number_principal": "32.892.018/0001-31",
+            "document_number_admin": "62.318.407/0001-19",
+            "description": "(HSML11) - 11 COTAS DE HSI MALLS, CNPJ: 62.318.407/0001-19, CÓDIGO DE NEGOCIAÇÃO: HSML11. PREÇO MÉDIO DE R$ 85,48 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 940,25",
+            "pm": "R$ 85,48",
+            "past_year": "R$ 1.567,72"
+        },
+        {
+            "qtd": 11,
+            "classe": "FI-INFRA",
+            "ticker": "IFRA11",
+            "this_year": "R$ 1.127,14",
+            "investiment": "R$ 1.127,14",
+            "averageCambio": "R$ 0,00",
+            "name": "ITAU FICF INC INV INFRA RF CP",
+            "document_number_admin": "62.418.140/0001-31",
+            "description": "(IFRA11) - 11 COTAS DE ITAU FICF INC INV INFRA RF CP, CNPJ: 62.418.140/0001-31, CÓDIGO DE NEGOCIAÇÃO: IFRA11. PREÇO MÉDIO DE R$ 102,47 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 1.127,14",
+            "document_number_principal": "34.633.510/0001-18",
+            "pm": "R$ 102,47",
+            "past_year": "R$ 0,00"
+        },
+        {
+            "qtd": 21,
+            "classe": "Fiagro",
+            "ticker": "KNCA11",
+            "investiment": "R$ 2.172,40",
+            "this_year": "R$ 2.172,40",
+            "averageCambio": "R$ 0,00",
+            "name": "KINEA CRÉDITO AGRO FIAGRO-IMOBILIÁRIO",
+            "document_number_principal": "41.745.701/0001-37",
+            "document_number_admin": "62.418.140/0001-31",
+            "description": "(KNCA11) - 21 COTAS DE KINEA CRÉDITO AGRO FIAGRO-IMOBILIÁRIO, CNPJ: 62.418.140/0001-31, CÓDIGO DE NEGOCIAÇÃO: KNCA11. PREÇO MÉDIO DE R$ 103,45 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 2.172,40",
+            "pm": "R$ 103,45",
+            "past_year": "R$ 2.068,91"
+        },
+        {
+            "qtd": 32,
+            "classe": "FII",
+            "ticker": "RECR11",
+            "investiment": "R$ 2.846,62",
+            "this_year": "R$ 2.846,62",
+            "averageCambio": "R$ 0,00",
+            "name": "REC RECEBÍVEIS IMOBILIÁRIOS",
+            "document_number_principal": "28.152.272/0001-26",
+            "description": "(RECR11) - 32 COTAS DE REC RECEBÍVEIS IMOBILIÁRIOS, CNPJ: 13.486.793/0001-42, CÓDIGO DE NEGOCIAÇÃO: RECR11. PREÇO MÉDIO DE R$ 88,96 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 2.846,62",
+            "document_number_admin": "13.486.793/0001-42",
+            "pm": "R$ 88,96",
+            "past_year": "R$ 4.976,76"
+        },
+        {
+            "qtd": 249,
+            "ticker": "SNAG11",
+            "classe": "Fiagro",
+            "this_year": "R$ 2.505,59",
+            "investiment": "R$ 2.505,59",
+            "averageCambio": "R$ 0,00",
+            "name": "FIAGRO SUNO",
+            "document_number_admin": "62.285.390/0001-40",
+            "document_number_principal": "28.152.777/0001-90",
+            "description": "(SNAG11) - 249 COTAS DE FIAGRO SUNO, CNPJ: 62.285.390/0001-40, CÓDIGO DE NEGOCIAÇÃO: SNAG11. PREÇO MÉDIO DE R$ 10,06 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 2.505,59",
+            "pm": "R$ 10,06",
+            "past_year": "R$ 0,00"
+        },
+        {
+            "qtd": 5,
+            "classe": "FII",
+            "ticker": "TRXF11",
+            "this_year": "R$ 512,65",
+            "investiment": "R$ 512,65",
+            "averageCambio": "R$ 0,00",
+            "name": "TRX REAL ESTATE",
+            "document_number_principal": "28.548.288/0001-52",
+            "description": "(TRXF11) - 5 COTAS DE TRX REAL ESTATE, CNPJ: 13.486.793/0001-42, CÓDIGO DE NEGOCIAÇÃO: TRXF11. PREÇO MÉDIO DE R$ 102,53 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 512,65",
+            "document_number_admin": "13.486.793/0001-42",
+            "pm": "R$ 102,53",
+            "past_year": "R$ 0,00"
+        },
+        {
+            "qtd": 38,
+            "classe": "FII",
+            "ticker": "URPR11",
+            "investiment": "R$ 3.643,87",
+            "this_year": "R$ 3.643,87",
+            "averageCambio": "R$ 0,00",
+            "name": "URCA PRIME RENDA",
+            "document_number_admin": "22.610.500/0001-88",
+            "description": "(URPR11) - 38 COTAS DE URCA PRIME RENDA, CNPJ: 22.610.500/0001-88, CÓDIGO DE NEGOCIAÇÃO: URPR11. PREÇO MÉDIO DE R$ 95,89 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 3.643,87",
+            "document_number_principal": "34.508.872/0001-87",
+            "pm": "R$ 95,89",
+            "past_year": "R$ 2.999,99"
+        }
+    ],
+    "provents": {
+        "CPTI11": {
+            "amountJcp": 0,
+            "rendiments": [
+                17
+            ],
+            "jcp": [],
+            "amountDividend": 0,
+            "dividends": [],
+            "name": "CAPIÂNIA INFRA",
+            "document_number_principal": "38.065.012/0001-77",
+            "document_number_admin": "59.281.253/0001-23",
+            "rendimentJCP": [],
+            "amountRendimentJCP": 0,
+            "amountRendiment": 17
+        },
+        "KNCA11": {
+            "amountJcp": 0,
+            "rendiments": [
+                5.6,
+                26,
+                21.6,
+                28,
+                22.6,
+                28,
+                25.8,
+                22.2,
+                24,
+                22,
+                22,
+                20.02
+            ],
+            "amountDividend": 0,
+            "jcp": [],
+            "dividends": [],
+            "name": "KINEA CRÉDITO AGRO FIAGRO-IMOBILIÁRIO",
+            "amountRendimentJCP": 0,
+            "rendimentJCP": [],
+            "document_number_admin": "62.418.140/0001-31",
+            "document_number_principal": "41.745.701/0001-37",
+            "amountRendiment": 267.82
+        },
+        "URPR11": {
+            "amountJcp": 0,
+            "rendiments": [
+                36.3,
+                40,
+                44.2,
+                53.2,
+                27.72,
+                27.93,
+                28.14,
+                29,
+                38.61,
+                41.3,
+                41.8
+            ],
+            "amountDividend": 0,
+            "jcp": [],
+            "dividends": [],
+            "name": "URCA PRIME RENDA",
+            "document_number_principal": "34.508.872/0001-87",
+            "amountRendimentJCP": 0,
+            "document_number_admin": "22.610.500/0001-88",
+            "rendimentJCP": [],
+            "amountRendiment": 408.20000000000005
+        },
+        "SNAG11": {
+            "amountJcp": 0,
+            "rendiments": [
+                12,
+                24,
+                9.6,
+                8.48,
+                48,
+                12,
+                12,
+                12,
+                10,
+                2.12,
+                11,
+                13.52,
+                27.39
+            ],
+            "jcp": [],
+            "amountDividend": 0,
+            "dividends": [],
+            "name": "FIAGRO SUNO",
+            "document_number_principal": "28.152.777/0001-90",
+            "rendimentJCP": [],
+            "amountRendimentJCP": 0,
+            "document_number_admin": "62.285.390/0001-40",
+            "amountRendiment": 202.11
+        },
+        "KDIF11": {
+            "amountJcp": 0,
+            "rendiments": [
+                4.8,
+                7.25,
+                5,
+                5,
+                5,
+                5
+            ],
+            "amountDividend": 0,
+            "jcp": [],
+            "dividends": [],
+            "name": "KINEA INFRA - FDO INV COTAS FDO INC. INV INF RF CP",
+            "amountRendimentJCP": 0,
+            "rendimentJCP": [],
+            "document_number_admin": "62.418.140/0001-31",
+            "document_number_principal": "26.324.298/0001-89",
+            "amountRendiment": 32.05
+        },
+        "BTLG11": {
+            "amountJcp": 0,
+            "rendiments": [
+                37,
+                37.74,
+                37.74,
+                14.8,
+                14.8,
+                14.8,
+                15.2,
+                15.2,
+                15.99,
+                19.76,
+                25.84
+            ],
+            "jcp": [],
+            "amountDividend": 0,
+            "dividends": [],
+            "name": "BTG PACTUAL LOGÍSTICA",
+            "rendimentJCP": [],
+            "amountRendimentJCP": 0,
+            "document_number_principal": "11.839.593/0001-09",
+            "document_number_admin": "59.281.253/0001-23",
+            "amountRendiment": 248.87
+        },
+        "TRXF11": {
+            "amountJcp": 0,
+            "rendiments": [
+                5,
+                4.25,
+                4.5,
+                4.5,
+                4.5,
+                4.5,
+                4.5,
+                4.5
+            ],
+            "amountDividend": 0,
+            "jcp": [],
+            "dividends": [],
+            "name": "TRX REAL ESTATE",
+            "document_number_admin": "13.486.793/0001-42",
+            "rendimentJCP": [],
+            "document_number_principal": "28.548.288/0001-52",
+            "amountRendimentJCP": 0,
+            "amountRendiment": 36.25
+        },
+        "BODB11": {
+            "amountJcp": 0,
+            "rendiments": [
+                13,
+                10.3,
+                11,
+                17.25,
+                17.74,
+                9.83,
+                14.84,
+                17.6
+            ],
+            "jcp": [],
+            "amountDividend": 0,
+            "dividends": [],
+            "name": "BOCAINA INFRA - FDO INV COTAS FDO INV INFRA RF CP",
+            "amountRendimentJCP": 0,
+            "rendimentJCP": [],
+            "document_number_admin": "59.281.253/0001-23",
+            "document_number_principal": "41.771.670/0001-99",
+            "amountRendiment": 111.56
+        },
+        "external": {
+            "PLD": {
+                "cambioMonth": {
+                    "8": 4.9806
+                },
+                "amountDividend": 1,
+                "amountRendimentJCP": 0,
+                "document_number_admin": "",
+                "amountRendiment": 0,
+                "amountJcp": 0,
+                "rendiments": [],
+                "jcp": [],
+                "dividends": [
+                    1
+                ],
+                "name": "Prologis Inc",
+                "document_number_principal": "",
+                "rendimentJCP": [],
+                "dividendPerMonth": {
+                    "8": 1.444374
+                },
+                "taxPerMonth": {
+                    "8": 0.448254
+                },
+                "amountMonth": {
+                    "8": 0.29000000000000004
+                },
+                "amountTax": 0.448254
+            },
+            "JEPI": {
+                "cambioMonth": {
+                    "9": 4.8683,
+                    "10": 5.0619,
+                    "11": 4.8676
+                },
+                "amountDividend": 5.25,
+                "amountRendimentJCP": 0,
+                "document_number_admin": "",
+                "amountRendiment": 0,
+                "amountJcp": 0,
+                "rendiments": [],
+                "jcp": [],
+                "dividends": [
+                    1.37,
+                    1.88,
+                    2
+                ],
+                "name": "JPMORGAN EQUITY PREMIUM INCOME ETF",
+                "document_number_principal": "",
+                "rendimentJCP": [],
+                "dividendPerMonth": {
+                    "9": 1.94732,
+                    "10": 2.682807,
+                    "11": 2.823208
+                },
+                "taxPerMonth": {
+                    "9": 0.5841959999999999,
+                    "10": 0.809904,
+                    "11": 0.8274920000000001
+                },
+                "amountMonth": {
+                    "9": 0.4,
+                    "10": 0.53,
+                    "11": 0.58
+                },
+                "amountTax": 2.2215920000000002
+            }
+        },
+        "CVBI11": {
+            "amountJcp": 0,
+            "rendiments": [
+                56.1,
+                60.5,
+                55,
+                57.75,
+                16.8,
+                18.7,
+                17.85,
+                12.75,
+                22.5,
+                19.6,
+                22.5,
+                24
+            ],
+            "amountDividend": 0,
+            "jcp": [],
+            "dividends": [],
+            "name": "VBI CRI",
+            "amountRendimentJCP": 0,
+            "rendimentJCP": [],
+            "document_number_admin": "13.486.793/0001-42",
+            "document_number_principal": "28.729.197/0001-13",
+            "amountRendiment": 384.05000000000007
+        },
+        "HSML11": {
+            "amountJcp": 0,
+            "rendiments": [
+                12.6,
+                14,
+                15.54,
+                7.4,
+                7.4,
+                8.14,
+                8.14,
+                8.14,
+                8.14,
+                8.14,
+                8.14,
+                8.14
+            ],
+            "amountDividend": 0,
+            "jcp": [],
+            "dividends": [],
+            "name": "HSI MALLS",
+            "document_number_principal": "32.892.018/0001-31",
+            "rendimentJCP": [],
+            "amountRendimentJCP": 0,
+            "document_number_admin": "62.318.407/0001-19",
+            "amountRendiment": 113.92
+        },
+        "RECR11": {
+            "amountJcp": 0,
+            "rendiments": [
+                48.03,
+                54.45,
+                50.05,
+                69.1,
+                22.15,
+                26.96,
+                19.97,
+                15.69,
+                17.91,
+                23.98,
+                24.97,
+                24.82
+            ],
+            "jcp": [],
+            "amountDividend": 0,
+            "dividends": [],
+            "name": "REC RECEBÍVEIS IMOBILIÁRIOS",
+            "rendimentJCP": [],
+            "amountRendimentJCP": 0,
+            "document_number_principal": "28.152.272/0001-26",
+            "document_number_admin": "13.486.793/0001-42",
+            "amountRendiment": 398.0800000000001
+        },
+        "KNSC11": {
+            "amountJcp": 0,
+            "rendiments": [
+                32.9,
+                38.48,
+                32.19,
+                38.85,
+                19,
+                5.25,
+                8.8,
+                7.7
+            ],
+            "jcp": [],
+            "amountDividend": 0,
+            "dividends": [],
+            "name": "KINEA SECURITIES FDO. DE INV. IMOB",
+            "rendimentJCP": [],
+            "amountRendimentJCP": 0,
+            "document_number_principal": "35.864.448/0001-38",
+            "document_number_admin": "62.418.140/0001-31",
+            "amountRendiment": 183.17
+        },
+        "IFRA11": {
+            "amountJcp": 0,
+            "rendiments": [
+                5.35,
+                10.8,
+                10.8,
+                10.8,
+                11.99
+            ],
+            "jcp": [],
+            "amountDividend": 0,
+            "dividends": [],
+            "name": "ITAU FICF INC INV INFRA RF CP",
+            "amountRendimentJCP": 0,
+            "document_number_principal": "34.633.510/0001-18",
+            "document_number_admin": "62.418.140/0001-31",
+            "rendimentJCP": [],
+            "amountRendiment": 49.74
+        }
+    }
+}

@@ -17,8 +17,11 @@ function getFirstYear(data) {
 }
 
 function getJson(data) {
+    console.log("MOCK DATA", data);
     itensWalletFiltered = data.itensWallletFiltered;
     provents = composeProvents(data.provents);
+
+    console.log("Provents", provents)
 
     operations = {};
     const t = _.map(data.sells, (year, indexYear) => _.map(year, (month, indexMonth) => {
