@@ -181,6 +181,9 @@ function composeCommonOperationAndDayTrade(operations, yearAnalysis, monthAnalys
     if (!monthsFilter.includes(monthAnalysis)) {
         return null;
     }
+    if (!operations.commonList.length && !operations.dayTradeList.length) {
+        return null;
+    }
 
     let negativePastCommon = 0
     let negativePastTrade = 0
@@ -276,13 +279,56 @@ function composeAmountOperations(operation) {
     operation["amountValues"] = _.sum(operation.values);
 }
 
+function mountSalesFiInfra(yearAnalysis, indexMonth, op) {
+    if (op.operation !== TYPE_OPERATIONS_SELL.VENDA_DE_FI_INFRA) {
+        return null;
+    }
+    if (!SUM_SWING_TRADE_FREE_99.hasOwnProperty(yearAnalysis, indexMonth, op)) { // nao tem o ano
+        SUM_SWING_TRADE_FREE_99[yearAnalysis] = {
+            [op.ticker]: {
+                transactions: [op.transaction],
+                values: [op.value],
+                name: op.name,
+                ticker: op.ticker,
+                type: op.type,
+                classe: op.classe,
+                document_number_admin: op.document_number_admin,
+                document_number_principal: op.document_number_principal
+            }
+        }
+        composeAmountOperations(SUM_SWING_TRADE_FREE_99[yearAnalysis][op.ticker])
+    } else {
+        if (SUM_SWING_TRADE_FREE_99[yearAnalysis].hasOwnProperty(op.ticker)) { // se tem o ticker
+            SUM_SWING_TRADE_FREE_99[yearAnalysis][op.ticker].transactions.push(op.transaction)
+            SUM_SWING_TRADE_FREE_99[yearAnalysis][op.ticker].values.push(op.value)
+            composeAmountOperations(SUM_SWING_TRADE_FREE_99[yearAnalysis][op.ticker])
+        } else { // não tem o ticker
+            SUM_SWING_TRADE_FREE_99[yearAnalysis] = {
+                ...SUM_SWING_TRADE_FREE_99[yearAnalysis],
+                [op.ticker]: {
+                    transactions: [op.transaction],
+                    values: [op.value],
+                    name: op.name,
+                    ticker: op.ticker,
+                    type: op.type,
+                    classe: op.classe,
+                    document_number_admin: op.document_number_admin,
+                    document_number_principal: op.document_number_principal
+                }
+            }
+            composeAmountOperations(SUM_SWING_TRADE_FREE_99[yearAnalysis][op.ticker])
+        }
+    }
+}
+
 function composeOperations(operations, indexMonth, indexYear, op) {
+    mountSalesFiInfra(indexYear, indexMonth, op);
     if (!operations.hasOwnProperty(indexYear)) {
         operations[indexYear] = {
             [indexMonth]: {
                 [op.operation]: {
                     transactions: [op.transaction],
-                    values: [op.value],
+                    values: [op.value]
                 }
             }
         }
@@ -317,7 +363,7 @@ function composeSwingTradeFree(operations) {
     _.map(operations, (year, indexYear) => {
         let sumSwingTradeFree = 0;
         _.map(year, (month) => _.map(month, (operation, indexOp) => {
-            if (indexOp === TYPE_OPERATIONS_SELL.SWING_TRADE || indexOp === TYPE_OPERATIONS_SELL.VENDA_DE_FI_INFRA) {
+            if (indexOp === TYPE_OPERATIONS_SELL.SWING_TRADE) {
                 if (operation.amountTransaction <= LIMIT_SWING_TRADE) {
                     sumSwingTradeFree += operation.amountValues
                     SUM_SWING_TRADE_FREE[indexYear] = sumSwingTradeFree;
@@ -570,45 +616,23 @@ function composeTaxExternal(docDefinition) {
     return null
 }
 
-function renderRendimentsJCP() {
-    if (!provents.rendimentsJCP.length) {
-        return [{}];
-    }
-    const title = {
-        text: "\n\nRendimentos sobre JCP",
-        style: "title"
-    }
-    const content1 = {
-        style: "table",
-        table: {
-            widths: [30, "*", "*", "*", "*"],
-            body: [
-                composeHeaderTable(["Tipo", "CNPJ", "Nome da fonte pagadora", "Descrição", "Valor"]),
-                ...provents.rendimentsJCP,
-            ]
-        }
-    }
-    return [title, content1]
-}
-
-function composeTableOperationsFII() {        
+function composeTableOperationsFII() {
     const table_data = [];
-    debugger        
     _.map([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], (mes) => {
-        if(tableOperationsFII.hasOwnProperty(year) && tableOperationsFII[year].hasOwnProperty(mes)) {
+        if (tableOperationsFII.hasOwnProperty(year) && tableOperationsFII[year].hasOwnProperty(mes)) {
+            const value = getNode(operationsFII[year], mes);
+            let fontColor = "blue";
+            if (value < 0) {
+                fontColor = "red"
+            }            
             table_data.push([
                 tableOperationsFII[year][mes][0],
-                tableOperationsFII[year][mes][1] !== 0 ? { text: convertCurrencyRealWithoutCoin(getNode(operationsFII[year], mes)), style: { color: "blue", bold: true } } : convertCurrencyRealWithoutCoin(0),
-                mes === 1? convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][2]) : {text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][2]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
+                tableOperationsFII[year][mes][1] !== 0 ? { text: convertCurrencyRealWithoutCoin(getNode(operationsFII[year], mes)), style: { color: fontColor, bold: true } } : convertCurrencyRealWithoutCoin(0),
+                mes === 1 ? convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][2]) : { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][2]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
                 { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][3]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
                 { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][4]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
                 { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][5]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
                 { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][6]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][7]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][8]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][9]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][10]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
-                { text: convertCurrencyRealWithoutCoin(tableOperationsFII[year][mes][11]), style: { color: "#7f7f7f", fillColor: "#d3d3d3" } },
             ])
         }
     })
