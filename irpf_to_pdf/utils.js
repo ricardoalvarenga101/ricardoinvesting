@@ -2,7 +2,7 @@
 * ############### utils ###############
 */
 
-function close() {
+function closeWindow() {
     google.script.host.close();
 }
 
