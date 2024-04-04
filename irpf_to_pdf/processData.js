@@ -9,6 +9,9 @@ function getFirstYear(data) {
     document.getElementById("loading_spinner").style.display = "none";
     document.getElementById("txt_await").style.display = "none";
     document.getElementById("txt_await_form").style.display = "none";
+    document.getElementById("btn_close1").style.display = "block";
+    document.getElementById("btn_close2").style.display = "none";
+    document.getElementById("btn_back").style.display = "none";
     composeListYears();
     name = (document.getElementById("input_name").value).toUpperCase();
     const e = document.getElementById("year_select");
@@ -37,6 +40,9 @@ function getJson(data) {
     document.getElementById("loading_spinner").style.display = "none";
     document.getElementById("btn_download").style.display = "block";    
     document.getElementById("txt_await").style.display = "none";
+    document.getElementById("btn_close1").style.display = "none";
+    document.getElementById("btn_close2").style.display = "block";
+    document.getElementById("btn_back").style.display = "block";
     pdfDefinition = generatePdf();
     console.log("operationsFull", operationsFull);
 }
