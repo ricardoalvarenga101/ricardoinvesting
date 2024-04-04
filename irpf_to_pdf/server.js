@@ -9,6 +9,9 @@ function _getFirstYear() {
     document.getElementById("txt_await").style.display = "none";
     document.getElementById("txt_await_form").style.display = "flex";
     document.getElementById("btn_download").style.display = "none";
+    document.getElementById("btn_close1").style.display = "none";
+    document.getElementById("btn_close2").style.display = "none";
+    document.getElementById("btn_back").style.display = "none";
 
     name = (document.getElementById("input_name").value).toUpperCase();
     document_number = document.getElementById("input_cpf").value;
@@ -27,6 +30,9 @@ function _loadingData() {
     document.getElementById("ir_form").style.display = "none";
     document.getElementById("loading_spinner").style.display = "flex";
     document.getElementById("txt_await").style.display = "flex";
+    document.getElementById("btn_close1").style.display = "none";
+    document.getElementById("btn_close2").style.display = "none";
+    document.getElementById("btn_back").style.display = "none";
     name = (document.getElementById("input_name").value).toUpperCase();
     document_number = document.getElementById("input_cpf").value;
     if (_local) {

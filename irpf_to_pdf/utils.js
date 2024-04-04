@@ -2,33 +2,37 @@
 * ############### utils ###############
 */
 
+function close() {
+    google.script.host.close();
+}
+
 function getOtherLastPosition(operations, year, initialPosition) {
-    const listMonths = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].reverse();    
+    const listMonths = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].reverse();
     let lastRegister = {}
-    for(let i=13-initialPosition; i < listMonths.length; i++) {
+    for (let i = 13 - initialPosition; i < listMonths.length; i++) {
         if (Object.keys(operations[year][listMonths[i]]).length > 0) {
             lastRegister = { op: operations[year][listMonths[i]], year, month: listMonths[i] };
             break;
 
         }
     }
-    return lastRegister 
+    return lastRegister
 }
 
-function getLastOrFirstPositionYear(operations, year, sort=1) {
+function getLastOrFirstPositionYear(operations, year, sort = 1) {
     let listMonths = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-    if(sort===-1) {
+    if (sort === -1) {
         listMonths.reverse()
     }
     let lastRegister = {}
-    for(let i=0; i < listMonths.length; i++) {
+    for (let i = 0; i < listMonths.length; i++) {
         if (Object.keys(operations[year][listMonths[i]]).length > 0) {
             lastRegister = { op: operations[year][listMonths[i]], year, month: listMonths[i] };
             break;
 
         }
     }
-    return lastRegister 
+    return lastRegister
 }
 
 function sumAccumulator(operations, year, keySum, breakMonth = false) {
@@ -144,4 +148,9 @@ function checkNegativeSald(value) {
         return 0
     }
     return value;
+}
+
+function startAnimation(idShow, idHide, direction = "right") {
+    $(`#${idHide}`).hide();
+    $(`#${idShow}`).show("slide", { direction }, 350);
 }
