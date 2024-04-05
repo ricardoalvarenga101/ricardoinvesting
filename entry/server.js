@@ -85,42 +85,45 @@ function savedProvent(res = null) {
 }
 
 function _saveProvent() {
-    // saveInput(ticker = "MXRF11", data = "01/01/2024", type = "Compra", quantity = 0, price = 0, tax = 0, irrpf = 0, details = null) {      
-    // const delay = new Promise((res) => setTimeout(() => {
-    //     $("#loading_spinner").show();
-    //     $("#view_menu").hide();
-    //     $("#txt_await_form").show();
-    //     const ticker = $("#ticker_select_provent :selected").text();
-    //     const data = $("#la_data_provent").val();
-    //     const type = $("#type_select_provent :selected").text()
-    //     const quantity = $("#la_quantity_provent").val();
-    //     const value = $("#la_value_provent").val();
-    //     const irrf = $("#la_irrf_provent").val();
-    //     const ptax = $("#la_ptax").val();
-    //     savedProvent({ ticker, data, type, quantity, value, irrf, ptax })
+    // saveInput(ticker = "MXRF11", data = "01/01/2024", type = "Compra", quantity = 0, price = 0, tax = 0, irrpf = 0, details = null) {
+    if (_local) {
+        const delay = new Promise((res) => setTimeout(() => {
+            $("#loading_spinner").show();
+            $("#view_menu").hide();
+            $("#txt_await_save_form").show();
+            const ticker = $("#ticker_select_provent :selected").text();
+            const data = $("#la_data_provent").val();
+            const type = $("#type_select_provent :selected").text()
+            const quantity = $("#la_quantity_provent").val();
+            const value = $("#la_value_provent").val();
+            const irrf = $("#la_irrf_provent").val();
+            const ptax = $("#la_ptax").val();
+            savedProvent({ ticker, data, type, quantity, value, irrf, ptax })
 
-    // }, 3000));
+        }, 3000));
+    } else {
 
-    $("#loading_spinner").show();
-    $("#view_menu").hide();
-    $("#txt_await_form").show();
-    const ticker = $("#ticker_select_provent :selected").text();
-    const data = $("#la_data_provent").val();
-    const type = $("#type_select_provent :selected").text()
-    const quantity = $("#la_quantity_provent").val();
-    const value = $("#la_value_provent").val();
-    const irrf = $("#la_irrf_provent").val();
-    const ptax = $("#la_ptax").val();
+        $("#loading_spinner").show();
+        $("#view_menu").hide();
+        $("#txt_await_save_form").show();
+        const ticker = $("#ticker_select_provent :selected").text();
+        const data = $("#la_data_provent").val();
+        const type = $("#type_select_provent :selected").text()
+        const quantity = $("#la_quantity_provent").val();
+        const value = $("#la_value_provent").val();
+        const irrf = $("#la_irrf_provent").val();
+        const ptax = $("#la_ptax").val();
 
-    google.script.run
-        .withSuccessHandler(savedProvent)
-        .withFailureHandler(errorLoadingData)
-        .saveProvent(
-            ticker,
-            data,
-            type,
-            quantity,
-            value,
-            irrf,
-            ptax)
+        google.script.run
+            .withSuccessHandler(savedProvent)
+            .withFailureHandler(errorLoadingData)
+            .saveProvent(
+                ticker,
+                data,
+                type,
+                quantity,
+                value,
+                irrf,
+                ptax)
+    }
 }
