@@ -5,7 +5,7 @@ function onChangeTypeProvent() {
 
 function onChangeType() {
   const operation_selected = $("#type_select :selected").text();
-  if (SELLS_OPERATIONS.includes(operation_selected)) {
+  if (SELLS_OPERATIONS.includes(operation_selected)) {    
     if (operation_selected === SELLS_OPERATIONS[1]) { // venda de direito
       showFieldsSellWithSubscriber(true, true)
       $("#view_la_price_entry").hide();
