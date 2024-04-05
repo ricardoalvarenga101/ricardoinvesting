@@ -76,7 +76,7 @@ function savedProvent(res = null) {
     $("#la_quantity_provent").val(0);
     $("#la_value_provent").val(0);
     $("#la_irrf_provent").val(0);
-    $("#la_ptax_provent").val(0);
+    $("#la_ptax").val(0);
     $("#txt_await_save_form").hide();
     $("#loading_spinner").hide();
     $("#view_alert_success").show();
@@ -85,7 +85,6 @@ function savedProvent(res = null) {
 }
 
 function _saveProvent() {
-    // saveInput(ticker = "MXRF11", data = "01/01/2024", type = "Compra", quantity = 0, price = 0, tax = 0, irrpf = 0, details = null) {
     if (_local) {
         const delay = new Promise((res) => setTimeout(() => {
             $("#loading_spinner").show();
