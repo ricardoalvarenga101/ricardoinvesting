@@ -32,6 +32,7 @@ function compose2Decimal(value) {
     }
     return value;
 }
+
 function callback(id) {
     setTimeout(function () {
         $(`#${id}:visible`).removeAttr("style").fadeOut();
