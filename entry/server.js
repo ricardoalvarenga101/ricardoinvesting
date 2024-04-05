@@ -123,6 +123,7 @@ function _saveProvent() {
                 quantity,
                 value,
                 irrf,
-                ptax)
+                ptax,
+                _database[ticker])
     }
 }
