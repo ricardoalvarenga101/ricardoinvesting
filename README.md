@@ -8,3 +8,9 @@ Imposto de Renda Pessoa Física com base na planilha de investimentos do @ricard
 ```
 cat ./irpf_to_pdf/vars.js ./irpf_to_pdf/utils.js ./irpf_to_pdf/server.js ./irpf_to_pdf/processData.js ./irpf_to_pdf/docGenerate.js ./irpf_to_pdf/composers.js ./irpf_to_pdf/renders.js > ./irpf_to_pdf/public/irpf-to-pdf.js
 ```
+
+
+# Concatenar entry
+```
+cat ./entry/vars.js ./entry/utils.js ./entry/server.js ./entry/events.js ./entry/composers.js > ./entry/public/entry.js
+```
