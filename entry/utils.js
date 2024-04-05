@@ -1,4 +1,4 @@
-
+// utils
 function showFieldsSellWithSubscriber(show = false, withSubscription = false) {
     if (show) {
         $("#view_input_negociation").show();
@@ -20,11 +20,12 @@ function errorLoadingData(error) {
 function closeReleases() {
     google.script.host.close();
 }
+
 function getDateNow() {
-    // const dt = `${compose2Decimal(new Date().getDay())}/${compose2Decimal(new Date().getMonth())}/${compose2Decimal(new Date().getFullYear())}`
     const dt = `${compose2Decimal(new Date().getFullYear())}-${compose2Decimal(new Date().getMonth() + 1)}-${compose2Decimal(new Date().getDay())}`
     return dt;
 }
+
 function compose2Decimal(value) {
     if (value < 9) {
         return `0${value}`;
