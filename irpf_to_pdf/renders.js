@@ -210,7 +210,7 @@ function renderOperationsFII(docDefinition) {
     _.map(operationsFII, (opYear, indexYear) => _.map([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], (mes) => {
         if (mes === 1) {
             if (tableOperationsFII.hasOwnProperty(indexYear)) {
-                if (tableOperationsFII[indexYear].hasOwnProperty(mes)) {
+                if (tableOperationsFII[indexYear].hasOwnProperty(mes)) {                    
                     tableOperationsFII[indexYear][mes] = [
                         MONTHS_LABEL[mes].slice(0, 3),
                         getNode(operationsFII[indexYear], mes),
@@ -303,12 +303,12 @@ function renderOperationsFII(docDefinition) {
 }
 
 function renderRendimentsIsentos() {
-    if(!provents.rendiments.length && !SUM_SWING_TRADE_FREE_99.hasOwnProperty(year)) {
+    if (!provents.rendiments.length && !SUM_SWING_TRADE_FREE_99.hasOwnProperty(year)) {
         return [{}]
     }
     const gcapInfra = [];
     if (SUM_SWING_TRADE_FREE_99.hasOwnProperty(year)) {
-        _.map(SUM_SWING_TRADE_FREE_99[year], (ticker) => {            
+        _.map(SUM_SWING_TRADE_FREE_99[year], (ticker) => {
             gcapInfra.push(
                 [
                     "99",
@@ -318,11 +318,11 @@ function renderRendimentsIsentos() {
                     convertCurrencyReal(ticker.amountValues || 0)
                 ]
             )
-            
+
         })
     }
 
-    const body = [...provents.rendiments, ...gcapInfra ]
+    const body = [...provents.rendiments, ...gcapInfra]
 
     const title = {
         text: "Rendimentos de (FII, FIAGRO e FI-INFRA)",
@@ -339,4 +339,50 @@ function renderRendimentsIsentos() {
         }
     }
     return [title, content1]
+}
+
+function renderRendimentsPrint() {
+    if (!provents.dividends.length) {
+        return [{}]
+    }
+    const title = {
+        text: "Rendimentos isentos e não tributáveis (Vendas abaixo de 20mil, ativos isentos e dividendos)\n\n",
+        style: "title",
+        pageBreak: "before"
+    }
+    const content1 = {
+        text: [
+            { text: "Esta seção irá lhe demonstrar quais rendimentos teve durante e o ano e foram " },
+            { text: "isentos de imposto de renda", style: { "text-transform": "underline" } },
+            { text: ", seja por benefício fiscal ou limite de isenção.\n\n" }
+        ]
+    }
+    const content2 = {
+        text: "Itens contemplados no relatório:\n",
+        ul: [
+            "Vendas mensais de ações abaixo de 20 mil reais (Brasil)",
+            "Dividendos de ações",
+            "Rendimentos de (FII, FIAGRO e FI-INFRA)",
+            "Vendas de ativos com benefício fiscal",
+            "Bonificação\n\n"
+        ]
+    }
+    const content3 = {
+        text: "Local e exemplo de preenchimento:\n",
+        style: "subheader"
+    }
+    const content4 = {
+        image: "print4",
+        width: 505,
+    }
+    const content5 = {
+        pageBreak: "before",
+        text: [
+            "Para cada linha da tabela abaixo efetue um lançamento através do botão ",
+            { text: "'Novo'", style: "negrito" },
+            ", preencha os dados da tabela e confirme em ",
+            { text: "'OK'\n\n", style: "negrito" }
+        ]
+    }
+    return [title, content1, content2, content3, content4, content5]
 }

@@ -16,7 +16,7 @@ function getFirstYear(data) {
     name = (document.getElementById("input_name").value).toUpperCase();
     const e = document.getElementById("year_select");
     year = e.options[e.selectedIndex].value;
-    document_number = document.getElementById("input_cpf").value;
+    document_number = document.getElementById("input_cpf").value;    
 }
 
 function getJson(data) {
