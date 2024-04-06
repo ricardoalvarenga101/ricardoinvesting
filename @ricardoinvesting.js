@@ -142,6 +142,549 @@ const FRASES = [
    \____/                                                                     __/ |
                                                                              |___/ 
  */
+function deleteTrigger() {
+    // Loop over all triggers.
+    const allTriggers = ScriptApp.getProjectTriggers();
+    for (let index = 0; index < allTriggers.length; index++) {
+        // If the current trigger is the correct one, delete it.
+        // if (allTriggers[index].getUniqueId() === triggerId) {
+        ScriptApp.deleteTrigger(allTriggers[index]);
+        // break;
+    }
+}
+
+function createTrigger() {
+    deleteTrigger()
+    ScriptApp.newTrigger('updateCotation')
+        .timeBased()
+        .everyHours(1)
+        .create();
+
+    ScriptApp.newTrigger('getEvolutionRentability')
+        .timeBased()
+        .atHour(9)
+        .everyDays(1)
+        .create();
+
+    // console.log(triggerUpdateCotationId.getUniqueId(), triggerEvolutionId.getUniqueId());
+}
+
+function getEvolutionRentability() {
+    const Planilha = SpreadsheetApp.getActiveSpreadsheet();
+    const Guia = Planilha.getSheetByName(ABAS.DASHBOARD);
+    const Cell = Guia.getRange("A4");
+    const days = [1, 2, 3, 4, 5];
+
+    if (days.includes(new Date().getDay())) {
+        const now = new Date().getHours()
+        if (now === 9 || now === 10) {
+            const currentMonth = composeIndiceDate(0)
+            const oldMonth = composeIndiceDate(1)
+            // Utilities.sleep(120000);// uma pausa de 2min para atualizar os dados antes de capturar as informações
+            const value = Guia.getRange('A5').getValue();
+            Cell.setValue(value);
+            const acoes = Guia.getRange("E9").getValue(); // acoes
+            Guia.getRange("A10").setValue(acoes);
+            const fiis = Guia.getRange("E11").getValue(); // fiis
+            Guia.getRange("A12").setValue(fiis);
+            const fiinfra = Guia.getRange("E13").getValue(); // fiinfra
+            Guia.getRange("A14").setValue(fiinfra);
+            const fiagro = Guia.getRange("E15").getValue(); // fiagro
+            Guia.getRange("A16").setValue(fiagro);
+            const rendafixa = Guia.getRange("E17").getValue(); // rendafixa
+            Guia.getRange("A18").setValue(rendafixa);
+            const etf = Guia.getRange("E19").getValue(); // etf
+            Guia.getRange("A20").setValue(etf);
+            const bdr = Guia.getRange("E21").getValue(); // bdr
+            Guia.getRange("A22").setValue(bdr);
+            const cripto = Guia.getRange("E23").getValue(); // cripto
+            Guia.getRange("A24").setValue(cripto);
+            const stocks = Guia.getRange("E26").getValue(); // stocks
+            Guia.getRange("A27").setValue(stocks);
+            const reits = Guia.getRange("E28").getValue(); // reits
+            Guia.getRange("A29").setValue(reits);
+            const etfexterior = Guia.getRange("E30").getValue(); // etfexterior
+            Guia.getRange("A31").setValue(etfexterior);
+
+            if (currentMonth > oldMonth) {
+                updatePerformance(value);
+            }
+        }
+    }
+}
+
+function updateCotation() {
+    const classStranger = [CLASS.ETF_EUA, CLASS.REIT, CLASS.STOCK]
+    const Sheet = SpreadsheetApp.getActiveSpreadsheet();
+
+    let initialLine = 2;
+    let totalRegister = 0;
+
+    const GuideCotation = Sheet.getSheetByName(ABAS.COTACAO);
+    Utilities.sleep(1000);
+
+    totalRegister = getTotalRegisterInGuide(GuideCotation);
+    let outputClose = null;
+    let ui = null;
+    console.log("[🔨] - Iniciando atualização de cotação");
+    for (var i = initialLine; i <= totalRegister + 1; i++) {
+        const id = GuideCotation.getRange(i, 1).getValue();
+        const type = GuideCotation.getRange(i, 2).getValue();
+        let value = GuideCotation.getRange(i, 3).getValue(); // coluna cotacao (online)    
+        // const valuePvp = GuideCotation.getRange(i, 12).getValue(); // coluna pvp (online)
+        const reference = String("D") + i;
+        const referencePvpOffline = String("E") + i;
+        const CellPerformance = GuideCotation.getRange(reference);
+        // const CellReferencePvpOffline = GuideCotation.getRange(referencePvpOffline);
+        if (value !== "-") {
+            if (classStranger.includes(type)) {
+                const dolar = GuideCotation.getRange("F2").getValue();
+                CellPerformance.setValue(value * dolar);
+                // CellReferencePvpOffline.setValue("-");
+
+            } else {
+                CellPerformance.setValue(value);
+                // CellReferencePvpOffline.setValue("-");
+            }
+        }
+        console.log(`[✔] ---- ${type} (${id})`);
+    }
+
+    const dash = Sheet.getSheetByName(ABAS.DASHBOARD);
+    const formatedDate = Utilities.formatDate(new Date(), "GMT-3", "dd/MM/yyyy-HH:mm:ss");
+    dash.getRange("b4").setValue("🕔 Data da última cotação: " + formatedDate);
+    dash.getRange("a3").setValue(new Date().toTimeString());
+
+    const TD = Sheet.getSheetByName(ABAS.TABELA_DINAMICA);
+    const date = new Date();
+    TD.getRange("AP2").setValue(date.getMilliseconds() + date.getSeconds() + date.getMinutes());
+
+}
+
+function updateCotationManual() {
+
+    const outputClose = HtmlService.createHtmlOutput('<script>google.script.host.close();</script>');
+    const ui = SpreadsheetApp.getUi();
+    ui.showSidebar(HtmlService.createHtmlOutputFromFile("@ricardoinvesting-cotation-html")
+        .setTitle("Atualizando cotações"));
+
+    updateCotation();
+
+    ui.showSidebar(outputClose.setTitle("Atualizando cotações"));
+
+
+}
+
+function formatCNPJ(cnpj) {
+    if (cnpj.indexOf("F") !== -1) {
+        const cnpj_format = cnpj.substr("F", 20).trim().slice(2, 20);
+        return cnpj_format;
+    } else {
+        return cnpj;
+    }
+}
+
+function updatePerformance(value) {
+    const Sheet = SpreadsheetApp.getActiveSpreadsheet();
+
+    const GuidePerformance = Sheet.getSheetByName(ABAS.EVOLUCAO_PATRIMONIAL);
+
+    const last = GuidePerformance.getRange("Z1").getValue() + 2;
+    const CellPerformance = GuidePerformance.getRange(`G${last}`);
+    CellPerformance.setValue(value)
+}
+
+function hidden() {
+    const Sheet = SpreadsheetApp.getActiveSpreadsheet();
+    const GuideDashboard = Sheet.getSheetByName(ABAS.DASHBOARD);
+    let key = GuideDashboard.getRange("A1").getValue() || -1;
+    key = key * -1;
+    GuideDashboard.getRange("A1").setValue(key);
+}
+
+function getFrases(trigger) {
+    const index = Math.floor(Math.random() * FRASES.length);
+    return FRASES[index];
+}
+
+function checkVersion(version, trigger) {
+    try {
+        const cachedMessage = getCache(version, "message");
+        if (cachedMessage) {
+            return cachedMessage;
+        }
+        const response = UrlFetchApp.fetch("https://bombolao-v2.rj.r.appspot.com/core/api/version/message");
+        const message = JSON.parse(response.getContentText());
+
+        if (version !== message.currentVersion) {
+            setCache(version, message, true, 60);
+            return message.message;
+        }
+        return getFrases(trigger);
+    } catch {
+        return getFrases(trigger);
+    }
+}
+
+/**
+ * Desenvolvimento: Ricardo Alvarenga
+ * Contato: ricardoinvesting10@gmail.com
+ * Youtube: https://www.youtube.com/@ricardoinvesting
+ * PIX: ricardoinvesting10@gmail.com
+ *             _                   _       _                     _   _             
+    ____      (_)                 | |     (_)                   | | (_)            
+   / __ \ _ __ _  ___ __ _ _ __ __| | ___  _ _ ____   _____  ___| |_ _ _ __   __ _ 
+  / / _` | '__| |/ __/ _` | '__/ _` |/ _ \| | '_ \ \ / / _ \/ __| __| | '_ \ / _` |
+ | | (_| | |  | | (_| (_| | | | (_| | (_) | | | | \ V /  __/\__ \ |_| | | | | (_| |
+  \ \__,_|_|  |_|\___\__,_|_|  \__,_|\___/|_|_| |_|\_/ \___||___/\__|_|_| |_|\__, |
+   \____/                                                                     __/ |
+                                                                             |___/ 
+ */
+
+
+const PRINT_OPTIONS = {
+    'size': 7,               // paper size. 0=letter, 1=tabloid, 2=Legal, 3=statement, 4=executive, 5=folio, 6=A3, 7=A4, 8=A5, 9=B4, 10=B
+    'fzr': false,            // repeat row headers
+    'portrait': false,        // false=landscape
+    'fitw': true,            // fit window or actual size
+    'gridlines': false,      // show gridlines
+    'printtitle': false,
+    'sheetnames': false,
+    'pagenum': 'UNDEFINED',  // CENTER = show page numbers / UNDEFINED = do not show
+    'attachment': false
+}
+
+const PDF_OPTS = objectToQueryString(PRINT_OPTIONS);
+/**
+ * Desenvolvimento: Ricardo Alvarenga
+ * Contato: ricardoinvesting10@gmail.com
+ * Youtube: https://www.youtube.com/@ricardoinvesting
+ * PIX: ricardoinvesting10@gmail.com
+ *             _                   _       _                     _   _             
+    ____      (_)                 | |     (_)                   | | (_)            
+   / __ \ _ __ _  ___ __ _ _ __ __| | ___  _ _ ____   _____  ___| |_ _ _ __   __ _ 
+  / / _` | '__| |/ __/ _` | '__/ _` |/ _ \| | '_ \ \ / / _ \/ __| __| | '_ \ / _` |
+ | | (_| | |  | | (_| (_| | | | (_| | (_) | | | | \ V /  __/\__ \ |_| | | | | (_| |
+  \ \__,_|_|  |_|\___\__,_|_|  \__,_|\___/|_|_| |_|\_/ \___||___/\__|_|_| |_|\__, |
+   \____/                                                                     __/ |
+                                                                             |___/ 
+ */
+
+function onOpen() {
+    const menu = SpreadsheetApp.getUi().createMenu("[@ricardoinvesting]");
+    menu.addSubMenu(SpreadsheetApp.getUi().createMenu("🔹 B3")
+        .addItem('Importar Lançamentos da B3', 'importarDadosB3'))
+    menu.addSubMenu(SpreadsheetApp.getUi().createMenu("🔹 Acionadores")
+        .addItem('Criar Acionadores', 'createTrigger')
+        .addSeparator()
+        .addItem('⛔ Remover Acionadores', 'createTrigger'))
+    menu.addItem('🔹 Lançamentos', 'showReleases')
+    menu.addSubMenu(SpreadsheetApp.getUi().createMenu("🔹 Automações Interessantes")
+        .addItem('Atualizar Cotação', 'updateCotationManual')
+        .addItem('Exibir/Esconder Valores', 'hidden')
+        .addItem('Exibir Apenas Abas Principais', 'onlyTabsDefault')
+        .addSeparator()
+        .addItem("⛔ Resetar Planilha", "clearAll"))
+    menu.addSeparator();
+    menu.addItem("🔹 IRPF", "showIR");
+    menu.addToUi();
+    const Planilha = SpreadsheetApp.getActiveSpreadsheet();
+    const TD = Planilha.getSheetByName(ABAS.TABELA_DINAMICA);
+    const date = new Date();
+    TD.getRange("AP2").setValue(date.getMilliseconds() + date.getSeconds() + date.getMinutes());
+}
+
+function clearAll() {
+    const ui = SpreadsheetApp.getUi();
+    let response = ui.alert(
+        'Atenção! Deseja realmente limpar a planilha? Esta ação é irreversível.',
+        ui.ButtonSet.YES_NO
+    );
+    if (response === ui.Button.YES) {
+
+        const Planilha = SpreadsheetApp.getActiveSpreadsheet();
+        const GuiaB3 = Planilha.getSheetByName(ABAS.B3);
+        GuiaB3.getRange("I3").clearContent();
+        GuiaB3.getRange("J2").setValue(0);
+
+        const GuiaLancamentoB3 = Planilha.getSheetByName(ABAS.LANCAMENTO_B3);
+        GuiaLancamentoB3.getRange("C2:E").clearContent()
+        GuiaLancamentoB3.getRange("I2:L").clearContent();
+        GuiaLancamentoB3.getRange("P2:P").clearContent();
+        GuiaLancamentoB3.getRange("R2:R").setValue(false);
+        GuiaLancamentoB3.getRange("S2:S").clearContent();
+
+        const GuiaLancamentoManual = Planilha.getSheetByName(ABAS.LANCAMENTO_MANUAL);
+        GuiaLancamentoManual.getRange("C2:E").clearContent();
+        GuiaLancamentoManual.getRange("I2:L").clearContent();
+        GuiaLancamentoManual.getRange("P2:P").clearContent();
+        GuiaLancamentoManual.getRange("R2:R").setValue(false);
+        GuiaLancamentoManual.getRange("S2:S").clearContent();
+
+        const GuiaProventos = Planilha.getSheetByName(ABAS.PROVENTOS);
+        GuiaProventos.getRange("B4:E").clearContent();
+        GuiaProventos.getRange("G4:I").clearContent();
+
+        const GuiaEvolucao = Planilha.getSheetByName(ABAS.EVOLUCAO_PATRIMONIAL);
+        GuiaEvolucao.getRange("D2:E").clearContent();
+        GuiaEvolucao.getRange("G2:G").clearContent();
+
+        const GuiaVendas = Planilha.getSheetByName(ABAS.VENDAS);
+        GuiaVendas.getRange("B4:C").clearContent();
+        GuiaVendas.getRange("H4:M").clearContent();
+
+        const GuiaCotacao = Planilha.getSheetByName(ABAS.COTACAO);
+        GuiaCotacao.getRange("D2:D").clearContent();
+        GuiaCotacao.getRange("E2:E").clearContent();
+
+        const GuiaDarf = Planilha.getSheetByName(ABAS.DARF);
+        GuiaDarf.getRange("C18:C23").setValue(0);
+        GuiaDarf.getRange("K18:K24").setValue(0);
+
+        const GuiaMo = Planilha.getSheetByName(ABAS.MEUS_OBJETIVOS);
+        GuiaMo.getRange("B2:B21").setValue('PENDENTE');
+        GuiaMo.getRange("E2:E21").setValue('-');
+
+        const GuiaPT = Planilha.getSheetByName(ABAS.PRECO_TETO);
+        GuiaPT.getRange("B4:B105").clearContent();
+        GuiaPT.getRange("G4:G105").clearContent();
+        GuiaPT.getRange("H4:H105").clearContent();
+
+        const GuiaBA = Planilha.getSheetByName(ABAS.BALANCEAMENTO_ATIVO);
+        GuiaBA.getRange("B4:B103").clearContent();
+        GuiaBA.getRange("G4:G103").clearContent();
+
+        const GuiaBC = Planilha.getSheetByName(ABAS.BALANCEAMENTO);
+        GuiaBC.getRange("B4:B103").clearContent();
+        GuiaBC.getRange("G4:G103").clearContent();
+
+        const GuiaAM = Planilha.getSheetByName(ABAS.AMORTIZACOES);
+        GuiaAM.getRange("A2:A").clearContent();
+        GuiaAM.getRange("B4:B").clearContent();
+        GuiaAM.getRange("C4:C").clearContent();
+
+        const GuiaSimuladorPm = Planilha.getSheetByName(ABAS.SIMULADOR_PM);
+        GuiaSimuladorPm.getRange("J4:L").clearContent();
+
+        const GuiaLancamentoCDB = Planilha.getSheetByName(ABAS.LANCAMENTO_CDB);
+        GuiaLancamentoCDB.getRange("C2:J").clearContent();
+
+        const GuiaImport = Planilha.getSheetByName(ABAS.IMPORT);
+        GuiaImport.getRange("D5:D19").setValue(false);
+
+        const GuiaIR = Planilha.getSheetByName(ABAS.BENS_DIREITOS);
+        GuiaIR.getRange("AC2").clearContent();
+
+        return Browser.msgBox("Reset realizado com sucesso!");
+    }
+
+}
+
+function onlyTabsDefault() {
+
+    const Planilha = SpreadsheetApp.getActiveSpreadsheet();
+    //show
+    Planilha.getSheetByName(ABAS.INFORMACOES).showSheet();
+    Planilha.getSheetByName(ABAS.B3).showSheet();
+    Planilha.getSheetByName(ABAS.DASHBOARD).showSheet();
+    Planilha.getSheetByName(ABAS.MEUS_ATIVOS).showSheet();
+    Planilha.getSheetByName(ABAS.LANCAMENTO_B3).showSheet();
+    Planilha.getSheetByName(ABAS.LANCAMENTO_MANUAL).showSheet();
+    Planilha.getSheetByName(ABAS.VENDAS).showSheet();
+    Planilha.getSheetByName(ABAS.DARF).showSheet();
+    Planilha.getSheetByName(ABAS.PROVENTOS).showSheet();
+    Planilha.getSheetByName(ABAS.DASHBOARD_CONSOLIDADO).showSheet();
+    //hiden
+    Planilha.getSheetByName(ABAS.LANCAMENTO_CDB).hideSheet();
+    Planilha.getSheetByName(ABAS.EVOLUCAO_PATRIMONIAL).hideSheet();
+    Planilha.getSheetByName(ABAS.AMORTIZACOES).hideSheet();
+    Planilha.getSheetByName(ABAS.CALENDARIO).hideSheet();
+    Planilha.getSheetByName(ABAS.BALANCEAMENTO).hideSheet();
+    Planilha.getSheetByName(ABAS.BALANCEAMENTO_ATIVO).hideSheet();
+    Planilha.getSheetByName(ABAS.SIMULADOR_PM).hideSheet();
+    Planilha.getSheetByName(ABAS.PRECO_TETO).hideSheet();
+    Planilha.getSheetByName(ABAS.MEUS_OBJETIVOS).hideSheet();
+    Planilha.getSheetByName(ABAS.BENS_DIREITOS).hideSheet();
+    Planilha.getSheetByName(ABAS.BASE_DADOS).hideSheet();
+    Planilha.getSheetByName(ABAS.TABELA_DINAMICA).hideSheet();
+    Planilha.getSheetByName(ABAS.TABELA_DINAMICA_CONSOLIDADO).hideSheet();
+    Planilha.getSheetByName(ABAS.CODIGOS_IRPF).hideSheet();
+    Planilha.getSheetByName(ABAS.COTACAO).hideSheet();
+    Planilha.getSheetByName(ABAS.ALTAS).hideSheet();
+    Planilha.getSheetByName(ABAS.MOVIMENTACOES).hideSheet();
+    Planilha.getSheetByName(ABAS.MOVIMENTACOES_CDB).hideSheet();
+    Planilha.getSheetByName(ABAS.IMPORT).hideSheet();
+
+}
+
+function printSelectedRange() {
+    SpreadsheetApp.flush();
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const sheet = ss.getActiveSheet();
+
+    const Planilha = SpreadsheetApp.getActiveSpreadsheet();
+    const IR = Planilha.getSheetByName(ABAS.BENS_DIREITOS);
+
+    const range = sheet.getRange(`F3:W103`);
+
+    const gid = IR.getSheetId();
+    const printRange = objectToQueryString({
+        'c1': range.getColumn() - 1,
+        'r1': range.getRow() - 1,
+        'c2': range.getColumn() + range.getWidth() - 1,
+        'r2': range.getRow() + range.getHeight() - 1
+    });
+    const url = ss.getUrl().replace(/edit$/, '') + 'export?format=pdf' + PDF_OPTS + printRange + "&gid=" + gid;
+
+    const htmlTemplate = HtmlService.createTemplateFromFile('@ricardoinvesting-html');
+    htmlTemplate.url = url;
+    SpreadsheetApp.getUi().showModalDialog(htmlTemplate.evaluate().setHeight(10).setWidth(100), 'Preparando impressão...');
+}
+
+function objectToQueryString(obj) {
+    return Object.keys(obj).map(function (key) {
+        return Utilities.formatString('&%s=%s', key, obj[key]);
+    }).join('');
+}
+
+/**
+ * Desenvolvimento: Ricardo Alvarenga
+ * Contato: ricardoinvesting10@gmail.com
+ * Youtube: https://www.youtube.com/@ricardoinvesting
+ * PIX: ricardoinvesting10@gmail.com
+ *             _                   _       _                     _   _             
+    ____      (_)                 | |     (_)                   | | (_)            
+   / __ \ _ __ _  ___ __ _ _ __ __| | ___  _ _ ____   _____  ___| |_ _ _ __   __ _ 
+  / / _` | '__| |/ __/ _` | '__/ _` |/ _ \| | '_ \ \ / / _ \/ __| __| | '_ \ / _` |
+ | | (_| | |  | | (_| (_| | | | (_| | (_) | | | | \ V /  __/\__ \ |_| | | | | (_| |
+  \ \__,_|_|  |_|\___\__,_|_|  \__,_|\___/|_|_| |_|\_/ \___||___/\__|_|_| |_|\__, |
+   \____/                                                                     __/ |
+                                                                             |___/ 
+ */
+
+function TESOURODIRETO(trigger = 1) {
+    try {
+        let srcURL = "https://www.tesourodireto.com.br/json/br/com/b3/tesourodireto/service/api/treasurybondsinfo.json";
+        let jsonData = UrlFetchApp.fetch(srcURL);
+        let parsedData = JSON.parse(jsonData.getContentText()).response;
+        let tesouros = {};
+        parsedData.TrsrBdTradgList.forEach((bond) => {
+            const currBondName = bond.TrsrBd.nm;
+            // tesouros[currBondName.toUpperCase()] = bond.TrsrBd.untrRedVal;      
+            tesouros[currBondName.toUpperCase()] = bond.TrsrBd.untrInvstmtVal;
+        })
+
+        return JSON.stringify(tesouros);
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+function getTesouro(ticker = "TESOURO PREFIXADO 2025") {
+    // const code = ticker.toUpperCase();
+    // const data = JSON.parse(json);
+    const cotation = getTesouroService(ticker);
+    if (cotation) {
+        return cotation
+        // return data[code];
+    } else {
+        throw new Error("Not Found");
+    }
+
+}
+
+function getTesouroService(ticker, trigger = null) {
+    try {
+        const cached = getCache(ticker, "value");
+        if (cached) {
+            return cached;
+        }
+        const response = UrlFetchApp.fetch(`https://bombolao-v2.rj.r.appspot.com/core/api/cotation?ticker=${ticker}`);
+        const cotation = JSON.parse(response.getContentText());
+        setCache(ticker, cotation, cotation && "value" in cotation, 25);
+        return cotation.value;
+
+    } catch {
+        throw new Error("Not Found");
+    }
+}
+
+/**
+ * Desenvolvimento: Ricardo Alvarenga
+ * Contato: ricardoinvesting10@gmail.com
+ * Youtube: https://www.youtube.com/@ricardoinvesting
+ * PIX: ricardoinvesting10@gmail.com
+ *             _                   _       _                     _   _             
+    ____      (_)                 | |     (_)                   | | (_)            
+   / __ \ _ __ _  ___ __ _ _ __ __| | ___  _ _ ____   _____  ___| |_ _ _ __   __ _ 
+  / / _` | '__| |/ __/ _` | '__/ _` |/ _ \| | '_ \ \ / / _ \/ __| __| | '_ \ / _` |
+ | | (_| | |  | | (_| (_| | | | (_| | (_) | | | | \ V /  __/\__ \ |_| | | | | (_| |
+  \ \__,_|_|  |_|\___\__,_|_|  \__,_|\___/|_|_| |_|\_/ \___||___/\__|_|_| |_|\__, |
+   \____/                                                                     __/ |
+                                                                             |___/ 
+ */
+
+function TESOURODIRETO(trigger = 1) {
+    try {
+        let srcURL = "https://www.tesourodireto.com.br/json/br/com/b3/tesourodireto/service/api/treasurybondsinfo.json";
+        let jsonData = UrlFetchApp.fetch(srcURL);
+        let parsedData = JSON.parse(jsonData.getContentText()).response;
+        let tesouros = {};
+        parsedData.TrsrBdTradgList.forEach((bond) => {
+            const currBondName = bond.TrsrBd.nm;
+            // tesouros[currBondName.toUpperCase()] = bond.TrsrBd.untrRedVal;      
+            tesouros[currBondName.toUpperCase()] = bond.TrsrBd.untrInvstmtVal;
+        })
+
+        return JSON.stringify(tesouros);
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+function getTesouro(ticker = "TESOURO PREFIXADO 2025") {
+    // const code = ticker.toUpperCase();
+    // const data = JSON.parse(json);
+    const cotation = getTesouroService(ticker);
+    if (cotation) {
+        return cotation
+        // return data[code];
+    } else {
+        throw new Error("Not Found");
+    }
+
+}
+
+function getTesouroService(ticker, trigger = null) {
+    try {
+        const cached = getCache(ticker, "value");
+        if (cached) {
+            return cached;
+        }
+        const response = UrlFetchApp.fetch(`https://bombolao-v2.rj.r.appspot.com/core/api/cotation?ticker=${ticker}`);
+        const cotation = JSON.parse(response.getContentText());
+        setCache(ticker, cotation, cotation && "value" in cotation, 25);
+        return cotation.value;
+
+    } catch {
+        throw new Error("Not Found");
+    }
+}
+
+/**
+ * Desenvolvimento: Ricardo Alvarenga
+ * Contato: ricardoinvesting10@gmail.com
+ * Youtube: https://www.youtube.com/@ricardoinvesting
+ * PIX: ricardoinvesting10@gmail.com
+ *             _                   _       _                     _   _             
+    ____      (_)                 | |     (_)                   | | (_)            
+   / __ \ _ __ _  ___ __ _ _ __ __| | ___  _ _ ____   _____  ___| |_ _ _ __   __ _ 
+  / / _` | '__| |/ __/ _` | '__/ _` |/ _ \| | '_ \ \ / / _ \/ __| __| | '_ \ / _` |
+ | | (_| | |  | | (_| (_| | | | (_| | (_) | | | | \ V /  __/\__ \ |_| | | | | (_| |
+  \ \__,_|_|  |_|\___\__,_|_|  \__,_|\___/|_|_| |_|\_/ \___||___/\__|_|_| |_|\__, |
+   \____/                                                                     __/ |
+                                                                             |___/ 
+ */
 
 function composeNode(node, property, value) {
     if (node.hasOwnProperty(property)) {
@@ -350,741 +893,6 @@ function getCache(key, keyValue) {
 function removeCache(key) {
     const cache = CacheService.getScriptCache();
     cache.remove(key);
-}
-
-/**
- * Desenvolvimento: Ricardo Alvarenga
- * Contato: ricardoinvesting10@gmail.com
- * Youtube: https://www.youtube.com/@ricardoinvesting
- * PIX: ricardoinvesting10@gmail.com
- *             _                   _       _                     _   _             
-    ____      (_)                 | |     (_)                   | | (_)            
-   / __ \ _ __ _  ___ __ _ _ __ __| | ___  _ _ ____   _____  ___| |_ _ _ __   __ _ 
-  / / _` | '__| |/ __/ _` | '__/ _` |/ _ \| | '_ \ \ / / _ \/ __| __| | '_ \ / _` |
- | | (_| | |  | | (_| (_| | | | (_| | (_) | | | | \ V /  __/\__ \ |_| | | | | (_| |
-  \ \__,_|_|  |_|\___\__,_|_|  \__,_|\___/|_|_| |_|\_/ \___||___/\__|_|_| |_|\__, |
-   \____/                                                                     __/ |
-                                                                             |___/ 
- */
-function deleteTrigger() {
-    // Loop over all triggers.
-    const allTriggers = ScriptApp.getProjectTriggers();
-    for (let index = 0; index < allTriggers.length; index++) {
-        // If the current trigger is the correct one, delete it.
-        // if (allTriggers[index].getUniqueId() === triggerId) {
-        ScriptApp.deleteTrigger(allTriggers[index]);
-        // break;
-    }
-}
-
-function createTrigger() {
-    deleteTrigger()
-    ScriptApp.newTrigger('updateCotation')
-        .timeBased()
-        .everyHours(1)
-        .create();
-
-    ScriptApp.newTrigger('getEvolutionRentability')
-        .timeBased()
-        .atHour(9)
-        .everyDays(1)
-        .create();
-
-    // console.log(triggerUpdateCotationId.getUniqueId(), triggerEvolutionId.getUniqueId());
-}
-
-function getEvolutionRentability() {
-    const Planilha = SpreadsheetApp.getActiveSpreadsheet();
-    const Guia = Planilha.getSheetByName(ABAS.DASHBOARD);
-    const Cell = Guia.getRange("A4");
-    const days = [1, 2, 3, 4, 5];
-
-    if (days.includes(new Date().getDay())) {
-        const now = new Date().getHours()
-        if (now === 9 || now === 10) {
-            const currentMonth = composeIndiceDate(0)
-            const oldMonth = composeIndiceDate(1)
-            // Utilities.sleep(120000);// uma pausa de 2min para atualizar os dados antes de capturar as informações
-            const value = Guia.getRange('A5').getValue();
-            Cell.setValue(value);
-            const acoes = Guia.getRange("E9").getValue(); // acoes
-            Guia.getRange("A10").setValue(acoes);
-            const fiis = Guia.getRange("E11").getValue(); // fiis
-            Guia.getRange("A12").setValue(fiis);
-            const fiinfra = Guia.getRange("E13").getValue(); // fiinfra
-            Guia.getRange("A14").setValue(fiinfra);
-            const fiagro = Guia.getRange("E15").getValue(); // fiagro
-            Guia.getRange("A16").setValue(fiagro);
-            const rendafixa = Guia.getRange("E17").getValue(); // rendafixa
-            Guia.getRange("A18").setValue(rendafixa);
-            const etf = Guia.getRange("E19").getValue(); // etf
-            Guia.getRange("A20").setValue(etf);
-            const bdr = Guia.getRange("E21").getValue(); // bdr
-            Guia.getRange("A22").setValue(bdr);
-            const cripto = Guia.getRange("E23").getValue(); // cripto
-            Guia.getRange("A24").setValue(cripto);
-            const stocks = Guia.getRange("E26").getValue(); // stocks
-            Guia.getRange("A27").setValue(stocks);
-            const reits = Guia.getRange("E28").getValue(); // reits
-            Guia.getRange("A29").setValue(reits);
-            const etfexterior = Guia.getRange("E30").getValue(); // etfexterior
-            Guia.getRange("A31").setValue(etfexterior);
-
-            if (currentMonth > oldMonth) {
-                updatePerformance(value);
-            }
-        }
-    }
-}
-
-function updateCotation() {
-    const classStranger = [CLASS.ETF_EUA, CLASS.REIT, CLASS.STOCK]
-    const Sheet = SpreadsheetApp.getActiveSpreadsheet();
-
-    let initialLine = 2;
-    let totalRegister = 0;
-
-    const GuideCotation = Sheet.getSheetByName(ABAS.COTACAO);
-    Utilities.sleep(1000);
-
-    totalRegister = getTotalRegisterInGuide(GuideCotation);
-    let outputClose = null;
-    let ui = null;
-    console.log("[🔨] - Iniciando atualização de cotação");
-    for (var i = initialLine; i <= totalRegister + 1; i++) {
-        const id = GuideCotation.getRange(i, 1).getValue();
-        const type = GuideCotation.getRange(i, 2).getValue();
-        let value = GuideCotation.getRange(i, 3).getValue(); // coluna cotacao (online)    
-        // const valuePvp = GuideCotation.getRange(i, 12).getValue(); // coluna pvp (online)
-        const reference = String("D") + i;
-        const referencePvpOffline = String("E") + i;
-        const CellPerformance = GuideCotation.getRange(reference);
-        // const CellReferencePvpOffline = GuideCotation.getRange(referencePvpOffline);
-        if (value !== "-") {
-            if (classStranger.includes(type)) {
-                const dolar = GuideCotation.getRange("F2").getValue();
-                CellPerformance.setValue(value * dolar);
-                // CellReferencePvpOffline.setValue("-");
-
-            } else {
-                CellPerformance.setValue(value);
-                // CellReferencePvpOffline.setValue("-");
-            }
-        }
-        console.log(`[✔] ---- ${type} (${id})`);
-    }
-
-    const dash = Sheet.getSheetByName(ABAS.DASHBOARD);
-    const formatedDate = Utilities.formatDate(new Date(), "GMT-3", "dd/MM/yyyy-HH:mm:ss");
-    dash.getRange("b4").setValue("🕔 Data da última cotação: " + formatedDate);
-    dash.getRange("a3").setValue(new Date().toTimeString());
-
-    const TD = Sheet.getSheetByName(ABAS.TABELA_DINAMICA);
-    const date = new Date();
-    TD.getRange("AP2").setValue(date.getMilliseconds() + date.getSeconds() + date.getMinutes());
-
-}
-
-function updateCotationManual() {
-
-    const outputClose = HtmlService.createHtmlOutput('<script>google.script.host.close();</script>');
-    const ui = SpreadsheetApp.getUi();
-    ui.showSidebar(HtmlService.createHtmlOutputFromFile("@ricardoinvesting-cotation-html")
-        .setTitle("Atualizando cotações"));
-
-    updateCotation();
-
-    ui.showSidebar(outputClose.setTitle("Atualizando cotações"));
-
-
-}
-
-function formatCNPJ(cnpj) {
-    if (cnpj.indexOf("F") !== -1) {
-        const cnpj_format = cnpj.substr("F", 20).trim().slice(2, 20);
-        return cnpj_format;
-    } else {
-        return cnpj;
-    }
-}
-
-function updatePerformance(value) {
-    const Sheet = SpreadsheetApp.getActiveSpreadsheet();
-
-    const GuidePerformance = Sheet.getSheetByName(ABAS.EVOLUCAO_PATRIMONIAL);
-
-    const last = GuidePerformance.getRange("Z1").getValue() + 2;
-    const CellPerformance = GuidePerformance.getRange(`G${last}`);
-    CellPerformance.setValue(value)
-}
-
-function hidden() {
-    const Sheet = SpreadsheetApp.getActiveSpreadsheet();
-    const GuideDashboard = Sheet.getSheetByName(ABAS.DASHBOARD);
-    let key = GuideDashboard.getRange("A1").getValue() || -1;
-    key = key * -1;
-    GuideDashboard.getRange("A1").setValue(key);
-}
-
-function getFrases(trigger) {
-    const index = Math.floor(Math.random() * FRASES.length);
-    return FRASES[index];
-}
-
-function checkVersion(version, trigger) {
-    try {
-        const cachedMessage = getCache(version, "message");
-        if (cachedMessage) {
-            return cachedMessage;
-        }
-        const response = UrlFetchApp.fetch("https://bombolao-v2.rj.r.appspot.com/core/api/version/message");
-        const message = JSON.parse(response.getContentText());
-
-        if (version !== message.currentVersion) {
-            setCache(version, message, true, 60);
-            return message.message;
-        }
-        return getFrases(trigger);
-    } catch {
-        return getFrases(trigger);
-    }
-}
-
-
-/**
- * Desenvolvimento: Ricardo Alvarenga
- * Contato: ricardoinvesting10@gmail.com
- * Youtube: https://www.youtube.com/@ricardoinvesting
- * PIX: ricardoinvesting10@gmail.com
- *             _                   _       _                     _   _             
-    ____      (_)                 | |     (_)                   | | (_)            
-   / __ \ _ __ _  ___ __ _ _ __ __| | ___  _ _ ____   _____  ___| |_ _ _ __   __ _ 
-  / / _` | '__| |/ __/ _` | '__/ _` |/ _ \| | '_ \ \ / / _ \/ __| __| | '_ \ / _` |
- | | (_| | |  | | (_| (_| | | | (_| | (_) | | | | \ V /  __/\__ \ |_| | | | | (_| |
-  \ \__,_|_|  |_|\___\__,_|_|  \__,_|\___/|_|_| |_|\_/ \___||___/\__|_|_| |_|\__, |
-   \____/                                                                     __/ |
-                                                                             |___/ 
- */
-
-
-const PRINT_OPTIONS = {
-    'size': 7,               // paper size. 0=letter, 1=tabloid, 2=Legal, 3=statement, 4=executive, 5=folio, 6=A3, 7=A4, 8=A5, 9=B4, 10=B
-    'fzr': false,            // repeat row headers
-    'portrait': false,        // false=landscape
-    'fitw': true,            // fit window or actual size
-    'gridlines': false,      // show gridlines
-    'printtitle': false,
-    'sheetnames': false,
-    'pagenum': 'UNDEFINED',  // CENTER = show page numbers / UNDEFINED = do not show
-    'attachment': false
-}
-
-const PDF_OPTS = objectToQueryString(PRINT_OPTIONS);
-
-// function onOpen(e) {
-//   SpreadsheetApp.getUi().createMenu('Print...').addItem('Print selected range', 'printSelectedRange').addToUi();
-// }
-
-function printSelectedRange() {
-    SpreadsheetApp.flush();
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
-    const sheet = ss.getActiveSheet();
-
-    const Planilha = SpreadsheetApp.getActiveSpreadsheet();
-    const IR = Planilha.getSheetByName(ABAS.BENS_DIREITOS);
-
-    const range = sheet.getRange(`F3:W103`);
-
-    const gid = IR.getSheetId();
-    const printRange = objectToQueryString({
-        'c1': range.getColumn() - 1,
-        'r1': range.getRow() - 1,
-        'c2': range.getColumn() + range.getWidth() - 1,
-        'r2': range.getRow() + range.getHeight() - 1
-    });
-    const url = ss.getUrl().replace(/edit$/, '') + 'export?format=pdf' + PDF_OPTS + printRange + "&gid=" + gid;
-
-    const htmlTemplate = HtmlService.createTemplateFromFile('@ricardoinvesting-html');
-    htmlTemplate.url = url;
-    SpreadsheetApp.getUi().showModalDialog(htmlTemplate.evaluate().setHeight(10).setWidth(100), 'Preparando impressão...');
-}
-
-function objectToQueryString(obj) {
-    return Object.keys(obj).map(function (key) {
-        return Utilities.formatString('&%s=%s', key, obj[key]);
-    }).join('');
-}
-
-/**
- * Desenvolvimento: Ricardo Alvarenga
- * Contato: ricardoinvesting10@gmail.com
- * Youtube: https://www.youtube.com/@ricardoinvesting
- * PIX: ricardoinvesting10@gmail.com
- *             _                   _       _                     _   _             
-    ____      (_)                 | |     (_)                   | | (_)            
-   / __ \ _ __ _  ___ __ _ _ __ __| | ___  _ _ ____   _____  ___| |_ _ _ __   __ _ 
-  / / _` | '__| |/ __/ _` | '__/ _` |/ _ \| | '_ \ \ / / _ \/ __| __| | '_ \ / _` |
- | | (_| | |  | | (_| (_| | | | (_| | (_) | | | | \ V /  __/\__ \ |_| | | | | (_| |
-  \ \__,_|_|  |_|\___\__,_|_|  \__,_|\___/|_|_| |_|\_/ \___||___/\__|_|_| |_|\__, |
-   \____/                                                                     __/ |
-                                                                             |___/ 
- */
-
-function TESOURODIRETO(trigger = 1) {
-    try {
-        let srcURL = "https://www.tesourodireto.com.br/json/br/com/b3/tesourodireto/service/api/treasurybondsinfo.json";
-        let jsonData = UrlFetchApp.fetch(srcURL);
-        let parsedData = JSON.parse(jsonData.getContentText()).response;
-        let tesouros = {};
-        parsedData.TrsrBdTradgList.forEach((bond) => {
-            const currBondName = bond.TrsrBd.nm;
-            // tesouros[currBondName.toUpperCase()] = bond.TrsrBd.untrRedVal;      
-            tesouros[currBondName.toUpperCase()] = bond.TrsrBd.untrInvstmtVal;
-        })
-
-        return JSON.stringify(tesouros);
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-function getTesouro(ticker = "TESOURO PREFIXADO 2025") {
-    // const code = ticker.toUpperCase();
-    // const data = JSON.parse(json);
-    const cotation = getTesouroService(ticker);
-    if (cotation) {
-        return cotation
-        // return data[code];
-    } else {
-        throw new Error("Not Found");
-    }
-
-}
-
-function getTesouroService(ticker, trigger = null) {
-    try {
-        const cached = getCache(ticker, "value");
-        if (cached) {
-            return cached;
-        }
-        const response = UrlFetchApp.fetch(`https://bombolao-v2.rj.r.appspot.com/core/api/cotation?ticker=${ticker}`);
-        const cotation = JSON.parse(response.getContentText());
-        setCache(ticker, cotation, cotation && "value" in cotation, 25);
-        return cotation.value;
-
-    } catch {
-        throw new Error("Not Found");
-    }
-}
-
-/**
- * Desenvolvimento: Ricardo Alvarenga
- * Contato: ricardoinvesting10@gmail.com
- * Youtube: https://www.youtube.com/@ricardoinvesting
- * PIX: ricardoinvesting10@gmail.com
- *             _                   _       _                     _   _             
-    ____      (_)                 | |     (_)                   | | (_)            
-   / __ \ _ __ _  ___ __ _ _ __ __| | ___  _ _ ____   _____  ___| |_ _ _ __   __ _ 
-  / / _` | '__| |/ __/ _` | '__/ _` |/ _ \| | '_ \ \ / / _ \/ __| __| | '_ \ / _` |
- | | (_| | |  | | (_| (_| | | | (_| | (_) | | | | \ V /  __/\__ \ |_| | | | | (_| |
-  \ \__,_|_|  |_|\___\__,_|_|  \__,_|\___/|_|_| |_|\_/ \___||___/\__|_|_| |_|\__, |
-   \____/                                                                     __/ |
-                                                                             |___/ 
- */
-
-// function calcPMFullByTickerAndDate(startDate=new Date("2024-01-02"), ticker="PLD", trigger="") {
-//   try {
-//     const startDateFormated = new Date(startDate).toISOString();
-//     const keyCache = `${ticker}-${new Date(startDate).getDate()+1}-${new Date(startDate).getMonth()+1}-${new Date(startDate).getFullYear()}`;    
-//     const cached = getCache(keyCache,ticker);
-//     if (cached) { // se não houver cache
-//       return cached;
-//     }
-//     const initialLine = 0; 
-//     const sheet = SpreadsheetApp.getActiveSpreadsheet();
-//     const GuiaInvestimento = sheet.getSheetByName(ABAS.MOVIMENTACOES);   
-//     const dataRows = getDataRange(GuiaInvestimento,"C", 2, "A", 2, "V");    
-//     const tickersId = [];
-//     const tickers = {};
-
-//     for (let i = initialLine; i <= dataRows.length-1; i++) {
-//           const rowTicker = dataRows[i][2];
-//           const date = new Date(dataRows[i][3]).toISOString();                    
-//           if(rowTicker === ticker && date <= startDateFormated) {
-//             if (tickersId.includes(rowTicker)) {      
-//               tickers[rowTicker].movimentations.push(
-//                 {
-//                   data: date,
-//                   typeOperation: dataRows[i][4],
-//                   qtd: dataRows[i][5],
-//                   investedAmount: dataRows[i][9],
-//                   cambio: dataRows[i][15],
-//                   classe: dataRows[i][1],
-//                 }
-//               );
-//             }else {            
-//               tickers[rowTicker] = { "movimentations": [
-//                 {
-//                       data: date,
-//                       typeOperation: dataRows[i][4],
-//                       qtd: dataRows[i][5],
-//                       investedAmount: dataRows[i][9],
-//                       cambio: dataRows[i][15],
-//                       classe: dataRows[i][1],
-//                     }
-//               ]};
-//               tickersId.push(rowTicker);
-//             }
-//           }
-
-//     }
-
-//     const pm = {};
-//     const tickerLoopIds = Object.keys(tickers);
-//     const averageCambio = 0;
-//     tickerLoopIds.forEach(id => {      
-//       const movimentation = tickers[id].movimentations;
-//       const dataSorted = movimentation.sort((p1,p2) => (p1.data < p2.data) ? -1 : (p1.data > p2.data) ? 1 : 0);
-//       const dataGroup = {};
-//       dataSorted.forEach(function(item){
-//         const list = dataGroup[item.data];
-
-//         if(list){
-//             list.push(item);
-//         } else{
-//             dataGroup[item.data] = [item];
-//         }
-//       });
-
-//       const dates = Object.keys(dataGroup)
-//       let accumulatedTotal = 0;
-//       let accumulatedInvested = 0;
-//       let accumulatedAverageCambio = 0;
-//       let accumatedAverageCount = 0;      
-//       dates.forEach(date => {
-//         dataGroup[date].forEach(item => {
-//           const typeOperation = item.typeOperation;
-//           const qtd = item.qtd;
-//           const investedAmount = item.investedAmount;
-//           if (typeOperation === OPERATIONS.BONIFICACAO || typeOperation === OPERATIONS.COMPRA || typeOperation === OPERATIONS.COMPRA_DIREITOS) {
-//               accumulatedInvested = accumulatedInvested + investedAmount;
-//               accumulatedTotal = accumulatedTotal + qtd;
-//               accumulatedAverageCambio = accumulatedAverageCambio + item.cambio;
-//               accumatedAverageCount = accumatedAverageCount + 1;
-//           } else if (typeOperation === OPERATIONS.VENDA || typeOperation === OPERATIONS.VENDA_DIREITOS) {
-//             const tempPM = accumulatedInvested/accumulatedTotal;
-//             const tempTotal = accumulatedTotal - qtd;
-//             accumulatedInvested = tempPM * tempTotal;
-//             accumulatedTotal = tempTotal;
-//           }
-//         })
-//       });      
-
-//       if (accumulatedInvested && accumulatedTotal) {       
-//         pm[id] = accumulatedInvested / accumulatedTotal;
-//       } else {
-//         pm[id] = 0;
-//       }
-//       const classSelected = tickers[ticker]["movimentations"][0]["classe"] || null;
-//       if (CLASS_EXTERNAL_LIST.includes(classSelected)) {
-//         pm[id] = (accumulatedInvested / accumulatedTotal) * (accumulatedAverageCambio / accumatedAverageCount);
-
-//       } 
-
-//       });    
-
-//     // return JSON.stringify(pm);
-//     setCache(keyCache,pm, true, 30);
-//     return pm[ticker];
-
-//   } catch(error){
-//     console.log(error)
-//     return "-";
-//   }
-// }
-
-
-function calcPMFull(trigger = "") {
-    try {
-        const initialLine = 0;
-        const sheet = SpreadsheetApp.getActiveSpreadsheet();
-        const GuiaInvestimento = sheet.getSheetByName(ABAS.MOVIMENTACOES);
-        const dataRows = getDataRange(GuiaInvestimento, "C", 2, "A", 2, "V");
-
-        const tickersId = [];
-        const tickers = {};
-
-        for (let i = initialLine; i <= dataRows.length - 1; i++) {
-            const rowTicker = dataRows[i][2];
-            const date = new Date(dataRows[i][3]).toISOString();
-            if (tickersId.includes(rowTicker)) {
-                tickers[rowTicker].movimentations.push(
-                    {
-                        data: date,
-                        typeOperation: dataRows[i][4],
-                        qtd: dataRows[i][5],
-                        investedAmount: dataRows[i][9],
-                    }
-                );
-            } else {
-                tickers[rowTicker] = {
-                    "movimentations": [
-                        {
-                            data: date,
-                            typeOperation: dataRows[i][4],
-                            qtd: dataRows[i][5],
-                            investedAmount: dataRows[i][9],
-                        }
-                    ]
-                };
-                tickersId.push(rowTicker);
-            }
-
-        }
-
-        const pm = { "extension": {} };
-        const tickerLoopIds = Object.keys(tickers);
-        tickerLoopIds.forEach(id => {
-            const movimentation = tickers[id].movimentations;
-            const dataSorted = movimentation.sort((p1, p2) => (p1.data < p2.data) ? -1 : (p1.data > p2.data) ? 1 : 0);
-            const dataGroup = {};
-            dataSorted.forEach(function (item) {
-                const list = dataGroup[item.data];
-
-                if (list) {
-                    list.push(item);
-                } else {
-                    dataGroup[item.data] = [item];
-                }
-            });
-
-            const dates = Object.keys(dataGroup)
-            let accumulatedTotal = 0;
-            let accumulatedInvested = 0;
-            let lastDateFinishPosition = null;
-            dates.forEach(date => {
-                dataGroup[date].forEach(item => {
-                    const typeOperation = item.typeOperation;
-                    const qtd = item.qtd;
-                    const investedAmount = item.investedAmount;
-                    if (typeOperation === OPERATIONS.BONIFICACAO || typeOperation === OPERATIONS.COMPRA || typeOperation === OPERATIONS.COMPRA_DIREITOS) {
-                        accumulatedInvested = accumulatedInvested + investedAmount;
-                        accumulatedTotal = accumulatedTotal + qtd;
-                    } else if (typeOperation === OPERATIONS.VENDA || typeOperation === OPERATIONS.VENDA_DIREITOS) {
-                        const tempPM = accumulatedInvested / accumulatedTotal;
-                        const tempTotal = accumulatedTotal - qtd;
-                        if (tempTotal === 0) {
-                            const year = new Date(item.data).getFullYear();
-                            let month = new Date(item.data).getMonth();
-                            month = month > 8 ? month + 1 : `0${month + 1}`;
-                            lastDateFinishPosition = `${year}${month}`;
-                        }
-                        accumulatedInvested = tempPM * tempTotal;
-                        accumulatedTotal = tempTotal;
-                    }
-                })
-            });
-            pm["extension"][id] = {
-                "lastDateFinishPosition": lastDateFinishPosition
-            }
-            if (accumulatedInvested && accumulatedTotal) {
-                pm[id] = accumulatedInvested / accumulatedTotal;
-            } else {
-                pm[id] = 0;
-            }
-
-        });
-
-        return JSON.stringify(pm);
-
-    } catch (error) {
-        console.log(error)
-        return "-";
-    }
-}
-
-function getPM(jsonString, ticker) {
-    try {
-        const data = JSON.parse(jsonString);
-        if (ticker in data) {
-            return data[ticker];
-        }
-    } catch {
-        return "-";
-    }
-}
-
-function getExtensionData(jsonString, ticker, key) {
-    try {
-        const data = JSON.parse(jsonString);
-        if (ticker in data["extension"]) {
-            return data["extension"][ticker][key];
-        }
-    } catch {
-        return "-";
-    }
-}
-
-/**
- * Desenvolvimento: Ricardo Alvarenga
- * Contato: ricardoinvesting10@gmail.com
- * Youtube: https://www.youtube.com/@ricardoinvesting
- * PIX: ricardoinvesting10@gmail.com
- *             _                   _       _                     _   _             
-    ____      (_)                 | |     (_)                   | | (_)            
-   / __ \ _ __ _  ___ __ _ _ __ __| | ___  _ _ ____   _____  ___| |_ _ _ __   __ _ 
-  / / _` | '__| |/ __/ _` | '__/ _` |/ _ \| | '_ \ \ / / _ \/ __| __| | '_ \ / _` |
- | | (_| | |  | | (_| (_| | | | (_| | (_) | | | | \ V /  __/\__ \ |_| | | | | (_| |
-  \ \__,_|_|  |_|\___\__,_|_|  \__,_|\___/|_|_| |_|\_/ \___||___/\__|_|_| |_|\__, |
-   \____/                                                                     __/ |
-                                                                             |___/ 
- */
-
-function onOpen() {
-    const menu = SpreadsheetApp.getUi().createMenu("[@ricardoinvesting]");
-    menu.addSubMenu(SpreadsheetApp.getUi().createMenu("🔹 B3")
-        .addItem('Importar Lançamentos da B3', 'importarDadosB3'))
-    menu.addSubMenu(SpreadsheetApp.getUi().createMenu("🔹 Acionadores")
-        .addItem('Criar Acionadores', 'createTrigger')
-        .addSeparator()
-        .addItem('⛔ Remover Acionadores', 'createTrigger'))
-    menu.addItem('🔹 Lançamentos', 'showReleases')
-    menu.addSubMenu(SpreadsheetApp.getUi().createMenu("🔹 Automações Interessantes")
-        .addItem('Atualizar Cotação', 'updateCotationManual')
-        .addItem('Exibir/Esconder Valores', 'hidden')
-        .addItem('Exibir Apenas Abas Principais', 'onlyTabsDefault')
-        .addSeparator()
-        .addItem("⛔ Resetar Planilha", "clearAll"))
-    menu.addSeparator();
-    menu.addItem("🔹 IRPF", "showIR");
-    menu.addToUi();
-    const Planilha = SpreadsheetApp.getActiveSpreadsheet();
-    const TD = Planilha.getSheetByName(ABAS.TABELA_DINAMICA);
-    const date = new Date();
-    TD.getRange("AP2").setValue(date.getMilliseconds() + date.getSeconds() + date.getMinutes());
-}
-
-function clearAll() {
-    const ui = SpreadsheetApp.getUi();
-    let response = ui.alert(
-        'Atenção! Deseja realmente limpar a planilha? Esta ação é irreversível.',
-        ui.ButtonSet.YES_NO
-    );
-    if (response === ui.Button.YES) {
-
-        const Planilha = SpreadsheetApp.getActiveSpreadsheet();
-        const GuiaB3 = Planilha.getSheetByName(ABAS.B3);
-        GuiaB3.getRange("I3").clearContent();
-        GuiaB3.getRange("J2").setValue(0);
-
-        const GuiaLancamentoB3 = Planilha.getSheetByName(ABAS.LANCAMENTO_B3);
-        GuiaLancamentoB3.getRange("C2:E").clearContent()
-        GuiaLancamentoB3.getRange("I2:L").clearContent();
-        GuiaLancamentoB3.getRange("P2:P").clearContent();
-        GuiaLancamentoB3.getRange("R2:R").setValue(false);
-        GuiaLancamentoB3.getRange("S2:S").clearContent();
-
-        const GuiaLancamentoManual = Planilha.getSheetByName(ABAS.LANCAMENTO_MANUAL);
-        GuiaLancamentoManual.getRange("C2:E").clearContent();
-        GuiaLancamentoManual.getRange("I2:L").clearContent();
-        GuiaLancamentoManual.getRange("P2:P").clearContent();
-        GuiaLancamentoManual.getRange("R2:R").setValue(false);
-        GuiaLancamentoManual.getRange("S2:S").clearContent();
-
-        const GuiaProventos = Planilha.getSheetByName(ABAS.PROVENTOS);
-        GuiaProventos.getRange("B4:E").clearContent();
-        GuiaProventos.getRange("G4:I").clearContent();
-
-        const GuiaEvolucao = Planilha.getSheetByName(ABAS.EVOLUCAO_PATRIMONIAL);
-        GuiaEvolucao.getRange("D2:E").clearContent();
-        GuiaEvolucao.getRange("G2:G").clearContent();
-
-        const GuiaVendas = Planilha.getSheetByName(ABAS.VENDAS);
-        GuiaVendas.getRange("B4:C").clearContent();
-        GuiaVendas.getRange("H4:M").clearContent();
-
-        const GuiaCotacao = Planilha.getSheetByName(ABAS.COTACAO);
-        GuiaCotacao.getRange("D2:D").clearContent();
-        GuiaCotacao.getRange("E2:E").clearContent();
-
-        const GuiaDarf = Planilha.getSheetByName(ABAS.DARF);
-        GuiaDarf.getRange("C18:C23").setValue(0);
-        GuiaDarf.getRange("K18:K24").setValue(0);
-
-        const GuiaMo = Planilha.getSheetByName(ABAS.MEUS_OBJETIVOS);
-        GuiaMo.getRange("B2:B21").setValue('PENDENTE');
-        GuiaMo.getRange("E2:E21").setValue('-');
-
-        const GuiaPT = Planilha.getSheetByName(ABAS.PRECO_TETO);
-        GuiaPT.getRange("B4:B105").clearContent();
-        GuiaPT.getRange("G4:G105").clearContent();
-        GuiaPT.getRange("H4:H105").clearContent();
-
-        const GuiaBA = Planilha.getSheetByName(ABAS.BALANCEAMENTO_ATIVO);
-        GuiaBA.getRange("B4:B103").clearContent();
-        GuiaBA.getRange("G4:G103").clearContent();
-
-        const GuiaBC = Planilha.getSheetByName(ABAS.BALANCEAMENTO);
-        GuiaBC.getRange("B4:B103").clearContent();
-        GuiaBC.getRange("G4:G103").clearContent();
-
-        const GuiaAM = Planilha.getSheetByName(ABAS.AMORTIZACOES);
-        GuiaAM.getRange("A2:A").clearContent();
-        GuiaAM.getRange("B4:B").clearContent();
-        GuiaAM.getRange("C4:C").clearContent();
-
-        const GuiaSimuladorPm = Planilha.getSheetByName(ABAS.SIMULADOR_PM);
-        GuiaSimuladorPm.getRange("J4:L").clearContent();
-
-        const GuiaLancamentoCDB = Planilha.getSheetByName(ABAS.LANCAMENTO_CDB);
-        GuiaLancamentoCDB.getRange("C2:J").clearContent();
-
-        const GuiaImport = Planilha.getSheetByName(ABAS.IMPORT);
-        GuiaImport.getRange("D5:D19").setValue(false);
-
-        const GuiaIR = Planilha.getSheetByName(ABAS.BENS_DIREITOS);
-        GuiaIR.getRange("AC2").clearContent();
-
-        return Browser.msgBox("Reset realizado com sucesso!");
-    }
-
-}
-
-function onlyTabsDefault() {
-
-    const Planilha = SpreadsheetApp.getActiveSpreadsheet();
-    //show
-    Planilha.getSheetByName(ABAS.INFORMACOES).showSheet();
-    Planilha.getSheetByName(ABAS.B3).showSheet();
-    Planilha.getSheetByName(ABAS.DASHBOARD).showSheet();
-    Planilha.getSheetByName(ABAS.MEUS_ATIVOS).showSheet();
-    Planilha.getSheetByName(ABAS.LANCAMENTO_B3).showSheet();
-    Planilha.getSheetByName(ABAS.LANCAMENTO_MANUAL).showSheet();
-    Planilha.getSheetByName(ABAS.VENDAS).showSheet();
-    Planilha.getSheetByName(ABAS.DARF).showSheet();
-    Planilha.getSheetByName(ABAS.PROVENTOS).showSheet();
-    Planilha.getSheetByName(ABAS.DASHBOARD_CONSOLIDADO).showSheet();
-    //hiden
-    Planilha.getSheetByName(ABAS.LANCAMENTO_CDB).hideSheet();
-    Planilha.getSheetByName(ABAS.EVOLUCAO_PATRIMONIAL).hideSheet();
-    Planilha.getSheetByName(ABAS.AMORTIZACOES).hideSheet();
-    Planilha.getSheetByName(ABAS.CALENDARIO).hideSheet();
-    Planilha.getSheetByName(ABAS.BALANCEAMENTO).hideSheet();
-    Planilha.getSheetByName(ABAS.BALANCEAMENTO_ATIVO).hideSheet();
-    Planilha.getSheetByName(ABAS.SIMULADOR_PM).hideSheet();
-    Planilha.getSheetByName(ABAS.PRECO_TETO).hideSheet();
-    Planilha.getSheetByName(ABAS.MEUS_OBJETIVOS).hideSheet();
-    Planilha.getSheetByName(ABAS.BENS_DIREITOS).hideSheet();
-    Planilha.getSheetByName(ABAS.BASE_DADOS).hideSheet();
-    Planilha.getSheetByName(ABAS.TABELA_DINAMICA).hideSheet();
-    Planilha.getSheetByName(ABAS.TABELA_DINAMICA_CONSOLIDADO).hideSheet();
-    Planilha.getSheetByName(ABAS.CODIGOS_IRPF).hideSheet();
-    Planilha.getSheetByName(ABAS.COTACAO).hideSheet();
-    Planilha.getSheetByName(ABAS.ALTAS).hideSheet();
-    Planilha.getSheetByName(ABAS.MOVIMENTACOES).hideSheet();
-    Planilha.getSheetByName(ABAS.MOVIMENTACOES_CDB).hideSheet();
-    Planilha.getSheetByName(ABAS.IMPORT).hideSheet();
-
 }
 
 /**
@@ -1321,13 +1129,16 @@ function composeSells(year = 2023, database = {}) {
 
     const sheet = SpreadsheetApp.getActiveSpreadsheet();
     const Guia = sheet.getSheetByName(ABAS.VENDAS);
-    // function getDataRange(guide,initialColNameForLastRow, initialNumberColForLastRow, initialColName,initialColNameNumber, endColName){  
     const dataRows = getDataRange(Guia, "B", 4, "B", 4, "S");
     const initialLine = 0;
     let years = {};
 
     for (let i = initialLine; i <= (dataRows.length - 1); i++) {
         const rowTicker = dataRows[i][0];
+        if (!rowTicker) {
+            return years;
+            // throw new Error("Nenhum lançamento de venda encontrada");
+        }
         const yearAnalysis = new Date(dataRows[i][11]).getFullYear();
         const monthAnalysis = (new Date(dataRows[i][11]).getMonth()) + 1;
         if (!years.hasOwnProperty(yearAnalysis)) {
@@ -1409,6 +1220,10 @@ function composeProvents(year = 2023, database = {}) {
 
         for (let i = initialLine; i <= (dataRows.length - 1); i++) {
             const rowTicker = dataRows[i][1];
+            if (!rowTicker) {
+                return tickers;
+                // throw new Error("Nenhum lançamento de proventos encontrados");
+            }
             const yearAnalysis = new Date(dataRows[i][3]).getFullYear();
             const monthAnalysis = new Date(dataRows[i][14]).getMonth();
             if (yearAnalysis === year) {
@@ -1782,13 +1597,7 @@ function composeBensEDireitos(walletList, jsonIR, jsonIRPast, database) {
     return itemsWalletFiltered;
 }
 
-function serverTest(year = 2023) {
-    const database = getDataBase();
-    const sells = composeSells(year, database);
-    return sells
-}
-
-function irReportLoadingData(year = 2023, historyCurrent = false, historyPast = true) {
+function irReportLoadingData(year = 2022, historyCurrent = false, historyPast = true) {
     const database = getDataBase();
     const sells = composeSells(year, database);
     const jsonIR = calculateAmmountIRPFFull(year, "", historyCurrent);
@@ -2061,6 +1870,7 @@ function fase3() {
     importDataOtherVersion(3);
 }
 
+
 function showReleases() {
     try {
         const title = "LANÇAMENTOS";
@@ -2145,3 +1955,140 @@ function saveProvent(ticker = "MXRF11", data = "01/01/2024", type = "Rendimento"
         throw new Error(`Não foi possível enviar os lançamentos. ::erro!:: ${error}`)
     }
 }
+
+/**
+ * Desenvolvimento: Ricardo Alvarenga
+ * Contato: ricardoinvesting10@gmail.com
+ * Youtube: https://www.youtube.com/@ricardoinvesting
+ * PIX: ricardoinvesting10@gmail.com
+ *             _                   _       _                     _   _             
+    ____      (_)                 | |     (_)                   | | (_)            
+   / __ \ _ __ _  ___ __ _ _ __ __| | ___  _ _ ____   _____  ___| |_ _ _ __   __ _ 
+  / / _` | '__| |/ __/ _` | '__/ _` |/ _ \| | '_ \ \ / / _ \/ __| __| | '_ \ / _` |
+ | | (_| | |  | | (_| (_| | | | (_| | (_) | | | | \ V /  __/\__ \ |_| | | | | (_| |
+  \ \__,_|_|  |_|\___\__,_|_|  \__,_|\___/|_|_| |_|\_/ \___||___/\__|_|_| |_|\__, |
+   \____/                                                                     __/ |
+                                                                             |___/ 
+ */
+
+function calcPMFull(trigger = "") {
+    try {
+        const initialLine = 0;
+        const sheet = SpreadsheetApp.getActiveSpreadsheet();
+        const GuiaInvestimento = sheet.getSheetByName(ABAS.MOVIMENTACOES);
+        const dataRows = getDataRange(GuiaInvestimento, "C", 2, "A", 2, "V");
+
+        const tickersId = [];
+        const tickers = {};
+
+        for (let i = initialLine; i <= dataRows.length - 1; i++) {
+            const rowTicker = dataRows[i][2];
+            const date = new Date(dataRows[i][3]).toISOString();
+            if (tickersId.includes(rowTicker)) {
+                tickers[rowTicker].movimentations.push(
+                    {
+                        data: date,
+                        typeOperation: dataRows[i][4],
+                        qtd: dataRows[i][5],
+                        investedAmount: dataRows[i][9],
+                    }
+                );
+            } else {
+                tickers[rowTicker] = {
+                    "movimentations": [
+                        {
+                            data: date,
+                            typeOperation: dataRows[i][4],
+                            qtd: dataRows[i][5],
+                            investedAmount: dataRows[i][9],
+                        }
+                    ]
+                };
+                tickersId.push(rowTicker);
+            }
+
+        }
+
+        const pm = { "extension": {} };
+        const tickerLoopIds = Object.keys(tickers);
+        tickerLoopIds.forEach(id => {
+            const movimentation = tickers[id].movimentations;
+            const dataSorted = movimentation.sort((p1, p2) => (p1.data < p2.data) ? -1 : (p1.data > p2.data) ? 1 : 0);
+            const dataGroup = {};
+            dataSorted.forEach(function (item) {
+                const list = dataGroup[item.data];
+
+                if (list) {
+                    list.push(item);
+                } else {
+                    dataGroup[item.data] = [item];
+                }
+            });
+
+            const dates = Object.keys(dataGroup)
+            let accumulatedTotal = 0;
+            let accumulatedInvested = 0;
+            let lastDateFinishPosition = null;
+            dates.forEach(date => {
+                dataGroup[date].forEach(item => {
+                    const typeOperation = item.typeOperation;
+                    const qtd = item.qtd;
+                    const investedAmount = item.investedAmount;
+                    if (typeOperation === OPERATIONS.BONIFICACAO || typeOperation === OPERATIONS.COMPRA || typeOperation === OPERATIONS.COMPRA_DIREITOS) {
+                        accumulatedInvested = accumulatedInvested + investedAmount;
+                        accumulatedTotal = accumulatedTotal + qtd;
+                    } else if (typeOperation === OPERATIONS.VENDA || typeOperation === OPERATIONS.VENDA_DIREITOS) {
+                        const tempPM = accumulatedInvested / accumulatedTotal;
+                        const tempTotal = accumulatedTotal - qtd;
+                        if (tempTotal === 0) {
+                            const year = new Date(item.data).getFullYear();
+                            let month = new Date(item.data).getMonth();
+                            month = month > 8 ? month + 1 : `0${month + 1}`;
+                            lastDateFinishPosition = `${year}${month}`;
+                        }
+                        accumulatedInvested = tempPM * tempTotal;
+                        accumulatedTotal = tempTotal;
+                    }
+                })
+            });
+            pm["extension"][id] = {
+                "lastDateFinishPosition": lastDateFinishPosition
+            }
+            if (accumulatedInvested && accumulatedTotal) {
+                pm[id] = accumulatedInvested / accumulatedTotal;
+            } else {
+                pm[id] = 0;
+            }
+
+        });
+
+        return JSON.stringify(pm);
+
+    } catch (error) {
+        console.log(error)
+        return "-";
+    }
+}
+
+function getPM(jsonString, ticker) {
+    try {
+        const data = JSON.parse(jsonString);
+        if (ticker in data) {
+            return data[ticker];
+        }
+    } catch {
+        return "-";
+    }
+}
+
+function getExtensionData(jsonString, ticker, key) {
+    try {
+        const data = JSON.parse(jsonString);
+        if (ticker in data["extension"]) {
+            return data["extension"][ticker][key];
+        }
+    } catch {
+        return "-";
+    }
+}
+

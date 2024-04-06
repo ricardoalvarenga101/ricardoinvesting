@@ -363,8 +363,7 @@ function renderRendimentsPrint() {
             "Vendas mensais de ações abaixo de 20 mil reais (Brasil)",
             "Dividendos de ações",
             "Rendimentos de (FII, FIAGRO e FI-INFRA)",
-            "Vendas de ativos com benefício fiscal",
-            "Bonificação\n\n"
+            "Vendas de ativos com benefício fiscal\n\n",            
         ]
     }
     const content3 = {
