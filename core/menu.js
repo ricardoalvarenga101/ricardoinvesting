@@ -23,7 +23,7 @@ function onOpen() {
     menu.addSubMenu(SpreadsheetApp.getUi().createMenu("🔹 Acionadores")
         .addItem('Criar Acionadores', 'createTrigger')
         .addSeparator()
-        .addItem('⛔ Remover Acionadores', 'createTrigger'))
+        .addItem('⛔ Remover Acionadores', 'deleteTrigger'))
     menu.addItem('🔹 Lançamentos', 'showReleases')
     menu.addSubMenu(SpreadsheetApp.getUi().createMenu("🔹 Automações")
         .addItem('Atualizar Cotação', 'updateCotationManual')
