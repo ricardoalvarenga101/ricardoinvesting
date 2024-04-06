@@ -3928,3 +3928,24 @@ const mockRobert2023 = {
         }
     }
 }
+
+const mockEmpty2022 = {
+    "sells": {},
+    "itensWallletFiltered": [
+        {
+            "qtd": 7,
+            "classe": "Ação",
+            "ticker": "PETR4",
+            "investiment": "R$ 60,00",
+            "this_year": "R$ 60,00",
+            "averageCambio": "R$ 0,00",
+            "name": "PETROLEO BRASILEIRO SA PETROBRAS PREFERENCE SHARES",
+            "document_number_admin": "",
+            "description": "(PETR4) - 7 AÇÕES DE PETROLEO BRASILEIRO SA PETROBRAS PREFERENCE SHARES, CNPJ: 33.000.167/0001-01, CÓDIGO DE NEGOCIAÇÃO: PETR4. PREÇO MÉDIO DE R$ 8,57 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 60,00",
+            "document_number_principal": "33.000.167/0001-01",
+            "pm": "R$ 8,57",
+            "past_year": "R$ 0,00"
+        }
+    ],
+    "provents": {}
+}

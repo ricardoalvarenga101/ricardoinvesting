@@ -121,47 +121,9 @@ function generatePdf() {
                         composeHeaderTable(["Grupo", "Cód.", "Local.", "CNPJ", "Discriminação", `Situação 31/12/${year-1}`, `Situação 31/12/${year}`]),
                         ...composeBensDireitos(),
                     ]
-                },
-                pageBreak: "after"
+                }
             },
-            {
-                text: "Rendimentos isentos e não tributáveis (Vendas abaixo de 20mil, ativos isentos e dividendos)\n\n",
-                style: "title",
-            },
-            {
-                text: [
-                    { text: "Esta seção irá lhe demonstrar quais rendimentos teve durante e o ano e foram " },
-                    { text: "isentos de imposto de renda", style: { "text-transform": "underline" } },
-                    { text: ", seja por benefício fiscal ou limite de isenção.\n\n" }
-                ]
-            },
-            {
-                text: "Itens contemplados no relatório:\n",
-                ul: [
-                    "Vendas mensais de ações abaixo de 20 mil reais (Brasil)",
-                    "Dividendos de ações",
-                    "Rendimentos de (FII, FIAGRO e FI-INFRA)",
-                    "Vendas de ativos com benefício fiscal",
-                    "Bonificação\n\n"
-                ]
-            },
-            {
-                text: "Local e exemplo de preenchimento:\n",
-                style: "subheader"
-            },
-            {
-                image: "print4",
-                width: 505,
-            },
-            {
-                pageBreak: "before",
-                text: [
-                    "Para cada linha da tabela abaixo efetue um lançamento através do botão ",
-                    { text: "'Novo'", style: "negrito" },
-                    ", preencha os dados da tabela e confirme em ",
-                    { text: "'OK'\n\n", style: "negrito" }
-                ]
-            },
+            ...renderRendimentsPrint(),            
             ...renderDividends(),   
             ...renderRendimentsIsentos(),            
             ...renderLow20kMonth(),
