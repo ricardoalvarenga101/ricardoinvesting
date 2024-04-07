@@ -370,6 +370,30 @@ function removeCache(key) {
 /**
  * MENU.GS
  */
+
+function onEdit(e) {
+    const range = e.range;
+    const col = range.getColumn();
+    const row = range.getRow();
+    const sheet = range.getSheet().getName();
+    const uuid = Utilities.getUuid();
+    if (sheet === ABAS.DASHBOARD_CONSOLIDADO && row === 26 && col === 3) {        
+        const Sheet = SpreadsheetApp.getActiveSpreadsheet();
+        const TbDinamic = Sheet.getSheetByName(ABAS.TABELA_DINAMICA);
+
+        TbDinamic.getRange("AN5").clearContent();
+        TbDinamic.getRange("AN6").clearContent();
+
+        const GuideConsolid = Sheet.getSheetByName(ABAS.DASHBOARD_CONSOLIDADO);
+        const yearConsolidIR = GuideConsolid.getRange("C26").getValue();
+        const content4 = calculateAmmountIRPFFull(yearConsolidIR, uuid, false);
+        const content5 = calculateAmmountIRPFFull(yearConsolidIR - 1, uuid, true);
+        TbDinamic.getRange("AN5").setValue(content4);
+        TbDinamic.getRange("AN6").setValue(content5);
+
+    }
+}
+
 function onOpen() {
     const menu = SpreadsheetApp.getUi().createMenu("[@ricardoinvesting]");
     menu.addSubMenu(SpreadsheetApp.getUi().createMenu("🔹 B3")
@@ -378,7 +402,6 @@ function onOpen() {
         .addItem('Criar Acionadores', 'createTrigger')
         .addSeparator()
         .addItem('⛔ Remover Acionadores', 'deleteTrigger'))
-    menu.addItem('🔹 Lançamentos', 'showReleases')
     menu.addSubMenu(SpreadsheetApp.getUi().createMenu("🔹 Automações")
         .addItem('Atualizar Cotação', 'updateCotationManual')
         .addItem('Atualizar Preço Médio', 'updatePMManual')
@@ -387,6 +410,7 @@ function onOpen() {
         .addSeparator()
         .addItem("⛔ Resetar Planilha", "clearAll"))
     menu.addSeparator();
+    menu.addItem('🔹 Lançamentos', 'showReleases')
     menu.addItem("🔹 IRPF", "showIR");
     menu.addToUi();
 }
@@ -1247,7 +1271,7 @@ function composeSells(year = 2023, database = {}) {
                     "operations": [{
                         operation: dataRows[i][1],
                         transaction: dataRows[i][13],
-                        value: dataRows[i][17],
+                        value: dataRows[i][14],
                         ticker: rowTicker,
                         name: dataRows[i][2],
                         classe: dataRows[i][3],
@@ -1262,7 +1286,7 @@ function composeSells(year = 2023, database = {}) {
                 years[yearAnalysis][monthAnalysis]["operations"].push({
                     operation: dataRows[i][1],
                     transaction: dataRows[i][13],
-                    value: dataRows[i][17],
+                    value: dataRows[i][14],
                     ticker: rowTicker,
                     name: dataRows[i][2],
                     classe: dataRows[i][3],
@@ -1275,7 +1299,7 @@ function composeSells(year = 2023, database = {}) {
                     "operations": [{
                         operation: dataRows[i][1],
                         transaction: dataRows[i][13],
-                        value: dataRows[i][17],
+                        value: dataRows[i][14],
                         ticker: rowTicker,
                         name: dataRows[i][2],
                         classe: dataRows[i][3],
@@ -1581,7 +1605,7 @@ function calculateAmmountIRPFFull(year = 2023, trigger = "", history = false) {
     }
 }
 
-function getAmmount(jsonString, ticker, amount = false) {
+function getAmmount(jsonString, ticker, amount = false, trigger = null) {
     try {
         const data = JSON.parse(jsonString);
         if (ticker in data) {
