@@ -78,7 +78,7 @@ function composeSells(year = 2023, database = {}) {
                     "operations": [{
                         operation: dataRows[i][1],
                         transaction: dataRows[i][13],
-                        value: dataRows[i][17],
+                        value: dataRows[i][14],
                         ticker: rowTicker,
                         name: dataRows[i][2],
                         classe: dataRows[i][3],
@@ -93,7 +93,7 @@ function composeSells(year = 2023, database = {}) {
                 years[yearAnalysis][monthAnalysis]["operations"].push({
                     operation: dataRows[i][1],
                     transaction: dataRows[i][13],
-                    value: dataRows[i][17],
+                    value: dataRows[i][14],
                     ticker: rowTicker,
                     name: dataRows[i][2],
                     classe: dataRows[i][3],
@@ -106,7 +106,7 @@ function composeSells(year = 2023, database = {}) {
                     "operations": [{
                         operation: dataRows[i][1],
                         transaction: dataRows[i][13],
-                        value: dataRows[i][17],
+                        value: dataRows[i][14],
                         ticker: rowTicker,
                         name: dataRows[i][2],
                         classe: dataRows[i][3],
@@ -412,7 +412,7 @@ function calculateAmmountIRPFFull(year = 2023, trigger = "", history = false) {
     }
 }
 
-function getAmmount(jsonString, ticker, amount = false) {
+function getAmmount(jsonString, ticker, amount = false, trigger = null) {
     try {
         const data = JSON.parse(jsonString);
         if (ticker in data) {
