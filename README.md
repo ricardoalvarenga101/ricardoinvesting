@@ -20,3 +20,8 @@ cat ./entry/vars.js ./entry/utils.js ./entry/server.js ./entry/events.js ./entry
 ```
 cat ./core/constants.js ./core/utils.js ./core/menu.js ./core/actions.js ./core/b3.js ./core/import.js ./core/ir.js ./core/lancamento.js ./core/pm.js ./core/print.js ./core/tesouro.js > ./core/public/core.js
 ```
+
+# Concatenar import
+```
+cat ./import/import.js > ./import/public/import.js
+```
