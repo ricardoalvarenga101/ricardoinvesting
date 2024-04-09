@@ -14,3 +14,9 @@ cat ./irpf_to_pdf/vars.js ./irpf_to_pdf/utils.js ./irpf_to_pdf/server.js ./irpf_
 ```
 cat ./entry/vars.js ./entry/utils.js ./entry/server.js ./entry/events.js ./entry/composers.js > ./entry/public/entry.js
 ```
+
+# Concatenar core
+
+```
+cat ./core/constants.js ./core/utils.js ./core/menu.js ./core/actions.js ./core/b3.js ./core/import.js ./core/ir.js ./core/lancamento.js ./core/pm.js ./core/print.js ./core/tesouro.js > ./core/public/core.js
+```
