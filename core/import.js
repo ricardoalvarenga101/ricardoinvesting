@@ -221,8 +221,7 @@ function importDataOtherVersion(fase = null) {
                 TAB_IMPORT.getRange("D16").getValue() === true &&
                 TAB_IMPORT.getRange("D17").getValue() === true &&
                 TAB_IMPORT.getRange("D18").getValue() === true &&
-                TAB_IMPORT.getRange("D19").getValue() === true &&
-                TAB_IMPORT.getRange("D20").getValue() === true
+                TAB_IMPORT.getRange("D19").getValue() === true
             ) {
                 ui.alert("Lançamentos importados com sucesso! O último passo é ir a aba '0. Dashboard' e acionar os botões 'Atualizar Cotação' e 'Recalcular Preço Médio'\n\n Bons investimentos!\n@ricardoinvesting");
             }
@@ -280,7 +279,7 @@ function getStatusButton() {
         })
     })
 
-    const result = { status1: status1.length === 6 ? false : true, status2: status2.length === 5 ? false : true, status3: status3.length === 5 ? false : true }
+    const result = { status1: status1.length === 6 ? false : true, status2: status2.length === 5 ? false : true, status3: status3.length === 4 ? false : true }
     return result;
 
 }
