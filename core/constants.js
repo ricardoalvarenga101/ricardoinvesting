@@ -13,6 +13,7 @@
    \____/                                                                     __/ |
                                                                              |___/ 
  * @endpreserve
+ */
 
 /**
  * CONSTANTS.GS
@@ -94,6 +95,7 @@ const ABAS = {
     "VENDAS": "9. Vendas",
     "DARF": "10. DARF",
     "BENS_DIREITOS": "11. IR Bens e Direitos",
+    "ANOTACOES": "11.1. Anotações",
     "BASE_DADOS": "12. Base de Dados",
     "TABELA_DINAMICA": "99. Tabela Dinamica",
     "TABELA_DINAMICA_CONSOLIDADO": "99. Tabela Dinamica Consolidado",

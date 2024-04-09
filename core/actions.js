@@ -15,6 +15,7 @@
 /**
  * ACTIONS.GS
  */
+
 function deleteTrigger() {
     // Loop over all triggers.
     const allTriggers = ScriptApp.getProjectTriggers();
@@ -154,29 +155,37 @@ function updatePMManual() {
     const uuid = Utilities.getUuid();
 
     const Sheet = SpreadsheetApp.getActiveSpreadsheet();
-    const GuideIR = Sheet.getSheetByName(ABAS.BENS_DIREITOS);
-    const GuideConsolid = Sheet.getSheetByName(ABAS.DASHBOARD_CONSOLIDADO);
+    const GuideDinamicConsolid = Sheet.getSheetByName(ABAS.TABELA_DINAMICA_CONSOLIDADO);
     const TbDinamic = Sheet.getSheetByName(ABAS.TABELA_DINAMICA);
-    const yearIR = GuideIR.getRange("F2").getValue();
-    const yearConsolidIR = GuideConsolid.getRange("C26").getValue();
+    const firstYear = getFirstYear();
+    const limitYear = new Date().getFullYear() - 5;
+    const listYears = composeAvaiableYears(firstYear, limitYear)
 
 
     ui.showSidebar(HtmlService.createHtmlOutputFromFile("@ricardoinvesting-pm-html")
-        .setTitle("Atualizando Preço Médio"));
+        .setTitle("Recalculando Preço Médio"));
 
     const content1 = calcPMFull(uuid);
-    const content2 = calculateAmmountIRPFFull(yearIR, uuid, false);
-    const content3 = calculateAmmountIRPFFull(yearIR - 1, uuid, true);
-    const content4 = calculateAmmountIRPFFull(yearConsolidIR, uuid, false);
-    const content5 = calculateAmmountIRPFFull(yearConsolidIR - 1, uuid, true);
-
     TbDinamic.getRange("AN2").setValue(content1);
-    TbDinamic.getRange("AN3").setValue(content2);
-    TbDinamic.getRange("AN4").setValue(content3);
-    TbDinamic.getRange("AN5").setValue(content4);
-    TbDinamic.getRange("AN6").setValue(content5);
+    GuideDinamicConsolid.getRange("V10").setValue(content1);
 
-    ui.showSidebar(outputClose.setTitle("Atualizando Preço Médio"));
+    for (let i = 0; i < listYears.length; i++) {
+        const yIR = calculateAmmountIRPFFull(listYears[i], uuid, false);
+        const yIR_last = calculateAmmountIRPFFull(listYears[i] - 1, uuid, false);
+        const yCONSOLID = calculateAmmountIRPFFull(listYears[i], uuid, false);
+        const yCONSOLID_last = calculateAmmountIRPFFull(listYears[i] - 1, uuid, false);
+        GuideDinamicConsolid.getRange(`V${3 + i}`).setValue(listYears[i])
+        GuideDinamicConsolid.getRange(`W${3 + i}`).setValue(yIR)
+        GuideDinamicConsolid.getRange(`X${3 + i}`).setValue(yIR_last)
+        GuideDinamicConsolid.getRange(`Y${3 + i}`).setValue(yCONSOLID)
+        GuideDinamicConsolid.getRange(`Z${3 + i}`).setValue(yCONSOLID_last)
+    }
+
+
+    const GuideTDConsolidado = Sheet.getSheetByName(ABAS.TABELA_DINAMICA_CONSOLIDADO);
+    GuideTDConsolidado.getRange("V13").setValue(uuid);
+
+    ui.showSidebar(outputClose.setTitle("Recalculando Preço Médio"));
 
 }
 

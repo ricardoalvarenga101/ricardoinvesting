@@ -302,7 +302,6 @@ function getFirstYear() {
         firstYear = dataRows[0][0];
     }
     return new Date(firstYear).getFullYear();
-
 }
 
 function calculateAmmountIRPFFull(year = 2023, trigger = "", history = false) {
@@ -398,8 +397,6 @@ function calculateAmmountIRPFFull(year = 2023, trigger = "", history = false) {
         });
         const snapshotToYear = [];
 
-
-
         Object.keys(totalAmmountOrAccumulated).forEach((i) => {
             if (totalAmmountOrAccumulated[i].lastYearSales === null || totalAmmountOrAccumulated[i].lastYearSales === year || totalAmmountOrAccumulated[i].accumulatedTotal > 0 || totalAmmountOrAccumulated[i].hasDividends) {
                 snapshotToYear.push(i);
@@ -427,28 +424,34 @@ function getAmmount(jsonString, ticker, amount = false, trigger = null) {
             if (accumulatedInvested < 0) {
                 return 0;
             }
-            return accumulatedInvested;
+            return Number(accumulatedInvested.toFixed(2));
         } else {
             return 0;
         }
     } catch {
-        return "-";
+        return 0;
     }
 }
 
-function getWallet(jsonString, trigger = null) {
+function getWallet(jsonString, jsonOld, trigger = null) {
     try {
         const data = JSON.parse(jsonString);
         let snap = [];
+        const result = [];
+
         if (data) {
             data["snapshotToYear"].forEach((item) => {
                 const accumulatedTotal = data[item].accumulatedTotal;
                 const hasDividends = data[item].hasDividends;
                 if (accumulatedTotal > 0 || hasDividends) {
-                    snap.push(item);
+                    snap.push(item)
                 }
             })
-            return snap.sort();
+            snap = snap.sort();
+            snap.forEach(item => {
+                result.push([item, getAmmount(jsonString, item, false), getAmmount(jsonOld, item, false)]);
+            })
+            return result;
         } else {
             return [];
         }

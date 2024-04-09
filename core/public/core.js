@@ -13,6 +13,7 @@
    \____/                                                                     __/ |
                                                                              |___/ 
  * @endpreserve
+ */
 
 /**
  * CONSTANTS.GS
@@ -94,6 +95,7 @@ const ABAS = {
     "VENDAS": "9. Vendas",
     "DARF": "10. DARF",
     "BENS_DIREITOS": "11. IR Bens e Direitos",
+    "ANOTACOES": "11.1. Anotações",
     "BASE_DADOS": "12. Base de Dados",
     "TABELA_DINAMICA": "99. Tabela Dinamica",
     "TABELA_DINAMICA_CONSOLIDADO": "99. Tabela Dinamica Consolidado",
@@ -145,6 +147,28 @@ const FRASES = [
 /**
  * UTILS.GS
  */
+
+function getUuid() {
+    return Utilities.getUuid();
+}
+
+function composeAvaiableYears(firstYear, limitYear) {
+    const currentYear = new Date().getFullYear();
+    let initiate = limitYear;
+    const listYears = []
+    if (firstYear === currentYear) {
+        return listYears.push(currentYear)
+    }
+    if (firstYear >= limitYear) {
+        initiate = firstYear
+    }
+    for (let i = initiate; i <= currentYear; i++) {
+        listYears.push(i);
+    }
+    return listYears;
+
+}
+
 function composeNode(node, property, value) {
     if (node.hasOwnProperty(property)) {
         node[property] += value;
@@ -371,30 +395,8 @@ function removeCache(key) {
  * MENU.GS
  */
 
-function onEdit(e) {
-    const range = e.range;
-    const col = range.getColumn();
-    const row = range.getRow();
-    const sheet = range.getSheet().getName();
-    const uuid = Utilities.getUuid();
-    if (sheet === ABAS.DASHBOARD_CONSOLIDADO && row === 26 && col === 3) {        
-        const Sheet = SpreadsheetApp.getActiveSpreadsheet();
-        const TbDinamic = Sheet.getSheetByName(ABAS.TABELA_DINAMICA);
-
-        TbDinamic.getRange("AN5").clearContent();
-        TbDinamic.getRange("AN6").clearContent();
-
-        const GuideConsolid = Sheet.getSheetByName(ABAS.DASHBOARD_CONSOLIDADO);
-        const yearConsolidIR = GuideConsolid.getRange("C26").getValue();
-        const content4 = calculateAmmountIRPFFull(yearConsolidIR, uuid, false);
-        const content5 = calculateAmmountIRPFFull(yearConsolidIR - 1, uuid, true);
-        TbDinamic.getRange("AN5").setValue(content4);
-        TbDinamic.getRange("AN6").setValue(content5);
-
-    }
-}
-
 function onOpen() {
+    const uuid = Utilities.getUuid();
     const menu = SpreadsheetApp.getUi().createMenu("[@ricardoinvesting]");
     menu.addSubMenu(SpreadsheetApp.getUi().createMenu("🔹 B3")
         .addItem('Importar Lançamentos da B3', 'importarDadosB3'))
@@ -404,7 +406,7 @@ function onOpen() {
         .addItem('⛔ Remover Acionadores', 'deleteTrigger'))
     menu.addSubMenu(SpreadsheetApp.getUi().createMenu("🔹 Automações")
         .addItem('Atualizar Cotação', 'updateCotationManual')
-        .addItem('Atualizar Preço Médio', 'updatePMManual')
+        .addItem('Recalcular Preço Médio', 'updatePMManual')
         .addItem('Exibir/Esconder Valores', 'hidden')
         .addItem('Exibir Apenas Abas Principais', 'onlyTabsDefault')
         .addSeparator()
@@ -413,6 +415,11 @@ function onOpen() {
     menu.addItem('🔹 Lançamentos', 'showReleases')
     menu.addItem("🔹 IRPF", "showIR");
     menu.addToUi();
+
+    const Sheet = SpreadsheetApp.getActiveSpreadsheet();
+    const GuideTDConsolidado = Sheet.getSheetByName(ABAS.TABELA_DINAMICA_CONSOLIDADO);
+    GuideTDConsolidado.getRange("V13").setValue(uuid);
+
 }
 
 function clearAll() {
@@ -492,9 +499,19 @@ function clearAll() {
 
         const GuiaImport = Planilha.getSheetByName(ABAS.IMPORT);
         GuiaImport.getRange("D5:D19").setValue(false);
+        GuiaImport.getRange("E5:E19").clearContent();
 
         const GuiaIR = Planilha.getSheetByName(ABAS.BENS_DIREITOS);
         GuiaIR.getRange("AC2").clearContent();
+
+        const GuiaAnotation = Planilha.getSheetByName(ABAS.ANOTACOES);
+        GuiaAnotation.getRange("B5:B").clearContent();
+        GuiaAnotation.getRange("D5:D").clearContent();
+
+        const GuiaTDConsolidado = Planilha.getSheetByName(ABAS.TABELA_DINAMICA_CONSOLIDADO);
+        GuiaTDConsolidado.getRange("V3:Z7").clearContent();
+        GuiaTDConsolidado.getRange("V10").clearContent();
+        GuiaTDConsolidado.getRange("V13").clearContent();
 
         return Browser.msgBox("Reset realizado com sucesso!");
     }
@@ -515,6 +532,8 @@ function onlyTabsDefault() {
     Planilha.getSheetByName(ABAS.DARF).showSheet();
     Planilha.getSheetByName(ABAS.PROVENTOS).showSheet();
     Planilha.getSheetByName(ABAS.DASHBOARD_CONSOLIDADO).showSheet();
+    Planilha.getSheetByName(ABAS.ANOTACOES).showSheet();
+    Planilha.getSheetByName(ABAS.BENS_DIREITOS).showSheet();
     //hiden
     Planilha.getSheetByName(ABAS.LANCAMENTO_CDB).hideSheet();
     Planilha.getSheetByName(ABAS.EVOLUCAO_PATRIMONIAL).hideSheet();
@@ -525,7 +544,6 @@ function onlyTabsDefault() {
     Planilha.getSheetByName(ABAS.SIMULADOR_PM).hideSheet();
     Planilha.getSheetByName(ABAS.PRECO_TETO).hideSheet();
     Planilha.getSheetByName(ABAS.MEUS_OBJETIVOS).hideSheet();
-    Planilha.getSheetByName(ABAS.BENS_DIREITOS).hideSheet();
     Planilha.getSheetByName(ABAS.BASE_DADOS).hideSheet();
     Planilha.getSheetByName(ABAS.TABELA_DINAMICA).hideSheet();
     Planilha.getSheetByName(ABAS.TABELA_DINAMICA_CONSOLIDADO).hideSheet();
@@ -553,6 +571,7 @@ function onlyTabsDefault() {
 /**
  * ACTIONS.GS
  */
+
 function deleteTrigger() {
     // Loop over all triggers.
     const allTriggers = ScriptApp.getProjectTriggers();
@@ -692,29 +711,37 @@ function updatePMManual() {
     const uuid = Utilities.getUuid();
 
     const Sheet = SpreadsheetApp.getActiveSpreadsheet();
-    const GuideIR = Sheet.getSheetByName(ABAS.BENS_DIREITOS);
-    const GuideConsolid = Sheet.getSheetByName(ABAS.DASHBOARD_CONSOLIDADO);
+    const GuideDinamicConsolid = Sheet.getSheetByName(ABAS.TABELA_DINAMICA_CONSOLIDADO);
     const TbDinamic = Sheet.getSheetByName(ABAS.TABELA_DINAMICA);
-    const yearIR = GuideIR.getRange("F2").getValue();
-    const yearConsolidIR = GuideConsolid.getRange("C26").getValue();
+    const firstYear = getFirstYear();
+    const limitYear = new Date().getFullYear() - 5;
+    const listYears = composeAvaiableYears(firstYear, limitYear)
 
 
     ui.showSidebar(HtmlService.createHtmlOutputFromFile("@ricardoinvesting-pm-html")
-        .setTitle("Atualizando Preço Médio"));
+        .setTitle("Recalculando Preço Médio"));
 
     const content1 = calcPMFull(uuid);
-    const content2 = calculateAmmountIRPFFull(yearIR, uuid, false);
-    const content3 = calculateAmmountIRPFFull(yearIR - 1, uuid, true);
-    const content4 = calculateAmmountIRPFFull(yearConsolidIR, uuid, false);
-    const content5 = calculateAmmountIRPFFull(yearConsolidIR - 1, uuid, true);
-
     TbDinamic.getRange("AN2").setValue(content1);
-    TbDinamic.getRange("AN3").setValue(content2);
-    TbDinamic.getRange("AN4").setValue(content3);
-    TbDinamic.getRange("AN5").setValue(content4);
-    TbDinamic.getRange("AN6").setValue(content5);
+    GuideDinamicConsolid.getRange("V10").setValue(content1);
 
-    ui.showSidebar(outputClose.setTitle("Atualizando Preço Médio"));
+    for (let i = 0; i < listYears.length; i++) {
+        const yIR = calculateAmmountIRPFFull(listYears[i], uuid, false);
+        const yIR_last = calculateAmmountIRPFFull(listYears[i] - 1, uuid, false);
+        const yCONSOLID = calculateAmmountIRPFFull(listYears[i], uuid, false);
+        const yCONSOLID_last = calculateAmmountIRPFFull(listYears[i] - 1, uuid, false);
+        GuideDinamicConsolid.getRange(`V${3 + i}`).setValue(listYears[i])
+        GuideDinamicConsolid.getRange(`W${3 + i}`).setValue(yIR)
+        GuideDinamicConsolid.getRange(`X${3 + i}`).setValue(yIR_last)
+        GuideDinamicConsolid.getRange(`Y${3 + i}`).setValue(yCONSOLID)
+        GuideDinamicConsolid.getRange(`Z${3 + i}`).setValue(yCONSOLID_last)
+    }
+
+
+    const GuideTDConsolidado = Sheet.getSheetByName(ABAS.TABELA_DINAMICA_CONSOLIDADO);
+    GuideTDConsolidado.getRange("V13").setValue(uuid);
+
+    ui.showSidebar(outputClose.setTitle("Recalculando Preço Médio"));
 
 }
 
@@ -1028,8 +1055,8 @@ function copyData(tabReference, checkBoxKey, fase, row, col, numCol, lineRegiste
 }
 
 function importDataOtherVersion(fase = null) {
-    const title = "Migrando dados de outra versão";
-    const outputClose = HtmlService.createHtmlOutput('<script>google.script.host.close();</script>');
+    // const title = "Migrando dados de outra versão";
+    // const outputClose = HtmlService.createHtmlOutput('<script>google.script.host.close();</script>');
     const ui = SpreadsheetApp.getUi();
 
     const response = ui.alert(
@@ -1039,8 +1066,8 @@ function importDataOtherVersion(fase = null) {
     if (response === ui.Button.YES) {
 
         try {
-            const tmp = HtmlService.createHtmlOutputFromFile("@ricardoinvesting-import-html");
-            ui.showSidebar(tmp.setTitle(title));
+            // const tmp = HtmlService.createHtmlOutputFromFile("@ricardoinvesting-import-html");
+            // ui.showSidebar(tmp.setTitle(title));
             const Sheet = SpreadsheetApp.getActiveSpreadsheet();
             const TAB_IMPORT = Sheet.getSheetByName(ABAS.IMPORT);
             const URL_LINK = TAB_IMPORT.getRange("C2").getValue();
@@ -1151,6 +1178,9 @@ function importDataOtherVersion(fase = null) {
             copyData(TAB_IMPORT, "D19", 3, 2, 16, 1, "E19", ABAS.LANCAMENTO_B3, externalSheet, Sheet, 3, true, fase);
             copyData(TAB_IMPORT, "D19", 3, 2, 18, 2, "E19", ABAS.LANCAMENTO_B3, externalSheet, Sheet, 3, false, fase);
 
+            // copyData(TAB_IMPORT, "D20", 3, 5, 2, 1, "E19", ABAS.ANOTACOES, externalSheet, Sheet, 1, true, fase);
+            // copyData(TAB_IMPORT, "D20", 3, 5, 4, 1, "E19", ABAS.ANOTACOES, externalSheet, Sheet, 1, false, fase);
+
             if (
                 TAB_IMPORT.getRange("D5").getValue() === true &&
                 TAB_IMPORT.getRange("D6").getValue() === true &&
@@ -1165,14 +1195,15 @@ function importDataOtherVersion(fase = null) {
                 TAB_IMPORT.getRange("D16").getValue() === true &&
                 TAB_IMPORT.getRange("D17").getValue() === true &&
                 TAB_IMPORT.getRange("D18").getValue() === true &&
-                TAB_IMPORT.getRange("D19").getValue() === true
+                TAB_IMPORT.getRange("D19").getValue() === true &&
+                TAB_IMPORT.getRange("D20").getValue() === true
             ) {
-                ui.alert("Lançamentos importados com sucesso! O último passo é ir a aba '0. Dashboard' e acionar o botão 'Atualizar Cotação'\n\n Bons investimentos!\n@ricardoinvesting");
+                ui.alert("Lançamentos importados com sucesso! O último passo é ir a aba '0. Dashboard' e acionar os botões 'Atualizar Cotação' e 'Recalcular Preço Médio'\n\n Bons investimentos!\n@ricardoinvesting");
             }
-            ui.showSidebar(outputClose.setTitle(title));
+            // ui.showSidebar(outputClose.setTitle(title));
         } catch (error) {
             console.error(error);
-            ui.showSidebar(outputClose.setTitle(title));
+            // ui.showSidebar(outputClose.setTitle(title));
             throw new Error(`Não foi possível copiar os dados. ::erro!:: ${error}`);
 
         }
@@ -1181,16 +1212,51 @@ function importDataOtherVersion(fase = null) {
 
 }
 
-function fase1() {
-    importDataOtherVersion(1);
+function showMigrate() {
+    const title = "Migrando dados de outra versão";
+    const ui = SpreadsheetApp.getUi();
+    const tmp = HtmlService.createTemplateFromFile("@ricardoinvesting-import-html").evaluate();
+    ui.showSidebar(tmp.setTitle(title));
+    // importDataOtherVersion(1);
 }
 
-function fase2() {
-    importDataOtherVersion(2);
-}
+function getStatusButton() {
+    //16
+    const Sheet = SpreadsheetApp.getActiveSpreadsheet();
+    const TAB_IMPORT = Sheet.getSheetByName(ABAS.IMPORT);
+    const fase1 = TAB_IMPORT.getRange("D5:D10").getValues();
+    const fase2 = TAB_IMPORT.getRange("D11:D15").getValues();
+    const fase3 = TAB_IMPORT.getRange("D16:D20").getValues();
+    let status1 = []
+    let status2 = []
+    let status3 = []
 
-function fase3() {
-    importDataOtherVersion(3);
+    fase1.map((item) => {
+        item.map(node => {
+            if (node === true) {
+                status1.push(node)
+            }
+        })
+    })
+
+    fase2.map((item) => {
+        item.map(node => {
+            if (node === true) {
+                status2.push(node)
+            }
+        })
+    })
+    fase3.map((item) => {
+        item.map(node => {
+            if (node === true) {
+                status3.push(node)
+            }
+        })
+    })
+
+    const result = { status1: status1.length === 6 ? false : true, status2: status2.length === 5 ? false : true, status3: status3.length === 5 ? false : true }
+    return result;
+
 }/**
  * Desenvolvimento: Ricardo Alvarenga
  * Contato: ricardoinvesting10@gmail.com
@@ -1495,7 +1561,6 @@ function getFirstYear() {
         firstYear = dataRows[0][0];
     }
     return new Date(firstYear).getFullYear();
-
 }
 
 function calculateAmmountIRPFFull(year = 2023, trigger = "", history = false) {
@@ -1591,8 +1656,6 @@ function calculateAmmountIRPFFull(year = 2023, trigger = "", history = false) {
         });
         const snapshotToYear = [];
 
-
-
         Object.keys(totalAmmountOrAccumulated).forEach((i) => {
             if (totalAmmountOrAccumulated[i].lastYearSales === null || totalAmmountOrAccumulated[i].lastYearSales === year || totalAmmountOrAccumulated[i].accumulatedTotal > 0 || totalAmmountOrAccumulated[i].hasDividends) {
                 snapshotToYear.push(i);
@@ -1620,28 +1683,34 @@ function getAmmount(jsonString, ticker, amount = false, trigger = null) {
             if (accumulatedInvested < 0) {
                 return 0;
             }
-            return accumulatedInvested;
+            return Number(accumulatedInvested.toFixed(2));
         } else {
             return 0;
         }
     } catch {
-        return "-";
+        return 0;
     }
 }
 
-function getWallet(jsonString, trigger = null) {
+function getWallet(jsonString, jsonOld, trigger = null) {
     try {
         const data = JSON.parse(jsonString);
         let snap = [];
+        const result = [];
+
         if (data) {
             data["snapshotToYear"].forEach((item) => {
                 const accumulatedTotal = data[item].accumulatedTotal;
                 const hasDividends = data[item].hasDividends;
                 if (accumulatedTotal > 0 || hasDividends) {
-                    snap.push(item);
+                    snap.push(item)
                 }
             })
-            return snap.sort();
+            snap = snap.sort();
+            snap.forEach(item => {
+                result.push([item, getAmmount(jsonString, item, false), getAmmount(jsonOld, item, false)]);
+            })
+            return result;
         } else {
             return [];
         }
@@ -1958,7 +2027,7 @@ function calcPMFull(trigger = "") {
     }
 }
 
-function getPM(jsonString, ticker) {
+function getPM(jsonString, ticker, trigger = null) {
     try {
         const data = JSON.parse(jsonString);
         if (ticker in data) {

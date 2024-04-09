@@ -115,7 +115,7 @@ function calcPMFull(trigger = "") {
     }
 }
 
-function getPM(jsonString, ticker) {
+function getPM(jsonString, ticker, trigger = null) {
     try {
         const data = JSON.parse(jsonString);
         if (ticker in data) {

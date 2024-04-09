@@ -81,8 +81,8 @@ function copyData(tabReference, checkBoxKey, fase, row, col, numCol, lineRegiste
 }
 
 function importDataOtherVersion(fase = null) {
-    const title = "Migrando dados de outra versão";
-    const outputClose = HtmlService.createHtmlOutput('<script>google.script.host.close();</script>');
+    // const title = "Migrando dados de outra versão";
+    // const outputClose = HtmlService.createHtmlOutput('<script>google.script.host.close();</script>');
     const ui = SpreadsheetApp.getUi();
 
     const response = ui.alert(
@@ -92,8 +92,8 @@ function importDataOtherVersion(fase = null) {
     if (response === ui.Button.YES) {
 
         try {
-            const tmp = HtmlService.createHtmlOutputFromFile("@ricardoinvesting-import-html");
-            ui.showSidebar(tmp.setTitle(title));
+            // const tmp = HtmlService.createHtmlOutputFromFile("@ricardoinvesting-import-html");
+            // ui.showSidebar(tmp.setTitle(title));
             const Sheet = SpreadsheetApp.getActiveSpreadsheet();
             const TAB_IMPORT = Sheet.getSheetByName(ABAS.IMPORT);
             const URL_LINK = TAB_IMPORT.getRange("C2").getValue();
@@ -204,6 +204,9 @@ function importDataOtherVersion(fase = null) {
             copyData(TAB_IMPORT, "D19", 3, 2, 16, 1, "E19", ABAS.LANCAMENTO_B3, externalSheet, Sheet, 3, true, fase);
             copyData(TAB_IMPORT, "D19", 3, 2, 18, 2, "E19", ABAS.LANCAMENTO_B3, externalSheet, Sheet, 3, false, fase);
 
+            // copyData(TAB_IMPORT, "D20", 3, 5, 2, 1, "E19", ABAS.ANOTACOES, externalSheet, Sheet, 1, true, fase);
+            // copyData(TAB_IMPORT, "D20", 3, 5, 4, 1, "E19", ABAS.ANOTACOES, externalSheet, Sheet, 1, false, fase);
+
             if (
                 TAB_IMPORT.getRange("D5").getValue() === true &&
                 TAB_IMPORT.getRange("D6").getValue() === true &&
@@ -218,14 +221,15 @@ function importDataOtherVersion(fase = null) {
                 TAB_IMPORT.getRange("D16").getValue() === true &&
                 TAB_IMPORT.getRange("D17").getValue() === true &&
                 TAB_IMPORT.getRange("D18").getValue() === true &&
-                TAB_IMPORT.getRange("D19").getValue() === true
+                TAB_IMPORT.getRange("D19").getValue() === true &&
+                TAB_IMPORT.getRange("D20").getValue() === true
             ) {
-                ui.alert("Lançamentos importados com sucesso! O último passo é ir a aba '0. Dashboard' e acionar o botão 'Atualizar Cotação'\n\n Bons investimentos!\n@ricardoinvesting");
+                ui.alert("Lançamentos importados com sucesso! O último passo é ir a aba '0. Dashboard' e acionar os botões 'Atualizar Cotação' e 'Recalcular Preço Médio'\n\n Bons investimentos!\n@ricardoinvesting");
             }
-            ui.showSidebar(outputClose.setTitle(title));
+            // ui.showSidebar(outputClose.setTitle(title));
         } catch (error) {
             console.error(error);
-            ui.showSidebar(outputClose.setTitle(title));
+            // ui.showSidebar(outputClose.setTitle(title));
             throw new Error(`Não foi possível copiar os dados. ::erro!:: ${error}`);
 
         }
@@ -234,14 +238,49 @@ function importDataOtherVersion(fase = null) {
 
 }
 
-function fase1() {
-    importDataOtherVersion(1);
+function showMigrate() {
+    const title = "Migrando dados de outra versão";
+    const ui = SpreadsheetApp.getUi();
+    const tmp = HtmlService.createTemplateFromFile("@ricardoinvesting-import-html").evaluate();
+    ui.showSidebar(tmp.setTitle(title));
+    // importDataOtherVersion(1);
 }
 
-function fase2() {
-    importDataOtherVersion(2);
-}
+function getStatusButton() {
+    //16
+    const Sheet = SpreadsheetApp.getActiveSpreadsheet();
+    const TAB_IMPORT = Sheet.getSheetByName(ABAS.IMPORT);
+    const fase1 = TAB_IMPORT.getRange("D5:D10").getValues();
+    const fase2 = TAB_IMPORT.getRange("D11:D15").getValues();
+    const fase3 = TAB_IMPORT.getRange("D16:D20").getValues();
+    let status1 = []
+    let status2 = []
+    let status3 = []
 
-function fase3() {
-    importDataOtherVersion(3);
+    fase1.map((item) => {
+        item.map(node => {
+            if (node === true) {
+                status1.push(node)
+            }
+        })
+    })
+
+    fase2.map((item) => {
+        item.map(node => {
+            if (node === true) {
+                status2.push(node)
+            }
+        })
+    })
+    fase3.map((item) => {
+        item.map(node => {
+            if (node === true) {
+                status3.push(node)
+            }
+        })
+    })
+
+    const result = { status1: status1.length === 6 ? false : true, status2: status2.length === 5 ? false : true, status3: status3.length === 5 ? false : true }
+    return result;
+
 }

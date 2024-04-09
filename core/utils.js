@@ -15,6 +15,28 @@
 /**
  * UTILS.GS
  */
+
+function getUuid() {
+    return Utilities.getUuid();
+}
+
+function composeAvaiableYears(firstYear, limitYear) {
+    const currentYear = new Date().getFullYear();
+    let initiate = limitYear;
+    const listYears = []
+    if (firstYear === currentYear) {
+        return listYears.push(currentYear)
+    }
+    if (firstYear >= limitYear) {
+        initiate = firstYear
+    }
+    for (let i = initiate; i <= currentYear; i++) {
+        listYears.push(i);
+    }
+    return listYears;
+
+}
+
 function composeNode(node, property, value) {
     if (node.hasOwnProperty(property)) {
         node[property] += value;

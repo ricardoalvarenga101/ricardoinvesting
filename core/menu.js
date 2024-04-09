@@ -17,30 +17,8 @@
  * MENU.GS
  */
 
-function onEdit(e) {
-    const range = e.range;
-    const col = range.getColumn();
-    const row = range.getRow();
-    const sheet = range.getSheet().getName();
-    const uuid = Utilities.getUuid();
-    if (sheet === ABAS.DASHBOARD_CONSOLIDADO && row === 26 && col === 3) {        
-        const Sheet = SpreadsheetApp.getActiveSpreadsheet();
-        const TbDinamic = Sheet.getSheetByName(ABAS.TABELA_DINAMICA);
-
-        TbDinamic.getRange("AN5").clearContent();
-        TbDinamic.getRange("AN6").clearContent();
-
-        const GuideConsolid = Sheet.getSheetByName(ABAS.DASHBOARD_CONSOLIDADO);
-        const yearConsolidIR = GuideConsolid.getRange("C26").getValue();
-        const content4 = calculateAmmountIRPFFull(yearConsolidIR, uuid, false);
-        const content5 = calculateAmmountIRPFFull(yearConsolidIR - 1, uuid, true);
-        TbDinamic.getRange("AN5").setValue(content4);
-        TbDinamic.getRange("AN6").setValue(content5);
-
-    }
-}
-
 function onOpen() {
+    const uuid = Utilities.getUuid();
     const menu = SpreadsheetApp.getUi().createMenu("[@ricardoinvesting]");
     menu.addSubMenu(SpreadsheetApp.getUi().createMenu("🔹 B3")
         .addItem('Importar Lançamentos da B3', 'importarDadosB3'))
@@ -50,7 +28,7 @@ function onOpen() {
         .addItem('⛔ Remover Acionadores', 'deleteTrigger'))
     menu.addSubMenu(SpreadsheetApp.getUi().createMenu("🔹 Automações")
         .addItem('Atualizar Cotação', 'updateCotationManual')
-        .addItem('Atualizar Preço Médio', 'updatePMManual')
+        .addItem('Recalcular Preço Médio', 'updatePMManual')
         .addItem('Exibir/Esconder Valores', 'hidden')
         .addItem('Exibir Apenas Abas Principais', 'onlyTabsDefault')
         .addSeparator()
@@ -59,6 +37,11 @@ function onOpen() {
     menu.addItem('🔹 Lançamentos', 'showReleases')
     menu.addItem("🔹 IRPF", "showIR");
     menu.addToUi();
+
+    const Sheet = SpreadsheetApp.getActiveSpreadsheet();
+    const GuideTDConsolidado = Sheet.getSheetByName(ABAS.TABELA_DINAMICA_CONSOLIDADO);
+    GuideTDConsolidado.getRange("V13").setValue(uuid);
+
 }
 
 function clearAll() {
@@ -138,9 +121,19 @@ function clearAll() {
 
         const GuiaImport = Planilha.getSheetByName(ABAS.IMPORT);
         GuiaImport.getRange("D5:D19").setValue(false);
+        GuiaImport.getRange("E5:E19").clearContent();
 
         const GuiaIR = Planilha.getSheetByName(ABAS.BENS_DIREITOS);
         GuiaIR.getRange("AC2").clearContent();
+
+        const GuiaAnotation = Planilha.getSheetByName(ABAS.ANOTACOES);
+        GuiaAnotation.getRange("B5:B").clearContent();
+        GuiaAnotation.getRange("D5:D").clearContent();
+
+        const GuiaTDConsolidado = Planilha.getSheetByName(ABAS.TABELA_DINAMICA_CONSOLIDADO);
+        GuiaTDConsolidado.getRange("V3:Z7").clearContent();
+        GuiaTDConsolidado.getRange("V10").clearContent();
+        GuiaTDConsolidado.getRange("V13").clearContent();
 
         return Browser.msgBox("Reset realizado com sucesso!");
     }
@@ -161,6 +154,8 @@ function onlyTabsDefault() {
     Planilha.getSheetByName(ABAS.DARF).showSheet();
     Planilha.getSheetByName(ABAS.PROVENTOS).showSheet();
     Planilha.getSheetByName(ABAS.DASHBOARD_CONSOLIDADO).showSheet();
+    Planilha.getSheetByName(ABAS.ANOTACOES).showSheet();
+    Planilha.getSheetByName(ABAS.BENS_DIREITOS).showSheet();
     //hiden
     Planilha.getSheetByName(ABAS.LANCAMENTO_CDB).hideSheet();
     Planilha.getSheetByName(ABAS.EVOLUCAO_PATRIMONIAL).hideSheet();
@@ -171,7 +166,6 @@ function onlyTabsDefault() {
     Planilha.getSheetByName(ABAS.SIMULADOR_PM).hideSheet();
     Planilha.getSheetByName(ABAS.PRECO_TETO).hideSheet();
     Planilha.getSheetByName(ABAS.MEUS_OBJETIVOS).hideSheet();
-    Planilha.getSheetByName(ABAS.BENS_DIREITOS).hideSheet();
     Planilha.getSheetByName(ABAS.BASE_DADOS).hideSheet();
     Planilha.getSheetByName(ABAS.TABELA_DINAMICA).hideSheet();
     Planilha.getSheetByName(ABAS.TABELA_DINAMICA_CONSOLIDADO).hideSheet();
