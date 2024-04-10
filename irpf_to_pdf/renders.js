@@ -25,6 +25,47 @@ function renderLow20kMonth() {
     return [title, content1]
 }
 
+function renderCriptoLow35kMonth() {
+    // mount operation cripto
+    const tableOperationsCripto = composeTableOperationsCriptos(operationsFull);        
+    console.log("tableOperationsCripto", tableOperationsCripto)
+    _.map(tableOperationsCripto, (item, indexYear) => {
+        const sum = []
+        _.map(item, (month) => {
+            if(month.hasOwnProperty("totalCommon")) {
+                sum.push(month.totalCommon) 
+            }
+        })
+        SUM_SWING_TRADE_CRIPTO_FREE[indexYear] = _.sumBy(sum)
+    })
+    
+    console.log("SUM_SWING_TRADE_CRIPTO_FREE", SUM_SWING_TRADE_CRIPTO_FREE)
+    const lines = [];
+    if (!SUM_SWING_TRADE_CRIPTO_FREE.hasOwnProperty(year)) {
+        return [{}]
+    }
+    if (SUM_SWING_TRADE_CRIPTO_FREE.hasOwnProperty(year)) {
+        lines.push(
+            ["05", SUM_SWING_TRADE_CRIPTO_FREE.hasOwnProperty(year) ? convertCurrencyReal(SUM_SWING_TRADE_CRIPTO_FREE[year]) : convertCurrencyReal(0)]
+        )
+    }
+    const title = {
+        text: "\n\nVendas em criptoativos abaixo de R$35.000,00 no mês",
+        style: "title"
+    }
+    const content1 = {
+        style: "table",
+        table: {
+            widths: [30, "*"],
+            body: [
+                composeHeaderTable(["Tipo", "Valor"]),
+                ...lines
+            ]
+        }
+    }
+    return [title, content1]
+}
+
 function renderRendimentsJCP() {
     if (!provents.rendimentsJCP.length) {
         return [{}];
@@ -163,8 +204,10 @@ function renderCommonsOperations(docDefinition) {
         }
     }))
 
+
     console.log("tableCommonOperationAndDayTrade", tableCommonOperationAndDayTrade)
     console.log("tableCommonOperationAndDayTradeFiltered", tableCommonOperationAndDayTradeFiltered)
+
     const commonOperationsAnalised = []
     _.map(tableCommonOperationAndDayTrade[year], (month, indexMonth) => {
         const co = composeCommonOperationAndDayTrade(month, year, indexMonth, operationsFull, tableCommonOperationAndDayTradeFiltered[year], tableCommonOperationAndDayTrade);

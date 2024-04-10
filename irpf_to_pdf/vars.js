@@ -31,14 +31,16 @@ let tableOperationsFII = {}
 let lossesSalesFii = {};
 let pdfDefinition = {}
 let _local = false;
+let SUM_SWING_TRADE_FREE = {};
+let SUM_SWING_TRADE_CRIPTO_FREE = {};
+let SUM_SWING_TRADE_FREE_99 = {};
 
 /**
 * ############### constants ###############
 */
 const LIMIT_SWING_TRADE = 20000;
+const LIMIT_SWING_TRADE_CRIPTO = 35000;
 const LIMIT_SWING_EXTERIOR = 35000;
-let SUM_SWING_TRADE_FREE = {};
-let SUM_SWING_TRADE_FREE_99 = {};
 const TYPE_OPERATIONS_SELL = {
     "VENDA_DE_FII": "VENDA DE FII/FIAGRO", //
     "DAY_TRADE": "DAY TRADE DE AÇÃO", //
