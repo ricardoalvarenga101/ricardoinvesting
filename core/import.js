@@ -204,8 +204,13 @@ function importDataOtherVersion(fase = null) {
             copyData(TAB_IMPORT, "D19", 3, 2, 16, 1, "E19", ABAS.LANCAMENTO_B3, externalSheet, Sheet, 3, true, fase);
             copyData(TAB_IMPORT, "D19", 3, 2, 18, 2, "E19", ABAS.LANCAMENTO_B3, externalSheet, Sheet, 3, false, fase);
 
-            // copyData(TAB_IMPORT, "D20", 3, 5, 2, 1, "E19", ABAS.ANOTACOES, externalSheet, Sheet, 1, true, fase);
-            // copyData(TAB_IMPORT, "D20", 3, 5, 4, 1, "E19", ABAS.ANOTACOES, externalSheet, Sheet, 1, false, fase);
+            if (externalSheet.getSheetByName(ABAS.ANOTACOES)) {
+                copyData(TAB_IMPORT, "D20", 3, 5, 2, 1, "E19", ABAS.ANOTACOES, externalSheet, Sheet, 1, true, fase);
+                copyData(TAB_IMPORT, "D20", 3, 5, 4, 1, "E19", ABAS.ANOTACOES, externalSheet, Sheet, 1, false, fase);
+            } else {
+                TAB_IMPORT.getRange("D20").setValue(true)
+                TAB_IMPORT.getRange("E20").setValue("0/0")
+            }
 
             if (
                 TAB_IMPORT.getRange("D5").getValue() === true &&
@@ -221,7 +226,8 @@ function importDataOtherVersion(fase = null) {
                 TAB_IMPORT.getRange("D16").getValue() === true &&
                 TAB_IMPORT.getRange("D17").getValue() === true &&
                 TAB_IMPORT.getRange("D18").getValue() === true &&
-                TAB_IMPORT.getRange("D19").getValue() === true
+                TAB_IMPORT.getRange("D19").getValue() === true &&
+                TAB_IMPORT.getRange("D20").getValue() === true
             ) {
                 ui.alert("Lançamentos importados com sucesso! O último passo é ir a aba '0. Dashboard' e acionar os botões 'Atualizar Cotação' e 'Recalcular Preço Médio'\n\n Bons investimentos!\n@ricardoinvesting");
             }
