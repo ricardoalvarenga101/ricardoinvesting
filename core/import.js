@@ -279,7 +279,7 @@ function getStatusButton() {
         })
     })
 
-    const result = { status1: status1.length === 6 ? false : true, status2: status2.length === 5 ? false : true, status3: status3.length === 4 ? false : true }
+    const result = { status1: status1.length === 6 ? false : true, status2: status2.length === 5 ? false : true, status3: status3.length === 5 ? false : true }
     return result;
 
 }
