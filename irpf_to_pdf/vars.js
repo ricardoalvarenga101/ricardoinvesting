@@ -25,7 +25,7 @@ let provents = {};
 let year = 2022;
 let name = "";
 let document_number = "";
-let firstYear = new Date().getFullYear();
+let _firstYear = new Date().getFullYear();
 let operationsFII = {}
 let tableOperationsFII = {}
 let lossesSalesFii = {};
@@ -37,8 +37,8 @@ let _local = false;
 */
 const LIMIT_SWING_TRADE = 20000;
 const LIMIT_SWING_EXTERIOR = 35000;
-const SUM_SWING_TRADE_FREE = {};
-const SUM_SWING_TRADE_FREE_99 = {};
+let SUM_SWING_TRADE_FREE = {};
+let SUM_SWING_TRADE_FREE_99 = {};
 const TYPE_OPERATIONS_SELL = {
     "VENDA_DE_FII": "VENDA DE FII/FIAGRO", //
     "DAY_TRADE": "DAY TRADE DE AÇÃO", //

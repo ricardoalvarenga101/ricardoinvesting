@@ -11,12 +11,24 @@ function _getFirstYear() {
     document.getElementById("btn_download").style.display = "none";
     document.getElementById("btn_close1").style.display = "none";
     document.getElementById("btn_close2").style.display = "none";
-    document.getElementById("btn_back").style.display = "none";    
+    document.getElementById("btn_back").style.display = "none"; 
+
+    itensWalletFiltered = [];
+    provents = {};       
+    
+    operationsFII = {}
+    tableOperationsFII = {}
+    lossesSalesFii = {};
+    pdfDefinition = {}
+    operationsFull={}
+
+    SUM_SWING_TRADE_FREE = {};
+    SUM_SWING_TRADE_FREE_99 = {};
 
     name = (document.getElementById("input_name").value).toUpperCase();
     document_number = document.getElementById("input_cpf").value;
     if (_local) {
-        getFirstYear(year) // test local
+        getFirstYear(2022) // test local
     } else {
         google.script.run
             .withSuccessHandler(getFirstYear)
@@ -36,7 +48,7 @@ function _loadingData() {
     name = (document.getElementById("input_name").value).toUpperCase();
     document_number = document.getElementById("input_cpf").value;
     if (_local) {
-        getJson(mockEmpty2022) // test local
+        getJson(mockFullData2022) // test local
     } else {
         google.script.run
             .withSuccessHandler(getJson)
