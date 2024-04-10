@@ -91,6 +91,10 @@ function getCodes(classe) {
     let locale = "105 - Brasil";
 
     switch (classe) {
+        case "Criptomoeda":
+            group = "08";
+            cod = "99";
+            break;
         case "Ação":
             group = "03";
             cod = "01";
