@@ -3,7 +3,7 @@
 */
 
 function getFirstYear(data) {
-    firstYear = data;
+    _firstYear = data;
     document.getElementById("btn_generate").style.display = "block";
     document.getElementById("ir_form").style.display = "inline";
     document.getElementById("loading_spinner").style.display = "none";
@@ -15,7 +15,7 @@ function getFirstYear(data) {
     composeListYears();
     name = (document.getElementById("input_name").value).toUpperCase();
     const e = document.getElementById("year_select");
-    year = e.options[e.selectedIndex].value;
+    year = e.options[e.selectedIndex].value;  
     document_number = document.getElementById("input_cpf").value;    
 }
 

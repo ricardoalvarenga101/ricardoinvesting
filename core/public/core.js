@@ -1195,8 +1195,7 @@ function importDataOtherVersion(fase = null) {
                 TAB_IMPORT.getRange("D16").getValue() === true &&
                 TAB_IMPORT.getRange("D17").getValue() === true &&
                 TAB_IMPORT.getRange("D18").getValue() === true &&
-                TAB_IMPORT.getRange("D19").getValue() === true &&
-                TAB_IMPORT.getRange("D20").getValue() === true
+                TAB_IMPORT.getRange("D19").getValue() === true
             ) {
                 ui.alert("Lançamentos importados com sucesso! O último passo é ir a aba '0. Dashboard' e acionar os botões 'Atualizar Cotação' e 'Recalcular Preço Médio'\n\n Bons investimentos!\n@ricardoinvesting");
             }
@@ -1254,7 +1253,7 @@ function getStatusButton() {
         })
     })
 
-    const result = { status1: status1.length === 6 ? false : true, status2: status2.length === 5 ? false : true, status3: status3.length === 5 ? false : true }
+    const result = { status1: status1.length === 6 ? false : true, status2: status2.length === 5 ? false : true, status3: status3.length === 4 ? false : true }
     return result;
 
 }/**
@@ -1289,6 +1288,7 @@ const CLASS_ACOES_LIST = [
     CLASS.ETF,
 ]
 
+
 function composeDescription(classe, ticker, quantity, name, cnpj, coin, pm, valueBuy, cambio = 1) {
     try {
         const composePm = pm; //.split(" ")[1].replace(",",".");
@@ -1306,6 +1306,9 @@ function composeDescription(classe, ticker, quantity, name, cnpj, coin, pm, valu
                 } else {
                     return `(${ticker}) - ${quantity} RECIBOS DE SUBSCRIÇÕES DE ${name.toUpperCase()}, CNPJ: ${cnpj}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${coin} ${composePm} E CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy}`;
                 }
+            }
+            if (classe === CLASS.CRIPTOMOEDA) {
+                return `(${ticker}) - ${quantity} ${getRenderType(classe, quantity)} DE ${name.toUpperCase()}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${coin} ${composePm} E CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy}`;
             }
             return `(${ticker}) - ${quantity} ${getRenderType(classe, quantity)} DE ${name.toUpperCase()}, CNPJ: ${cnpj}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${coin} ${composePm} E CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy}`;
         }
@@ -1717,6 +1720,30 @@ function getWallet(jsonString, jsonOld, trigger = null) {
     } catch {
         return [];
     }
+}
+
+function getWalletReport(jsonString, jsonOld, trigger = null) {
+    try {
+        const data = JSON.parse(jsonString);
+        let snap = [];
+        const result = [];
+
+        if (data) {
+            data["snapshotToYear"].forEach((item) => {
+                const accumulatedTotal = data[item].accumulatedTotal;
+                const hasDividends = data[item].hasDividends;
+                if (accumulatedTotal > 0 || hasDividends) {
+                    snap.push(item)
+                }
+            })
+            snap = snap.sort();
+            return snap;
+        } else {
+            return [];
+        }
+    } catch {
+        return [];
+    }
 
 }
 
@@ -1786,12 +1813,12 @@ function composeBensEDireitos(walletList, jsonIR, jsonIRPast, database) {
     return itemsWalletFiltered;
 }
 
-function irReportLoadingData(year = 2023, historyCurrent = false, historyPast = true) {
+function irReportLoadingData(year = 2024, historyCurrent = false, historyPast = true) {
     const database = getDataBase();
     const sells = composeSells(year, database);
     const jsonIR = calculateAmmountIRPFFull(year, "", historyCurrent);
     const jsonIRPast = calculateAmmountIRPFFull(year - 1, "", historyPast);
-    const walletList = getWallet(jsonIR, "");
+    const walletList = getWalletReport(jsonIR, jsonIRPast);
     const itensWallletFiltered = composeBensEDireitos(walletList, jsonIR, jsonIRPast, database);
     const provents = composeProvents(Number(year), database);
     return { itensWallletFiltered, provents, sells };

@@ -211,10 +211,11 @@ function renderOperationsFII(docDefinition) {
         if (mes === 1) {
             if (tableOperationsFII.hasOwnProperty(indexYear)) {
                 if (tableOperationsFII[indexYear].hasOwnProperty(mes)) {                    
+                    const lossesOldYear = Number(indexYear) === Number(_firstYear) ? 0 : tableOperationsFII[indexYear - 1][12][2] > 0 ? tableOperationsFII[indexYear - 1][12][2] * -1 : 0
                     tableOperationsFII[indexYear][mes] = [
                         MONTHS_LABEL[mes].slice(0, 3),
                         getNode(operationsFII[indexYear], mes),
-                        tableOperationsFII[indexYear - 1][12][2] > 0 ? tableOperationsFII[indexYear - 1][12][2] * -1 : 0,
+                        lossesOldYear,
                         0,
                         0,
                         "20%",
