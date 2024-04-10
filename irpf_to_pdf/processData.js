@@ -35,6 +35,7 @@ function getJson(data) {
             })
         })
     }))
+    
     composeSwingTradeFree(operationsFull);
     document.getElementById("btn_generate").style.display = "block";
     document.getElementById("loading_spinner").style.display = "none";

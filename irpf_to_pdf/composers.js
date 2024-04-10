@@ -93,6 +93,58 @@ function composeTableCommonOperationAndDayTrade(operations) {
     return tableCommonOperationAndDayTradeProcessed
 }
 
+function composeTableOperationsCriptos(operations) {
+
+    let tableOperationsCriptosProcessed = {};
+    const arrayYears = Object.keys(operations);
+    const firstYear = arrayYears.length > 0 ? arrayYears[0] : 0;
+
+    _.map(operations, (years, indexYear) => {
+        tableOperationsCriptosProcessed[indexYear] = {
+            1: {},
+            2: {},
+            3: {},
+            4: {},
+            5: {},
+            6: {},
+            7: {},
+            8: {},
+            9: {},
+            10: {},
+            11: {},
+            12: {},
+            accumulatedTrade: 0,
+            accumulatedCommon: 0,
+        }
+
+        _.map(years, (months, indexMonth) => {
+            let ops = { commonList: [], dayTradeList: [], totalCommon: 0, totalTrade: 0 };
+            _.map(months, (op, operationName) => {
+                switch (operationName) {
+                    case TYPE_OPERATIONS_SELL.VENDA_DE_CRIPTOMOEDA:
+                        // comuns, acima de 35k para acoes ou prejuizo
+                        if (op.amountTransaction > LIMIT_SWING_TRADE_CRIPTO) {
+                            ops.dayTradeList.push(op);
+                        } else {
+                            ops.commonList.push(op);
+                        }
+                        break;
+                }
+
+            })
+            ops.totalCommon = _.sumBy(ops.commonList, "amountValues")
+            ops.totalTrade = _.sumBy(ops.dayTradeList, "amountValues")
+            tableOperationsCriptosProcessed[indexYear][indexMonth] = ops;
+            // calculando accumulado do mês
+            calcAccumulatedMonth(indexYear, firstYear, indexMonth, tableOperationsCriptosProcessed);
+        })
+        // calculando accumulado no ano
+        calcAccumulatedYear(indexYear, firstYear, tableOperationsCriptosProcessed);
+
+    })
+    return tableOperationsCriptosProcessed
+}
+
 function calcAccumulatedMonth(indexYear, firstYear, indexMonth, tableCommonOperationAndDayTradeProcessed) {
     const itemMonth = tableCommonOperationAndDayTradeProcessed[indexYear][indexMonth]
     if (indexYear === firstYear) {
@@ -321,8 +373,9 @@ function mountSalesFiInfra(yearAnalysis, indexMonth, op) {
     }
 }
 
+
 function composeOperations(operations, indexMonth, indexYear, op) {
-    mountSalesFiInfra(indexYear, indexMonth, op);
+    mountSalesFiInfra(indexYear, indexMonth, op);    
     if (!operations.hasOwnProperty(indexYear)) {
         operations[indexYear] = {
             [indexMonth]: {
@@ -454,6 +507,7 @@ function composeBensDireitos() {
             ]
         )
     })
+
     return bens;
 }
 

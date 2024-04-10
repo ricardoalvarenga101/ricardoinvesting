@@ -30,7 +30,7 @@ function generatePdf() {
                     'Rendimentos sujeitos a tributação exclusiva (Proventos tributados como JCP)',                    
                     'Renda variável (Operações comuns / Day-Trade / Fundos Imobiliários)',
                     {text: "Não contempla bonificações", color: "red"},
-                    {text: "Não contempla ganho de capital em vendas de criptoativos", color: "red"},
+                    {text: "Não contempla ganho de capital em vendas de criptoativos acima de R$35.000,00", color: "red"},
                     {text: "Não contempla ganho de capital nas vendas de ativos do exterior", color: "red"}
                 ]
             },
@@ -127,6 +127,7 @@ function generatePdf() {
             ...renderDividends(),   
             ...renderRendimentsIsentos(),            
             ...renderLow20kMonth(),
+            ...renderCriptoLow35kMonth(),
             ...renderJCPs(),           
             ...renderRendimentsJCP(),            
         ],

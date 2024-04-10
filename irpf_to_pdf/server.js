@@ -24,6 +24,7 @@ function _getFirstYear() {
 
     SUM_SWING_TRADE_FREE = {};
     SUM_SWING_TRADE_FREE_99 = {};
+    SUM_SWING_TRADE_CRIPTO_FREE = {};
 
     name = (document.getElementById("input_name").value).toUpperCase();
     document_number = document.getElementById("input_cpf").value;
@@ -48,7 +49,7 @@ function _loadingData() {
     name = (document.getElementById("input_name").value).toUpperCase();
     document_number = document.getElementById("input_cpf").value;
     if (_local) {
-        getJson(mockFullData2022) // test local
+        getJson(mockFullData2023) // test local
     } else {
         google.script.run
             .withSuccessHandler(getJson)
