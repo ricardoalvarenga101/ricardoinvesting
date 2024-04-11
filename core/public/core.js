@@ -587,7 +587,7 @@ function createTrigger() {
     deleteTrigger()
     ScriptApp.newTrigger('updateCotation')
         .timeBased()
-        .everyHours(1)
+        .everyMinutes(30)
         .create();
 
     ScriptApp.newTrigger('getEvolutionRentability')
@@ -647,47 +647,36 @@ function updateCotation() {
     const classStranger = [CLASS.ETF_EUA, CLASS.REIT, CLASS.STOCK]
     const Sheet = SpreadsheetApp.getActiveSpreadsheet();
 
-    let initialLine = 2;
     let totalRegister = 0;
 
     const GuideCotation = Sheet.getSheetByName(ABAS.COTACAO);
-    Utilities.sleep(1000);
 
     totalRegister = getTotalRegisterInGuide(GuideCotation);
-    let outputClose = null;
-    let ui = null;
-    console.log("[🔨] - Iniciando atualização de cotação");
-    for (var i = initialLine; i <= totalRegister + 1; i++) {
-        const id = GuideCotation.getRange(i, 1).getValue();
-        const type = GuideCotation.getRange(i, 2).getValue();
-        let value = GuideCotation.getRange(i, 3).getValue(); // coluna cotacao (online)    
-        // const valuePvp = GuideCotation.getRange(i, 12).getValue(); // coluna pvp (online)
-        const reference = String("D") + i;
-        const referencePvpOffline = String("E") + i;
-        const CellPerformance = GuideCotation.getRange(reference);
-        // const CellReferencePvpOffline = GuideCotation.getRange(referencePvpOffline);
-        if (value !== "-") {
-            if (classStranger.includes(type)) {
-                const dolar = GuideCotation.getRange("F2").getValue();
-                CellPerformance.setValue(value * dolar);
-                // CellReferencePvpOffline.setValue("-");
+    const cotations = GuideCotation.getRange(`A2:C${totalRegister + 1}`).getValues();
+    const cambio = GuideCotation.getRange("F2").getValue();
+    const offlineCotations = []
 
+    console.log("[🔨] - Iniciando atualização de cotação");
+    for (row in cotations) {
+        const ticker = cotations[row][0];
+        const type = cotations[row][1];
+        const value = cotations[row][2];
+        if (value !== "-") {
+            if (classStranger.includes(type)) { // se exterior
+                offlineCotations.push([value * cambio])
             } else {
-                CellPerformance.setValue(value);
-                // CellReferencePvpOffline.setValue("-");
+                offlineCotations.push([value])
             }
         }
-        console.log(`[✔] ---- ${type} (${id})`);
+        console.log(`[✔] ---- ${type} (${ticker})`);
     }
+    console.log(offlineCotations)
+    GuideCotation.getRange(`D2:D${offlineCotations.length + 1}`).setValues(offlineCotations);
 
     const dash = Sheet.getSheetByName(ABAS.DASHBOARD);
     const formatedDate = Utilities.formatDate(new Date(), "GMT-3", "dd/MM/yyyy-HH:mm:ss");
     dash.getRange("N4").setValue("🕔 Data da última cotação: " + formatedDate);
-    dash.getRange("a3").setValue(new Date().toTimeString());
-
-    // const TD = Sheet.getSheetByName(ABAS.TABELA_DINAMICA);
-    // const date = new Date();
-    // TD.getRange("AP2").setValue(date.getMilliseconds() + date.getSeconds() + date.getMinutes());
+    dash.getRange("A3").setValue(new Date().toTimeString());
 
 }
 
@@ -724,20 +713,15 @@ function updatePMManual() {
     const content1 = calcPMFull(uuid);
     TbDinamic.getRange("AN2").setValue(content1);
     GuideDinamicConsolid.getRange("V10").setValue(content1);
-
+    const data = [];
     for (let i = 0; i < listYears.length; i++) {
         const yIR = calculateAmmountIRPFFull(listYears[i], uuid, false);
         const yIR_last = calculateAmmountIRPFFull(listYears[i] - 1, uuid, false);
         const yCONSOLID = calculateAmmountIRPFFull(listYears[i], uuid, false);
         const yCONSOLID_last = calculateAmmountIRPFFull(listYears[i] - 1, uuid, false);
-        GuideDinamicConsolid.getRange(`V${3 + i}`).setValue(listYears[i])
-        GuideDinamicConsolid.getRange(`W${3 + i}`).setValue(yIR)
-        GuideDinamicConsolid.getRange(`X${3 + i}`).setValue(yIR_last)
-        GuideDinamicConsolid.getRange(`Y${3 + i}`).setValue(yCONSOLID)
-        GuideDinamicConsolid.getRange(`Z${3 + i}`).setValue(yCONSOLID_last)
+        data.push([listYears[i], yIR, yIR_last, yCONSOLID, yCONSOLID_last])
     }
-
-
+    GuideDinamicConsolid.getRange(`V3:Z${data.length + 2}`).setValues(data)
     const GuideTDConsolidado = Sheet.getSheetByName(ABAS.TABELA_DINAMICA_CONSOLIDADO);
     GuideTDConsolidado.getRange("V13").setValue(uuid);
 
