@@ -120,8 +120,8 @@ function clearAll() {
         GuiaLancamentoCDB.getRange("C2:J").clearContent();
 
         const GuiaImport = Planilha.getSheetByName(ABAS.IMPORT);
-        GuiaImport.getRange("D5:D19").setValue(false);
-        GuiaImport.getRange("E5:E19").clearContent();
+        GuiaImport.getRange("D5:D20").setValue(false);
+        GuiaImport.getRange("E5:E20").clearContent();
 
         const GuiaIR = Planilha.getSheetByName(ABAS.BENS_DIREITOS);
         GuiaIR.getRange("AC2").clearContent();
