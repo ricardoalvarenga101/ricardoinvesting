@@ -49,6 +49,9 @@ function renderCriptoLow35kMonth() {
             ["05", SUM_SWING_TRADE_CRIPTO_FREE.hasOwnProperty(year) ? convertCurrencyReal(SUM_SWING_TRADE_CRIPTO_FREE[year]) : convertCurrencyReal(0)]
         )
     }
+    if(SUM_SWING_TRADE_CRIPTO_FREE[year]===0) {
+        return [{}]
+    }
     const title = {
         text: "\n\nVendas em criptoativos abaixo de R$35.000,00 no mês",
         style: "title"
@@ -386,7 +389,7 @@ function renderRendimentsIsentos() {
 }
 
 function renderRendimentsPrint() {
-    if (!provents.dividends.length) {
+    if (!provents.dividends.length && !provents.rendiments.length && !SUM_SWING_TRADE_FREE_99.hasOwnProperty(year)) {
         return [{}]
     }
     const title = {

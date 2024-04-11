@@ -498,8 +498,8 @@ function clearAll() {
         GuiaLancamentoCDB.getRange("C2:J").clearContent();
 
         const GuiaImport = Planilha.getSheetByName(ABAS.IMPORT);
-        GuiaImport.getRange("D5:D19").setValue(false);
-        GuiaImport.getRange("E5:E19").clearContent();
+        GuiaImport.getRange("D5:D20").setValue(false);
+        GuiaImport.getRange("E5:E20").clearContent();
 
         const GuiaIR = Planilha.getSheetByName(ABAS.BENS_DIREITOS);
         GuiaIR.getRange("AC2").clearContent();
@@ -1178,8 +1178,16 @@ function importDataOtherVersion(fase = null) {
             copyData(TAB_IMPORT, "D19", 3, 2, 16, 1, "E19", ABAS.LANCAMENTO_B3, externalSheet, Sheet, 3, true, fase);
             copyData(TAB_IMPORT, "D19", 3, 2, 18, 2, "E19", ABAS.LANCAMENTO_B3, externalSheet, Sheet, 3, false, fase);
 
-            // copyData(TAB_IMPORT, "D20", 3, 5, 2, 1, "E19", ABAS.ANOTACOES, externalSheet, Sheet, 1, true, fase);
-            // copyData(TAB_IMPORT, "D20", 3, 5, 4, 1, "E19", ABAS.ANOTACOES, externalSheet, Sheet, 1, false, fase);
+            if (fase === 3) {
+
+                if (externalSheet.getSheetByName(ABAS.ANOTACOES)) {
+                    copyData(TAB_IMPORT, "D20", 3, 5, 2, 1, "E19", ABAS.ANOTACOES, externalSheet, Sheet, 1, true, fase);
+                    copyData(TAB_IMPORT, "D20", 3, 5, 4, 1, "E19", ABAS.ANOTACOES, externalSheet, Sheet, 1, false, fase);
+                } else {
+                    TAB_IMPORT.getRange("D20").setValue(true)
+                    TAB_IMPORT.getRange("E20").setValue("0/0")
+                }
+            }
 
             if (
                 TAB_IMPORT.getRange("D5").getValue() === true &&
@@ -1195,7 +1203,8 @@ function importDataOtherVersion(fase = null) {
                 TAB_IMPORT.getRange("D16").getValue() === true &&
                 TAB_IMPORT.getRange("D17").getValue() === true &&
                 TAB_IMPORT.getRange("D18").getValue() === true &&
-                TAB_IMPORT.getRange("D19").getValue() === true
+                TAB_IMPORT.getRange("D19").getValue() === true &&
+                TAB_IMPORT.getRange("D20").getValue() === true
             ) {
                 ui.alert("Lançamentos importados com sucesso! O último passo é ir a aba '0. Dashboard' e acionar os botões 'Atualizar Cotação' e 'Recalcular Preço Médio'\n\n Bons investimentos!\n@ricardoinvesting");
             }
@@ -1212,7 +1221,7 @@ function importDataOtherVersion(fase = null) {
 }
 
 function showMigrate() {
-    const title = "Migrando dados de outra versão";
+    const title = "Migrar dados de outra versão";
     const ui = SpreadsheetApp.getUi();
     const tmp = HtmlService.createTemplateFromFile("@ricardoinvesting-import-html").evaluate();
     ui.showSidebar(tmp.setTitle(title));
@@ -1253,7 +1262,7 @@ function getStatusButton() {
         })
     })
 
-    const result = { status1: status1.length === 6 ? false : true, status2: status2.length === 5 ? false : true, status3: status3.length === 4 ? false : true }
+    const result = { status1: status1.length === 6 ? false : true, status2: status2.length === 5 ? false : true, status3: status3.length === 5 ? false : true }
     return result;
 
 }/**
