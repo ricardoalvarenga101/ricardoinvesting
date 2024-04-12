@@ -1624,6 +1624,7 @@ function calculateAmmountIRPFFull(year = 2023, trigger = "", history = false) {
 
             const dates = Object.keys(dataGroup)
             let accumulatedUnitBonification = 0;
+            let accumulatedPriceBonification = 0;
             let accumulatedTotal = 0;
             let accumulatedInvested = 0;
             let lastYearSales = null;
@@ -1633,9 +1634,10 @@ function calculateAmmountIRPFFull(year = 2023, trigger = "", history = false) {
                     const typeOperation = item.typeOperation;
                     const qtd = item.qtd;
                     const currentYear = new Date(item.data).getFullYear();
-                    if (currentYear === year) {
+                    if (currentYear == year) {
                         if (typeOperation === OPERATIONS.BONIFICACAO) {
                             accumulatedUnitBonification += qtd;
+                            accumulatedPriceBonification += item.investedAmount;
                         }
                     }
                     const investedAmount = item.investedAmount;
@@ -1656,7 +1658,7 @@ function calculateAmmountIRPFFull(year = 2023, trigger = "", history = false) {
                 })
             })
             const hasDividends = hasReceiverDividendsThisYear(year, _dataRows, id);
-            totalAmmountOrAccumulated[id] = { "accumulatedTotal": accumulatedTotal, "accumulatedInvested": accumulatedInvested, lastYearSales, cambio, averageCambio: 0, hasDividends, accumulatedUnitBonification }
+            totalAmmountOrAccumulated[id] = { "accumulatedTotal": accumulatedTotal, "accumulatedInvested": accumulatedInvested, lastYearSales, cambio, averageCambio: 0, hasDividends, accumulatedUnitBonification, accumulatedPriceBonification }
         });
         const snapshotToYear = [];
 
@@ -1787,9 +1789,10 @@ function composeBensEDireitos(walletList, jsonIR, jsonIRPast, database) {
     const JSON_IR_PAST = JSON.parse(jsonIRPast)
     const DATABASE = database;
     const itemsWalletFiltered = [];
+    let unitBonificationToYear = 0;
     walletList.forEach((item) => {
         const pm = JSON_IR[item].accumulatedInvested / JSON_IR[item].accumulatedTotal;
-        const unitBonificationToYear = JSON_IR[item].accumulatedUnitBonification;
+        unitBonificationToYear = JSON_IR[item].accumulatedUnitBonification || 0;
         const document_number_principal = item in DATABASE ? DATABASE[item].document_number_principal : "";
         const document_number_admin = item in DATABASE ? DATABASE[item].document_number_admin : "";
         const classe = item in DATABASE ? DATABASE[item].classe : "";
@@ -1810,6 +1813,7 @@ function composeBensEDireitos(walletList, jsonIR, jsonIRPast, database) {
                 this_year: composeCurrencyReal(JSON_IR[item].accumulatedInvested * (JSON_IR[item].averageCambio || 1)),
                 description,
                 averageCambio: composeCurrency(JSON_IR[item].averageCambio, JSON_IR[item].classe),
+                unitBonificationToYear
             });
     })
     return itemsWalletFiltered;
@@ -1822,9 +1826,29 @@ function irReportLoadingData(year = 2024, historyCurrent = false, historyPast = 
     const jsonIRPast = calculateAmmountIRPFFull(year - 1, "", historyPast);
     const walletList = getWalletReport(jsonIR, jsonIRPast);
     const itensWallletFiltered = composeBensEDireitos(walletList, jsonIR, jsonIRPast, database);
+    const bonifications = composeBonificationToYear(jsonIR, database);
     const provents = composeProvents(Number(year), database);
-    return { itensWallletFiltered, provents, sells };
+    return { itensWallletFiltered, provents, sells, bonifications };
 
+}
+
+function composeBonificationToYear(jsonIR, database) {
+    const bonifications = {}
+    const json = JSON.parse(jsonIR)
+    const tickerList = Object.keys(json)
+    // accumulatedUnitBonification, accumulatedPriceBonification
+    tickerList.forEach(item => {
+        if (item !== "snapshotToYear") {
+            if (json[item].accumulatedUnitBonification && json[item].accumulatedPriceBonification) {
+                bonifications[item] = {
+                    amount: json[item].accumulatedPriceBonification,
+                    cnpj: database[item].document_number_principal || database[item].document_number_admin,
+                    name: database[item].name
+                }
+            }
+        }
+    })
+    return bonifications
 }
 
 function showIR() {
