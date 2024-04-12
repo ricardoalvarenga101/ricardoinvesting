@@ -29,7 +29,7 @@ function generatePdf() {
                     'Rendimentos isentos e não tributáveis (Vendas abaixo de R$20.000,00, ativos isentos e dividendos)',
                     'Rendimentos sujeitos a tributação exclusiva (Proventos tributados como JCP)',                    
                     'Renda variável (Operações comuns / Day-Trade / Fundos Imobiliários)',
-                    {text: "Não contempla bonificações", color: "red"},
+                    'Bonificações',
                     {text: "Não contempla ganho de capital em vendas de criptoativos acima de R$35.000,00", color: "red"},
                     {text: "Não contempla ganho de capital nas vendas de ativos do exterior", color: "red"}
                 ]
@@ -124,6 +124,7 @@ function generatePdf() {
                 }
             },
             ...renderRendimentsPrint(),            
+            ...renderBonifications(),   
             ...renderDividends(),   
             ...renderRendimentsIsentos(),            
             ...renderLow20kMonth(),

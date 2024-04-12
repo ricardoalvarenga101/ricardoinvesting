@@ -23,6 +23,7 @@ function getJson(data) {
     console.log("MOCK DATA", data);
     itensWalletFiltered = data.itensWallletFiltered;
     provents = composeProvents(data.provents);
+    bonifications = data.bonifications;
 
     console.log("Provents", provents)
 

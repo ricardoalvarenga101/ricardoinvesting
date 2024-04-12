@@ -34,6 +34,7 @@ let _local = false;
 let SUM_SWING_TRADE_FREE = {};
 let SUM_SWING_TRADE_CRIPTO_FREE = {};
 let SUM_SWING_TRADE_FREE_99 = {};
+let bonifications = {};
 
 /**
 * ############### constants ###############

@@ -90,6 +90,34 @@ function renderRendimentsJCP() {
     return [title, content1]
 }
 
+function renderBonifications() {
+    console.log("ITENS BONIFICACOES", bonifications)
+
+    if (!(Object.keys(bonifications)).length) {
+        return [{}]
+    }
+    const listBonification = [];
+    _.map(bonifications, (item, ticker) => {
+        listBonification.push(["18", item.cnpj, item.name, convertCurrencyReal(item.amount)])
+    })
+    const title = {
+        text: "Bonificações",
+        style: "title"
+    }
+    const content1 = {
+        style: "table",
+        table: {
+            widths: [30, "*", 200, "*"],
+            body: [
+                composeHeaderTable(["Tipo", "CNPJ", "Nome da fonte pagadora", "Valor"]),
+                ...listBonification,
+            ]
+        },
+        pageBreak: "after"
+    }
+    return [title, content1]
+}
+
 function renderDividends() {
     if (!provents.dividends.length) {
         return [{}]

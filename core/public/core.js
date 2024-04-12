@@ -587,7 +587,7 @@ function createTrigger() {
     deleteTrigger()
     ScriptApp.newTrigger('updateCotation')
         .timeBased()
-        .everyHours(1)
+        .everyMinutes(30)
         .create();
 
     ScriptApp.newTrigger('getEvolutionRentability')
@@ -647,47 +647,36 @@ function updateCotation() {
     const classStranger = [CLASS.ETF_EUA, CLASS.REIT, CLASS.STOCK]
     const Sheet = SpreadsheetApp.getActiveSpreadsheet();
 
-    let initialLine = 2;
     let totalRegister = 0;
 
     const GuideCotation = Sheet.getSheetByName(ABAS.COTACAO);
-    Utilities.sleep(1000);
 
     totalRegister = getTotalRegisterInGuide(GuideCotation);
-    let outputClose = null;
-    let ui = null;
-    console.log("[🔨] - Iniciando atualização de cotação");
-    for (var i = initialLine; i <= totalRegister + 1; i++) {
-        const id = GuideCotation.getRange(i, 1).getValue();
-        const type = GuideCotation.getRange(i, 2).getValue();
-        let value = GuideCotation.getRange(i, 3).getValue(); // coluna cotacao (online)    
-        // const valuePvp = GuideCotation.getRange(i, 12).getValue(); // coluna pvp (online)
-        const reference = String("D") + i;
-        const referencePvpOffline = String("E") + i;
-        const CellPerformance = GuideCotation.getRange(reference);
-        // const CellReferencePvpOffline = GuideCotation.getRange(referencePvpOffline);
-        if (value !== "-") {
-            if (classStranger.includes(type)) {
-                const dolar = GuideCotation.getRange("F2").getValue();
-                CellPerformance.setValue(value * dolar);
-                // CellReferencePvpOffline.setValue("-");
+    const cotations = GuideCotation.getRange(`A2:C${totalRegister + 1}`).getValues();
+    const cambio = GuideCotation.getRange("F2").getValue();
+    const offlineCotations = []
 
+    console.log("[🔨] - Iniciando atualização de cotação");
+    for (row in cotations) {
+        const ticker = cotations[row][0];
+        const type = cotations[row][1];
+        const value = cotations[row][2];
+        if (value !== "-") {
+            if (classStranger.includes(type)) { // se exterior
+                offlineCotations.push([value * cambio])
             } else {
-                CellPerformance.setValue(value);
-                // CellReferencePvpOffline.setValue("-");
+                offlineCotations.push([value])
             }
         }
-        console.log(`[✔] ---- ${type} (${id})`);
+        console.log(`[✔] ---- ${type} (${ticker})`);
     }
+    console.log(offlineCotations)
+    GuideCotation.getRange(`D2:D${offlineCotations.length + 1}`).setValues(offlineCotations);
 
     const dash = Sheet.getSheetByName(ABAS.DASHBOARD);
     const formatedDate = Utilities.formatDate(new Date(), "GMT-3", "dd/MM/yyyy-HH:mm:ss");
     dash.getRange("N4").setValue("🕔 Data da última cotação: " + formatedDate);
-    dash.getRange("a3").setValue(new Date().toTimeString());
-
-    // const TD = Sheet.getSheetByName(ABAS.TABELA_DINAMICA);
-    // const date = new Date();
-    // TD.getRange("AP2").setValue(date.getMilliseconds() + date.getSeconds() + date.getMinutes());
+    dash.getRange("A3").setValue(new Date().toTimeString());
 
 }
 
@@ -724,20 +713,15 @@ function updatePMManual() {
     const content1 = calcPMFull(uuid);
     TbDinamic.getRange("AN2").setValue(content1);
     GuideDinamicConsolid.getRange("V10").setValue(content1);
-
+    const data = [];
     for (let i = 0; i < listYears.length; i++) {
         const yIR = calculateAmmountIRPFFull(listYears[i], uuid, false);
         const yIR_last = calculateAmmountIRPFFull(listYears[i] - 1, uuid, false);
         const yCONSOLID = calculateAmmountIRPFFull(listYears[i], uuid, false);
         const yCONSOLID_last = calculateAmmountIRPFFull(listYears[i] - 1, uuid, false);
-        GuideDinamicConsolid.getRange(`V${3 + i}`).setValue(listYears[i])
-        GuideDinamicConsolid.getRange(`W${3 + i}`).setValue(yIR)
-        GuideDinamicConsolid.getRange(`X${3 + i}`).setValue(yIR_last)
-        GuideDinamicConsolid.getRange(`Y${3 + i}`).setValue(yCONSOLID)
-        GuideDinamicConsolid.getRange(`Z${3 + i}`).setValue(yCONSOLID_last)
+        data.push([listYears[i], yIR, yIR_last, yCONSOLID, yCONSOLID_last])
     }
-
-
+    GuideDinamicConsolid.getRange(`V3:Z${data.length + 2}`).setValues(data)
     const GuideTDConsolidado = Sheet.getSheetByName(ABAS.TABELA_DINAMICA_CONSOLIDADO);
     GuideTDConsolidado.getRange("V13").setValue(uuid);
 
@@ -1181,8 +1165,8 @@ function importDataOtherVersion(fase = null) {
             if (fase === 3) {
 
                 if (externalSheet.getSheetByName(ABAS.ANOTACOES)) {
-                    copyData(TAB_IMPORT, "D20", 3, 5, 2, 1, "E19", ABAS.ANOTACOES, externalSheet, Sheet, 1, true, fase);
-                    copyData(TAB_IMPORT, "D20", 3, 5, 4, 1, "E19", ABAS.ANOTACOES, externalSheet, Sheet, 1, false, fase);
+                    copyData(TAB_IMPORT, "D20", 3, 5, 2, 1, "E20", ABAS.ANOTACOES, externalSheet, Sheet, 1, true, fase);
+                    copyData(TAB_IMPORT, "D20", 3, 5, 4, 1, "E20", ABAS.ANOTACOES, externalSheet, Sheet, 1, false, fase);
                 } else {
                     TAB_IMPORT.getRange("D20").setValue(true)
                     TAB_IMPORT.getRange("E20").setValue("0/0")
@@ -1298,14 +1282,15 @@ const CLASS_ACOES_LIST = [
 ]
 
 
-function composeDescription(classe, ticker, quantity, name, cnpj, coin, pm, valueBuy, cambio = 1) {
+function composeDescription(classe, ticker, quantity, name, cnpj, coin, pm, valueBuy, cambio = 1, bonification = 0) {
     try {
         const composePm = pm; //.split(" ")[1].replace(",",".");
         const composeValueBuy = valueBuy; //.split(" ")[1].replace(",",".");
+        const messageBonification = bonification ? `(SENDO QUE ${bonification} VIERAM DE BONIFICAÇÕES)` : "";
         if (CLASS_EXTERNAL_LIST.includes(classe)) { // exterior
-            return `(${ticker}) - ${quantity} ${getRenderType(classe, quantity)} DE ${name.toUpperCase()}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${coin} ${composePm} E CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy} - (CÂMBIO DE R$ ${cambio.toFixed(4)})`
+            return `(${ticker}) - ${quantity} ${getRenderType(classe, quantity)} DE ${name.toUpperCase()}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${coin} ${composePm} E CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy} - (CÂMBIO DE R$ ${cambio.toFixed(4)}) ${messageBonification}`
         } else if (CLASS_FIXED_LIST.includes(classe)) { // renda fixa
-            return `APLICAÇÃO EM ${name.toUpperCase()} NO CNPJ: ${cnpj} TOTALIZANDO ${quantity} ${getRenderType(classe, quantity)}, COM CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy}`;
+            return `APLICAÇÃO EM ${name.toUpperCase()} NO CNPJ: ${cnpj} TOTALIZANDO ${quantity} ${getRenderType(classe, quantity)}, COM CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy} ${messageBonification}`;
 
         } else { // subscrições e outros tipos de renda variavel
             const number = parseInt(ticker.replace(/\D/g, ''));
@@ -1317,9 +1302,9 @@ function composeDescription(classe, ticker, quantity, name, cnpj, coin, pm, valu
                 }
             }
             if (classe === CLASS.CRIPTOMOEDA) {
-                return `(${ticker}) - ${quantity} ${getRenderType(classe, quantity)} DE ${name.toUpperCase()}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${coin} ${composePm} E CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy}`;
+                return `(${ticker}) - ${quantity} ${getRenderType(classe, quantity)} DE ${name.toUpperCase()}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${coin} ${composePm} E CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy} ${messageBonification}`;
             }
-            return `(${ticker}) - ${quantity} ${getRenderType(classe, quantity)} DE ${name.toUpperCase()}, CNPJ: ${cnpj}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${coin} ${composePm} E CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy}`;
+            return `(${ticker}) - ${quantity} ${getRenderType(classe, quantity)} DE ${name.toUpperCase()}, CNPJ: ${cnpj}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${coin} ${composePm} E CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy} ${messageBonification}`;
         }
     } catch {
         return "-"
@@ -1638,6 +1623,8 @@ function calculateAmmountIRPFFull(year = 2023, trigger = "", history = false) {
             });
 
             const dates = Object.keys(dataGroup)
+            let accumulatedUnitBonification = 0;
+            let accumulatedPriceBonification = 0;
             let accumulatedTotal = 0;
             let accumulatedInvested = 0;
             let lastYearSales = null;
@@ -1646,6 +1633,13 @@ function calculateAmmountIRPFFull(year = 2023, trigger = "", history = false) {
                 dataGroup[date].forEach(item => {
                     const typeOperation = item.typeOperation;
                     const qtd = item.qtd;
+                    const currentYear = new Date(item.data).getFullYear();
+                    if (currentYear == year) {
+                        if (typeOperation === OPERATIONS.BONIFICACAO) {
+                            accumulatedUnitBonification += qtd;
+                            accumulatedPriceBonification += item.investedAmount;
+                        }
+                    }
                     const investedAmount = item.investedAmount;
                     if (typeOperation === OPERATIONS.BONIFICACAO
                         || typeOperation === OPERATIONS.COMPRA
@@ -1664,7 +1658,7 @@ function calculateAmmountIRPFFull(year = 2023, trigger = "", history = false) {
                 })
             })
             const hasDividends = hasReceiverDividendsThisYear(year, _dataRows, id);
-            totalAmmountOrAccumulated[id] = { "accumulatedTotal": accumulatedTotal, "accumulatedInvested": accumulatedInvested, lastYearSales, cambio, averageCambio: 0, hasDividends }
+            totalAmmountOrAccumulated[id] = { "accumulatedTotal": accumulatedTotal, "accumulatedInvested": accumulatedInvested, lastYearSales, cambio, averageCambio: 0, hasDividends, accumulatedUnitBonification, accumulatedPriceBonification }
         });
         const snapshotToYear = [];
 
@@ -1795,13 +1789,15 @@ function composeBensEDireitos(walletList, jsonIR, jsonIRPast, database) {
     const JSON_IR_PAST = JSON.parse(jsonIRPast)
     const DATABASE = database;
     const itemsWalletFiltered = [];
+    let unitBonificationToYear = 0;
     walletList.forEach((item) => {
         const pm = JSON_IR[item].accumulatedInvested / JSON_IR[item].accumulatedTotal;
+        unitBonificationToYear = JSON_IR[item].accumulatedUnitBonification || 0;
         const document_number_principal = item in DATABASE ? DATABASE[item].document_number_principal : "";
         const document_number_admin = item in DATABASE ? DATABASE[item].document_number_admin : "";
         const classe = item in DATABASE ? DATABASE[item].classe : "";
         const name = item in DATABASE ? DATABASE[item].name : "";
-        let description = item in DATABASE ? composeDescription(classe, item, JSON_IR[item].accumulatedTotal, name, (document_number_admin ? document_number_admin : document_number_principal), "##", composeCurrency(pm, classe), composeCurrency(JSON_IR[item].accumulatedInvested, classe), JSON_IR[item].averageCambio) : "";
+        let description = item in DATABASE ? composeDescription(classe, item, JSON_IR[item].accumulatedTotal, name, (document_number_admin ? document_number_admin : document_number_principal), "##", composeCurrency(pm, classe), composeCurrency(JSON_IR[item].accumulatedInvested, classe), JSON_IR[item].averageCambio, unitBonificationToYear) : "";
         description = description.replaceAll("## ", "");
         itemsWalletFiltered.push(
             {
@@ -1817,6 +1813,7 @@ function composeBensEDireitos(walletList, jsonIR, jsonIRPast, database) {
                 this_year: composeCurrencyReal(JSON_IR[item].accumulatedInvested * (JSON_IR[item].averageCambio || 1)),
                 description,
                 averageCambio: composeCurrency(JSON_IR[item].averageCambio, JSON_IR[item].classe),
+                unitBonificationToYear
             });
     })
     return itemsWalletFiltered;
@@ -1829,9 +1826,29 @@ function irReportLoadingData(year = 2024, historyCurrent = false, historyPast = 
     const jsonIRPast = calculateAmmountIRPFFull(year - 1, "", historyPast);
     const walletList = getWalletReport(jsonIR, jsonIRPast);
     const itensWallletFiltered = composeBensEDireitos(walletList, jsonIR, jsonIRPast, database);
+    const bonifications = composeBonificationToYear(jsonIR, database);
     const provents = composeProvents(Number(year), database);
-    return { itensWallletFiltered, provents, sells };
+    return { itensWallletFiltered, provents, sells, bonifications };
 
+}
+
+function composeBonificationToYear(jsonIR, database) {
+    const bonifications = {}
+    const json = JSON.parse(jsonIR)
+    const tickerList = Object.keys(json)
+    // accumulatedUnitBonification, accumulatedPriceBonification
+    tickerList.forEach(item => {
+        if (item !== "snapshotToYear") {
+            if (json[item].accumulatedUnitBonification && json[item].accumulatedPriceBonification) {
+                bonifications[item] = {
+                    amount: json[item].accumulatedPriceBonification,
+                    cnpj: database[item].document_number_principal || database[item].document_number_admin,
+                    name: database[item].name
+                }
+            }
+        }
+    })
+    return bonifications
 }
 
 function showIR() {
