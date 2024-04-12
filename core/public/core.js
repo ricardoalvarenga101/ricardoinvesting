@@ -1165,8 +1165,8 @@ function importDataOtherVersion(fase = null) {
             if (fase === 3) {
 
                 if (externalSheet.getSheetByName(ABAS.ANOTACOES)) {
-                    copyData(TAB_IMPORT, "D20", 3, 5, 2, 1, "E19", ABAS.ANOTACOES, externalSheet, Sheet, 1, true, fase);
-                    copyData(TAB_IMPORT, "D20", 3, 5, 4, 1, "E19", ABAS.ANOTACOES, externalSheet, Sheet, 1, false, fase);
+                    copyData(TAB_IMPORT, "D20", 3, 5, 2, 1, "E20", ABAS.ANOTACOES, externalSheet, Sheet, 1, true, fase);
+                    copyData(TAB_IMPORT, "D20", 3, 5, 4, 1, "E20", ABAS.ANOTACOES, externalSheet, Sheet, 1, false, fase);
                 } else {
                     TAB_IMPORT.getRange("D20").setValue(true)
                     TAB_IMPORT.getRange("E20").setValue("0/0")
