@@ -81,7 +81,7 @@ function convertCurrencyRealWithoutCoin(value) {
 }
 
 function errorLoadingData(error) {
-    alert("Não foi possível processar dos dados, por favor, tente novamente mais tarde.")
+    alert("Não foi possível processar os dados, por favor, tente novamente mais tarde.")
     _getFirstYear()
     console.log(`erro ao carregar dados`, error);
 }

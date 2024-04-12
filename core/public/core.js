@@ -1150,7 +1150,7 @@ function importDataOtherVersion(fase = null) {
             copyData(TAB_IMPORT, "D16", 3, 2, 4, 2, "E16", ABAS.EVOLUCAO_PATRIMONIAL, externalSheet, Sheet, 4, true, fase);
             copyData(TAB_IMPORT, "D16", 3, 2, 7, 1, "E16", ABAS.EVOLUCAO_PATRIMONIAL, externalSheet, Sheet, 4, false, fase);
 
-            copyData(TAB_IMPORT, "D17", 3, 2, 3, 9, "E17", ABAS.LANCAMENTO_CDB, externalSheet, Sheet, 2, false, fase);
+            copyData(TAB_IMPORT, "D17", 3, 2, 3, 9, "E17", ABAS.LANCAMENTO_CDB, externalSheet, Sheet, 3, false, fase);
 
             copyData(TAB_IMPORT, "D18", 3, 2, 3, 3, "E18", ABAS.LANCAMENTO_MANUAL, externalSheet, Sheet, 3, true, fase);
             copyData(TAB_IMPORT, "D18", 3, 2, 8, 4, "E18", ABAS.LANCAMENTO_MANUAL, externalSheet, Sheet, 3, true, fase);
@@ -1165,8 +1165,8 @@ function importDataOtherVersion(fase = null) {
             if (fase === 3) {
 
                 if (externalSheet.getSheetByName(ABAS.ANOTACOES)) {
-                    copyData(TAB_IMPORT, "D20", 3, 5, 2, 1, "E20", ABAS.ANOTACOES, externalSheet, Sheet, 1, true, fase);
-                    copyData(TAB_IMPORT, "D20", 3, 5, 4, 1, "E20", ABAS.ANOTACOES, externalSheet, Sheet, 1, false, fase);
+                    copyData(TAB_IMPORT, "D20", 3, 5, 2, 1, "E20", ABAS.ANOTACOES, externalSheet, Sheet, 2, true, fase);
+                    copyData(TAB_IMPORT, "D20", 3, 5, 4, 1, "E20", ABAS.ANOTACOES, externalSheet, Sheet, 2, false, fase);
                 } else {
                     TAB_IMPORT.getRange("D20").setValue(true)
                     TAB_IMPORT.getRange("E20").setValue("0/0")
