@@ -1282,14 +1282,15 @@ const CLASS_ACOES_LIST = [
 ]
 
 
-function composeDescription(classe, ticker, quantity, name, cnpj, coin, pm, valueBuy, cambio = 1) {
+function composeDescription(classe, ticker, quantity, name, cnpj, coin, pm, valueBuy, cambio = 1, bonification = 0) {
     try {
         const composePm = pm; //.split(" ")[1].replace(",",".");
         const composeValueBuy = valueBuy; //.split(" ")[1].replace(",",".");
+        const messageBonification = bonification ? `(SENDO QUE ${bonification} VIERAM DE BONIFICAÇÕES)` : "";
         if (CLASS_EXTERNAL_LIST.includes(classe)) { // exterior
-            return `(${ticker}) - ${quantity} ${getRenderType(classe, quantity)} DE ${name.toUpperCase()}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${coin} ${composePm} E CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy} - (CÂMBIO DE R$ ${cambio.toFixed(4)})`
+            return `(${ticker}) - ${quantity} ${getRenderType(classe, quantity)} DE ${name.toUpperCase()}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${coin} ${composePm} E CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy} - (CÂMBIO DE R$ ${cambio.toFixed(4)}) ${messageBonification}`
         } else if (CLASS_FIXED_LIST.includes(classe)) { // renda fixa
-            return `APLICAÇÃO EM ${name.toUpperCase()} NO CNPJ: ${cnpj} TOTALIZANDO ${quantity} ${getRenderType(classe, quantity)}, COM CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy}`;
+            return `APLICAÇÃO EM ${name.toUpperCase()} NO CNPJ: ${cnpj} TOTALIZANDO ${quantity} ${getRenderType(classe, quantity)}, COM CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy} ${messageBonification}`;
 
         } else { // subscrições e outros tipos de renda variavel
             const number = parseInt(ticker.replace(/\D/g, ''));
@@ -1301,9 +1302,9 @@ function composeDescription(classe, ticker, quantity, name, cnpj, coin, pm, valu
                 }
             }
             if (classe === CLASS.CRIPTOMOEDA) {
-                return `(${ticker}) - ${quantity} ${getRenderType(classe, quantity)} DE ${name.toUpperCase()}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${coin} ${composePm} E CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy}`;
+                return `(${ticker}) - ${quantity} ${getRenderType(classe, quantity)} DE ${name.toUpperCase()}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${coin} ${composePm} E CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy} ${messageBonification}`;
             }
-            return `(${ticker}) - ${quantity} ${getRenderType(classe, quantity)} DE ${name.toUpperCase()}, CNPJ: ${cnpj}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${coin} ${composePm} E CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy}`;
+            return `(${ticker}) - ${quantity} ${getRenderType(classe, quantity)} DE ${name.toUpperCase()}, CNPJ: ${cnpj}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${coin} ${composePm} E CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy} ${messageBonification}`;
         }
     } catch {
         return "-"
@@ -1622,6 +1623,7 @@ function calculateAmmountIRPFFull(year = 2023, trigger = "", history = false) {
             });
 
             const dates = Object.keys(dataGroup)
+            let accumulatedUnitBonification = 0;
             let accumulatedTotal = 0;
             let accumulatedInvested = 0;
             let lastYearSales = null;
@@ -1630,6 +1632,12 @@ function calculateAmmountIRPFFull(year = 2023, trigger = "", history = false) {
                 dataGroup[date].forEach(item => {
                     const typeOperation = item.typeOperation;
                     const qtd = item.qtd;
+                    const currentYear = new Date(item.data).getFullYear();
+                    if (currentYear === year) {
+                        if (typeOperation === OPERATIONS.BONIFICACAO) {
+                            accumulatedUnitBonification += qtd;
+                        }
+                    }
                     const investedAmount = item.investedAmount;
                     if (typeOperation === OPERATIONS.BONIFICACAO
                         || typeOperation === OPERATIONS.COMPRA
@@ -1648,7 +1656,7 @@ function calculateAmmountIRPFFull(year = 2023, trigger = "", history = false) {
                 })
             })
             const hasDividends = hasReceiverDividendsThisYear(year, _dataRows, id);
-            totalAmmountOrAccumulated[id] = { "accumulatedTotal": accumulatedTotal, "accumulatedInvested": accumulatedInvested, lastYearSales, cambio, averageCambio: 0, hasDividends }
+            totalAmmountOrAccumulated[id] = { "accumulatedTotal": accumulatedTotal, "accumulatedInvested": accumulatedInvested, lastYearSales, cambio, averageCambio: 0, hasDividends, accumulatedUnitBonification }
         });
         const snapshotToYear = [];
 
@@ -1781,11 +1789,12 @@ function composeBensEDireitos(walletList, jsonIR, jsonIRPast, database) {
     const itemsWalletFiltered = [];
     walletList.forEach((item) => {
         const pm = JSON_IR[item].accumulatedInvested / JSON_IR[item].accumulatedTotal;
+        const unitBonificationToYear = JSON_IR[item].accumulatedUnitBonification;
         const document_number_principal = item in DATABASE ? DATABASE[item].document_number_principal : "";
         const document_number_admin = item in DATABASE ? DATABASE[item].document_number_admin : "";
         const classe = item in DATABASE ? DATABASE[item].classe : "";
         const name = item in DATABASE ? DATABASE[item].name : "";
-        let description = item in DATABASE ? composeDescription(classe, item, JSON_IR[item].accumulatedTotal, name, (document_number_admin ? document_number_admin : document_number_principal), "##", composeCurrency(pm, classe), composeCurrency(JSON_IR[item].accumulatedInvested, classe), JSON_IR[item].averageCambio) : "";
+        let description = item in DATABASE ? composeDescription(classe, item, JSON_IR[item].accumulatedTotal, name, (document_number_admin ? document_number_admin : document_number_principal), "##", composeCurrency(pm, classe), composeCurrency(JSON_IR[item].accumulatedInvested, classe), JSON_IR[item].averageCambio, unitBonificationToYear) : "";
         description = description.replaceAll("## ", "");
         itemsWalletFiltered.push(
             {

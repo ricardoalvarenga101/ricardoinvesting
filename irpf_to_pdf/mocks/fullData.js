@@ -3949,3 +3949,1132 @@ const mockEmpty2022 = {
     ],
     "provents": {}
 }
+
+const mockBonification2024 = {
+    "bonifications": {
+        "BBAS3": {
+            "name": "BANCO DO BRASIL SA",
+            "amount": 280,
+            "cnpj": "00.000.000/0001-91"
+        }
+    },
+    "itensWallletFiltered": [
+        {
+            "qtd": 24,
+            "unitBonificationToYear": 5,
+            "ticker": "BBAS3",
+            "classe": "Ação",
+            "this_year": "R$ 1.064,26",
+            "investiment": "R$ 1.064,26",
+            "averageCambio": "R$ 0,00",
+            "description": "(BBAS3) - 24 AÇÕES DE BANCO DO BRASIL SA, CNPJ: 00.000.000/0001-91, CÓDIGO DE NEGOCIAÇÃO: BBAS3. PREÇO MÉDIO DE R$ 44,34 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 1.064,26 (SENDO QUE 5 VIERAM DE BONIFICAÇÕES)",
+            "document_number_admin": "",
+            "name": "BANCO DO BRASIL SA",
+            "document_number_principal": "00.000.000/0001-91",
+            "pm": "R$ 44,34",
+            "past_year": "R$ 555,39"
+        },
+        {
+            "unitBonificationToYear": 0,
+            "qtd": 100,
+            "ticker": "BEES3",
+            "classe": "Ação",
+            "this_year": "R$ 770,23",
+            "investiment": "R$ 770,23",
+            "averageCambio": "R$ 0,00",
+            "document_number_admin": "",
+            "description": "(BEES3) - 100 AÇÕES DE BANESTES SA BANCO DO ESTADO ESPRT SANTO, CNPJ: 28.127.603/0001-78, CÓDIGO DE NEGOCIAÇÃO: BEES3. PREÇO MÉDIO DE R$ 7,70 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 770,23 ",
+            "name": "BANESTES SA BANCO DO ESTADO ESPRT SANTO",
+            "document_number_principal": "28.127.603/0001-78",
+            "pm": "R$ 7,70",
+            "past_year": "R$ 770,23"
+        },
+        {
+            "unitBonificationToYear": 0,
+            "qtd": 70,
+            "ticker": "CMIG4",
+            "classe": "Ação",
+            "investiment": "R$ 799,78",
+            "this_year": "R$ 799,78",
+            "averageCambio": "R$ 0,00",
+            "description": "(CMIG4) - 70 AÇÕES DE COMPANHIA ENERGÉTICA DE MINAS GERAIS S.A., CNPJ: 17.155.730/0001-64, CÓDIGO DE NEGOCIAÇÃO: CMIG4. PREÇO MÉDIO DE R$ 11,43 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 799,78 ",
+            "document_number_admin": "17.155.730/0001-64",
+            "name": "Companhia Energética de Minas Gerais S.A.",
+            "document_number_principal": "17.155.730/0001-64",
+            "pm": "R$ 11,43",
+            "past_year": "R$ 0,00"
+        },
+        {
+            "unitBonificationToYear": 0,
+            "qtd": 16,
+            "ticker": "CPTI11",
+            "classe": "FI-INFRA",
+            "this_year": "R$ 1.599,31",
+            "investiment": "R$ 1.599,31",
+            "averageCambio": "R$ 0,00",
+            "description": "(CPTI11) - 16 COTAS DE CAPIÂNIA INFRA, CNPJ: 38.065.012/0001-77, CÓDIGO DE NEGOCIAÇÃO: CPTI11. PREÇO MÉDIO DE R$ 99,96 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 1.599,31 ",
+            "document_number_admin": "",
+            "name": "CAPIÂNIA INFRA",
+            "document_number_principal": "38.065.012/0001-77",
+            "pm": "R$ 99,96",
+            "past_year": "R$ 0,00"
+        },
+        {
+            "unitBonificationToYear": 0,
+            "qtd": 200,
+            "ticker": "CPTS11",
+            "classe": "FII",
+            "investiment": "R$ 1.648,71",
+            "this_year": "R$ 1.648,71",
+            "averageCambio": "R$ 0,00",
+            "document_number_admin": "",
+            "description": "(CPTS11) - 200 COTAS DE CAPITÂNIA SECURITIES II, CNPJ: 18.979.895/0001-13, CÓDIGO DE NEGOCIAÇÃO: CPTS11. PREÇO MÉDIO DE R$ 8,24 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 1.648,71 ",
+            "name": "CAPITÂNIA SECURITIES II",
+            "document_number_principal": "18.979.895/0001-13",
+            "pm": "R$ 8,24",
+            "past_year": "R$ 1.648,71"
+        },
+        {
+            "unitBonificationToYear": 0,
+            "qtd": 17,
+            "ticker": "CSMG3",
+            "classe": "Ação",
+            "this_year": "R$ 313,42",
+            "investiment": "R$ 313,42",
+            "averageCambio": "R$ 0,00",
+            "description": "(CSMG3) - 17 AÇÕES DE CIA SANEAMENTO DE MINAS GERAIS-COPASA MG, CNPJ: 17.281.106/0001-03, CÓDIGO DE NEGOCIAÇÃO: CSMG3. PREÇO MÉDIO DE R$ 18,44 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 313,42 ",
+            "document_number_admin": "17.281.106/0001-03",
+            "name": "CIA SANEAMENTO DE MINAS GERAIS-COPASA MG",
+            "document_number_principal": "17.281.106/0001-03",
+            "pm": "R$ 18,44",
+            "past_year": "R$ 313,42"
+        },
+        {
+            "qtd": 20,
+            "unitBonificationToYear": 0,
+            "ticker": "CXSE3",
+            "classe": "Ação",
+            "this_year": "R$ 223,46",
+            "investiment": "R$ 223,46",
+            "averageCambio": "R$ 0,00",
+            "document_number_admin": "22.543.331/0001-00",
+            "description": "(CXSE3) - 20 AÇÕES DE CAIXA SEGURIDADE PARTICIPAÇÕES S.A., CNPJ: 22.543.331/0001-00, CÓDIGO DE NEGOCIAÇÃO: CXSE3. PREÇO MÉDIO DE R$ 11,17 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 223,46 ",
+            "name": "CAIXA SEGURIDADE PARTICIPAÇÕES S.A.",
+            "document_number_principal": "22.543.331/0001-00",
+            "pm": "R$ 11,17",
+            "past_year": "R$ 223,46"
+        },
+        {
+            "qtd": 0.00575916,
+            "unitBonificationToYear": 0,
+            "classe": "Criptomoeda",
+            "ticker": "ETH",
+            "investiment": "R$ 101,93",
+            "this_year": "R$ 101,93",
+            "averageCambio": "R$ 0,00",
+            "document_number_admin": "",
+            "description": "(ETH) - 0.00575916 UNIDADE DE ETHEREUM, CÓDIGO DE NEGOCIAÇÃO: ETH. PREÇO MÉDIO DE R$ 17.698,76 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 101,93 ",
+            "name": "Ethereum",
+            "document_number_principal": "",
+            "pm": "R$ 17.698,76",
+            "past_year": "R$ 0,00"
+        },
+        {
+            "unitBonificationToYear": 0,
+            "qtd": 208,
+            "ticker": "FGAA11",
+            "classe": "Fiagro",
+            "this_year": "R$ 2.024,58",
+            "investiment": "R$ 2.024,58",
+            "averageCambio": "R$ 0,00",
+            "description": "(FGAA11) - 208 COTAS DE FG/AGRO FDO DE INVEST - FIAGRO - IMOBILIÁRIO, CNPJ: 42.405.905/0001-91, CÓDIGO DE NEGOCIAÇÃO: FGAA11. PREÇO MÉDIO DE R$ 9,73 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 2.024,58 ",
+            "document_number_admin": "",
+            "name": "FG/AGRO FDO DE INVEST - FIAGRO - IMOBILIÁRIO",
+            "document_number_principal": "42.405.905/0001-91",
+            "pm": "R$ 9,73",
+            "past_year": "R$ 2.006,73"
+        },
+        {
+            "qtd": 154,
+            "unitBonificationToYear": 0,
+            "classe": "FII",
+            "ticker": "GARE11",
+            "investiment": "R$ 1.374,26",
+            "this_year": "R$ 1.374,26",
+            "averageCambio": "R$ 0,00",
+            "description": "(GARE11) - 154 COTAS DE GUARDIAN LOGISTICA FDO. INVEST. IMOB., CNPJ: 37.295.919/0001-60, CÓDIGO DE NEGOCIAÇÃO: GARE11. PREÇO MÉDIO DE R$ 8,92 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 1.374,26 ",
+            "document_number_admin": "",
+            "name": "GUARDIAN LOGISTICA FDO. INVEST. IMOB.",
+            "document_number_principal": "37.295.919/0001-60",
+            "pm": "R$ 8,92",
+            "past_year": "R$ 1.374,26"
+        },
+        {
+            "qtd": 61,
+            "unitBonificationToYear": 0,
+            "ticker": "GGBR4",
+            "classe": "Ação",
+            "this_year": "R$ 1.365,36",
+            "investiment": "R$ 1.365,36",
+            "averageCambio": "R$ 0,00",
+            "document_number_admin": "",
+            "description": "(GGBR4) - 61 AÇÕES DE GERDAU SA PREFERENCE SHARES, CNPJ: 33.611.500/0001-19, CÓDIGO DE NEGOCIAÇÃO: GGBR4. PREÇO MÉDIO DE R$ 22,38 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 1.365,36 ",
+            "name": "GERDAU SA PREFERENCE SHARES",
+            "document_number_principal": "33.611.500/0001-19",
+            "pm": "R$ 22,38",
+            "past_year": "R$ 973,75"
+        },
+        {
+            "unitBonificationToYear": 0,
+            "qtd": 38,
+            "classe": "Ação",
+            "ticker": "GRND3",
+            "investiment": "R$ 239,96",
+            "this_year": "R$ 239,96",
+            "averageCambio": "R$ 0,00",
+            "description": "(GRND3) - 38 AÇÕES DE GRENDENE SA, CNPJ: 89.850.341/0001-60, CÓDIGO DE NEGOCIAÇÃO: GRND3. PREÇO MÉDIO DE R$ 6,31 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 239,96 ",
+            "document_number_admin": "",
+            "name": "GRENDENE SA",
+            "document_number_principal": "89.850.341/0001-60",
+            "pm": "R$ 6,31",
+            "past_year": "R$ 0,00"
+        },
+        {
+            "qtd": 6.39818,
+            "unitBonificationToYear": 0,
+            "classe": "ETF-EXTERIOR",
+            "ticker": "JEPI",
+            "this_year": "R$ 1.750,97",
+            "investiment": "R$ 357,14",
+            "averageCambio": "R$ 4,90",
+            "description": "(JEPI) - 6.39818 AÇÕES DE ETF J P MORGAN EXCHANGE TRADED FUND TRUST JPMORGAN EQUITY PREMIUM INCOME ETF, CÓDIGO DE NEGOCIAÇÃO: JEPI. PREÇO MÉDIO DE $55.82 E CUSTO TOTAL DE AQUISIÇÃO DE $357.14 - (CÂMBIO DE R$ 4.9028) ",
+            "document_number_admin": "",
+            "name": "ETF J P MORGAN EXCHANGE TRADED FUND TRUST JPMORGAN EQUITY PREMIUM INCOME ETF",
+            "document_number_principal": "",
+            "pm": "R$ 55,82",
+            "past_year": "R$ 1.345,83"
+        },
+        {
+            "qtd": 175,
+            "unitBonificationToYear": 0,
+            "classe": "FII",
+            "ticker": "KISU11",
+            "investiment": "R$ 1.433,36",
+            "this_year": "R$ 1.433,36",
+            "averageCambio": "R$ 0,00",
+            "description": "(KISU11) - 175 COTAS DE KILIMA FIC FDO. IMOB. SUNO 30, CNPJ: 36.669.660/0001-07, CÓDIGO DE NEGOCIAÇÃO: KISU11. PREÇO MÉDIO DE R$ 8,19 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 1.433,36 ",
+            "document_number_admin": "",
+            "name": "KILIMA FIC FDO. IMOB. SUNO 30",
+            "document_number_principal": "36.669.660/0001-07",
+            "pm": "R$ 8,19",
+            "past_year": "R$ 1.433,36"
+        },
+        {
+            "qtd": 145,
+            "unitBonificationToYear": 0,
+            "classe": "Ação",
+            "ticker": "KLBN4",
+            "this_year": "R$ 552,97",
+            "investiment": "R$ 552,97",
+            "averageCambio": "R$ 0,00",
+            "description": "(KLBN4) - 145 AÇÕES DE KLABIN SA PREFERENCE SHARES, CNPJ: 89.637.490/0001-45, CÓDIGO DE NEGOCIAÇÃO: KLBN4. PREÇO MÉDIO DE R$ 3,81 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 552,97 ",
+            "document_number_admin": "",
+            "name": "KLABIN SA PREFERENCE SHARES",
+            "document_number_principal": "89.637.490/0001-45",
+            "pm": "R$ 3,81",
+            "past_year": "R$ 544,38"
+        },
+        {
+            "qtd": 149,
+            "unitBonificationToYear": 0,
+            "ticker": "MXRF11",
+            "classe": "FII",
+            "this_year": "R$ 1.548,96",
+            "investiment": "R$ 1.548,96",
+            "averageCambio": "R$ 0,00",
+            "document_number_admin": "",
+            "description": "(MXRF11) - 149 COTAS DE MAXI RENDA, CNPJ: 97.521.225/0001-25, CÓDIGO DE NEGOCIAÇÃO: MXRF11. PREÇO MÉDIO DE R$ 10,40 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 1.548,96 ",
+            "name": "MAXI RENDA",
+            "document_number_principal": "97.521.225/0001-25",
+            "pm": "R$ 10,40",
+            "past_year": "R$ 1.528,43"
+        },
+        {
+            "unitBonificationToYear": 0,
+            "qtd": 3.11541,
+            "ticker": "PLD",
+            "classe": "REIT",
+            "this_year": "R$ 1.794,67",
+            "investiment": "R$ 361,67",
+            "averageCambio": "R$ 4,96",
+            "description": "(PLD) - 3.11541 AÇÕES DE PROLOGIS INC, CÓDIGO DE NEGOCIAÇÃO: PLD. PREÇO MÉDIO DE $116.09 E CUSTO TOTAL DE AQUISIÇÃO DE $361.67 - (CÂMBIO DE R$ 4.9622) ",
+            "document_number_admin": "",
+            "name": "Prologis Inc",
+            "document_number_principal": "",
+            "pm": "R$ 116,09",
+            "past_year": "R$ 1.794,67"
+        },
+        {
+            "qtd": 225,
+            "unitBonificationToYear": 0,
+            "classe": "Ação",
+            "ticker": "RANI3",
+            "this_year": "R$ 2.280,54",
+            "investiment": "R$ 2.280,54",
+            "averageCambio": "R$ 0,00",
+            "description": "(RANI3) - 225 AÇÕES DE IRANI PAPEL E EMBALAGEM SA, CNPJ: 92.791.243/0001-03, CÓDIGO DE NEGOCIAÇÃO: RANI3. PREÇO MÉDIO DE R$ 10,14 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 2.280,54 ",
+            "document_number_admin": "",
+            "name": "IRANI PAPEL E EMBALAGEM SA",
+            "document_number_principal": "92.791.243/0001-03",
+            "pm": "R$ 10,14",
+            "past_year": "R$ 619,15"
+        },
+        {
+            "qtd": 188,
+            "unitBonificationToYear": 0,
+            "classe": "Fiagro",
+            "ticker": "RZAG11",
+            "this_year": "R$ 1.762,07",
+            "investiment": "R$ 1.762,07",
+            "averageCambio": "R$ 0,00",
+            "description": "(RZAG11) - 188 COTAS DE FDO INV CADEIAS PROD AGRO RIZA AGRO FIAGRO IMOB, CNPJ: 40.413.979/0001-44, CÓDIGO DE NEGOCIAÇÃO: RZAG11. PREÇO MÉDIO DE R$ 9,37 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 1.762,07 ",
+            "document_number_admin": "",
+            "name": "FDO INV CADEIAS PROD AGRO RIZA AGRO FIAGRO IMOB",
+            "document_number_principal": "40.413.979/0001-44",
+            "pm": "R$ 9,37",
+            "past_year": "R$ 1.494,05"
+        },
+        {
+            "unitBonificationToYear": 0,
+            "qtd": 14,
+            "ticker": "RZTR11",
+            "classe": "FII",
+            "this_year": "R$ 1.266,81",
+            "investiment": "R$ 1.266,81",
+            "averageCambio": "R$ 0,00",
+            "document_number_admin": "",
+            "description": "(RZTR11) - 14 COTAS DE FUNDO DE INVESTIMENTO IMOBILIÁRIO RIZA TERRAX, CNPJ: 36.501.128/0001-86, CÓDIGO DE NEGOCIAÇÃO: RZTR11. PREÇO MÉDIO DE R$ 90,49 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 1.266,81 ",
+            "name": "FUNDO DE INVESTIMENTO IMOBILIÁRIO RIZA TERRAX",
+            "document_number_principal": "36.501.128/0001-86",
+            "pm": "R$ 90,49",
+            "past_year": "R$ 1.266,81"
+        },
+        {
+            "qtd": 25,
+            "unitBonificationToYear": 0,
+            "ticker": "SARE11",
+            "classe": "FII",
+            "this_year": "R$ 1.454,78",
+            "investiment": "R$ 1.454,78",
+            "averageCambio": "R$ 0,00",
+            "document_number_admin": "",
+            "description": "(SARE11) - 25 COTAS DE SANTANDER RENDA DE ALUGUÉIS, CNPJ: 32.903.702/0001-71, CÓDIGO DE NEGOCIAÇÃO: SARE11. PREÇO MÉDIO DE R$ 58,19 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 1.454,78 ",
+            "name": "SANTANDER RENDA DE ALUGUÉIS",
+            "document_number_principal": "32.903.702/0001-71",
+            "pm": "R$ 58,19",
+            "past_year": "R$ 1.365,09"
+        },
+        {
+            "qtd": 63,
+            "unitBonificationToYear": 0,
+            "ticker": "TAEE11",
+            "classe": "Ação",
+            "investiment": "R$ 2.186,59",
+            "this_year": "R$ 2.186,59",
+            "averageCambio": "R$ 0,00",
+            "document_number_admin": "",
+            "description": "(TAEE11) - 63 AÇÕES DE TRANSMISSORA ALIANCA ENERGIA ELETRICA SA BRAZILIAN UNITS, CNPJ: 07.859.971/0001-30, CÓDIGO DE NEGOCIAÇÃO: TAEE11. PREÇO MÉDIO DE R$ 34,71 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 2.186,59 ",
+            "name": "TRANSMISSORA ALIANCA ENERGIA ELETRICA SA BRAZILIAN UNITS",
+            "document_number_principal": "07.859.971/0001-30",
+            "pm": "R$ 34,71",
+            "past_year": "R$ 2.186,59"
+        },
+        {
+            "unitBonificationToYear": 0,
+            "qtd": 0.91,
+            "ticker": "TESOURO PREFIXADO 2025",
+            "classe": "Renda Fixa",
+            "this_year": "R$ 709,94",
+            "investiment": "R$ 709,94",
+            "averageCambio": "R$ 0,00",
+            "document_number_admin": "",
+            "description": "APLICAÇÃO EM TESOURO PREFIXADO 2025 NO CNPJ: 62.169.875/0001-79 TOTALIZANDO 0.91 UNIDADE, COM CUSTO TOTAL DE AQUISIÇÃO DE R$ 709,94 ",
+            "name": "TESOURO PREFIXADO 2025",
+            "document_number_principal": "62.169.875/0001-79",
+            "pm": "R$ 780,16",
+            "past_year": "R$ 709,94"
+        },
+        {
+            "unitBonificationToYear": 0,
+            "qtd": 2.01,
+            "classe": "Renda Fixa",
+            "ticker": "TESOURO PREFIXADO 2026",
+            "this_year": "R$ 1.541,72",
+            "investiment": "R$ 1.541,72",
+            "averageCambio": "R$ 0,00",
+            "description": "APLICAÇÃO EM TESOURO PREFIXADO 2026 NO CNPJ: 62.169.875/0001-79 TOTALIZANDO 2.01 UNIDADES, COM CUSTO TOTAL DE AQUISIÇÃO DE R$ 1.541,72 ",
+            "document_number_admin": "",
+            "name": "TESOURO PREFIXADO 2026",
+            "document_number_principal": "62.169.875/0001-79",
+            "pm": "R$ 767,02",
+            "past_year": "R$ 1.433,62"
+        },
+        {
+            "qtd": 0.11,
+            "unitBonificationToYear": 0,
+            "ticker": "TESOURO PREFIXADO COM JUROS SEMESTRAIS 2035",
+            "classe": "Renda Fixa",
+            "investiment": "R$ 107,08",
+            "this_year": "R$ 107,08",
+            "averageCambio": "R$ 0,00",
+            "description": "APLICAÇÃO EM TESOURO PREFIXADO COM JUROS SEMESTRAIS 2035 NO CNPJ: 62.169.875/0001-79 TOTALIZANDO 0.11 UNIDADE, COM CUSTO TOTAL DE AQUISIÇÃO DE R$ 107,08 ",
+            "document_number_admin": "",
+            "name": "TESOURO PREFIXADO COM JUROS SEMESTRAIS 2035",
+            "document_number_principal": "62.169.875/0001-79",
+            "pm": "R$ 973,43",
+            "past_year": "R$ 0,00"
+        },
+        {
+            "unitBonificationToYear": 0,
+            "qtd": 0.86,
+            "ticker": "TESOURO RENDA+ APOSENTADORIA EXTRA 2045",
+            "classe": "Renda Fixa",
+            "this_year": "R$ 660,90",
+            "investiment": "R$ 660,90",
+            "averageCambio": "R$ 0,00",
+            "description": "APLICAÇÃO EM TESOURO RENDA+ APOSENTADORIA EXTRA 2045 NO CNPJ:  TOTALIZANDO 0.86 UNIDADE, COM CUSTO TOTAL DE AQUISIÇÃO DE R$ 660,90 ",
+            "document_number_admin": "",
+            "name": "TESOURO RENDA+ APOSENTADORIA EXTRA 2045",
+            "document_number_principal": "",
+            "pm": "R$ 768,48",
+            "past_year": "R$ 0,00"
+        },
+        {
+            "unitBonificationToYear": 0,
+            "qtd": 10,
+            "ticker": "TVRI11",
+            "classe": "FII",
+            "investiment": "R$ 898,76",
+            "this_year": "R$ 898,76",
+            "averageCambio": "R$ 0,00",
+            "document_number_admin": "",
+            "description": "(TVRI11) - 10 COTAS DE TIVIO RENDA IMOBILIÁRIA FUNDO DE INVESTIMENTO IMOBILIÁRIO”, CNPJ: 14.410.722/0001-29, CÓDIGO DE NEGOCIAÇÃO: TVRI11. PREÇO MÉDIO DE R$ 89,88 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 898,76 ",
+            "name": "TIVIO RENDA IMOBILIÁRIA FUNDO DE INVESTIMENTO IMOBILIÁRIO”",
+            "document_number_principal": "14.410.722/0001-29",
+            "pm": "R$ 89,88",
+            "past_year": "R$ 898,76"
+        },
+        {
+            "qtd": 157,
+            "unitBonificationToYear": 0,
+            "ticker": "VGHF11",
+            "classe": "FII",
+            "investiment": "R$ 1.452,26",
+            "this_year": "R$ 1.452,26",
+            "averageCambio": "R$ 0,00",
+            "document_number_admin": "",
+            "description": "(VGHF11) - 157 COTAS DE VALORA HEDGE FUND FDO. INV. IMOB., CNPJ: 36.771.692/0001-19, CÓDIGO DE NEGOCIAÇÃO: VGHF11. PREÇO MÉDIO DE R$ 9,25 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 1.452,26 ",
+            "name": "VALORA HEDGE FUND FDO. INV. IMOB.",
+            "document_number_principal": "36.771.692/0001-19",
+            "pm": "R$ 9,25",
+            "past_year": "R$ 1.214,41"
+        },
+        {
+            "unitBonificationToYear": 0,
+            "qtd": 15,
+            "classe": "FII",
+            "ticker": "VILG11",
+            "investiment": "R$ 1.462,61",
+            "this_year": "R$ 1.462,61",
+            "averageCambio": "R$ 0,00",
+            "description": "(VILG11) - 15 COTAS DE VINCI LOGÍSTICA, CNPJ: 24.853.044/0001-22, CÓDIGO DE NEGOCIAÇÃO: VILG11. PREÇO MÉDIO DE R$ 97,51 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 1.462,61 ",
+            "document_number_admin": "",
+            "name": "VINCI LOGÍSTICA",
+            "document_number_principal": "24.853.044/0001-22",
+            "pm": "R$ 97,51",
+            "past_year": "R$ 1.082,02"
+        },
+        {
+            "qtd": 7,
+            "unitBonificationToYear": 0,
+            "classe": "FII",
+            "ticker": "VISC11",
+            "investiment": "R$ 761,54",
+            "this_year": "R$ 761,54",
+            "averageCambio": "R$ 0,00",
+            "description": "(VISC11) - 7 COTAS DE VINCI SHOPPING CENTERS, CNPJ: 17.554.274/0001-25, CÓDIGO DE NEGOCIAÇÃO: VISC11. PREÇO MÉDIO DE R$ 108,79 E CUSTO TOTAL DE AQUISIÇÃO DE R$ 761,54 ",
+            "document_number_admin": "",
+            "name": "VINCI SHOPPING CENTERS",
+            "document_number_principal": "17.554.274/0001-25",
+            "pm": "R$ 108,79",
+            "past_year": "R$ 761,54"
+        }
+    ],
+    "provents": {
+        "BEES3": {
+            "amountJcp": 9.23,
+            "rendiments": [],
+            "amountDividend": 0,
+            "jcp": [
+                1.88,
+                1.94,
+                1.85,
+                1.93,
+                1.63
+            ],
+            "dividends": [],
+            "name": "BANESTES SA BANCO DO ESTADO ESPRT SANTO",
+            "document_number_principal": "28.127.603/0001-78",
+            "document_number_admin": "",
+            "rendimentJCP": [],
+            "amountRendimentJCP": 0,
+            "amountRendiment": 0
+        },
+        "TVRI11": {
+            "amountJcp": 0,
+            "rendiments": [
+                9.1,
+                9.7,
+                9.7,
+                9.7
+            ],
+            "jcp": [],
+            "amountDividend": 0,
+            "dividends": [],
+            "name": "TIVIO RENDA IMOBILIÁRIA FUNDO DE INVESTIMENTO IMOBILIÁRIO”",
+            "document_number_admin": "",
+            "amountRendimentJCP": 0,
+            "document_number_principal": "14.410.722/0001-29",
+            "rendimentJCP": [],
+            "amountRendiment": 38.199999999999996
+        },
+        "BBAS3": {
+            "amountJcp": 14.45,
+            "rendiments": [],
+            "amountDividend": 3.31,
+            "jcp": [
+                7.82,
+                6.63
+            ],
+            "dividends": [
+                3.31
+            ],
+            "name": "BANCO DO BRASIL SA",
+            "document_number_principal": "00.000.000/0001-91",
+            "document_number_admin": "",
+            "amountRendimentJCP": 0.17,
+            "rendimentJCP": [
+                0.17
+            ],
+            "amountRendiment": 0
+        },
+        "CPTI11": {
+            "amountJcp": 0,
+            "rendiments": [
+                6.9,
+                16.5,
+                21
+            ],
+            "amountDividend": 0,
+            "jcp": [],
+            "dividends": [],
+            "name": "CAPIÂNIA INFRA",
+            "amountRendimentJCP": 0,
+            "document_number_principal": "38.065.012/0001-77",
+            "rendimentJCP": [],
+            "document_number_admin": "",
+            "amountRendiment": 44.4
+        },
+        "KLBN4": {
+            "amountJcp": 3.74,
+            "rendiments": [],
+            "amountDividend": 5.05,
+            "jcp": [
+                3.74
+            ],
+            "dividends": [
+                5.05
+            ],
+            "name": "KLABIN SA PREFERENCE SHARES",
+            "amountRendimentJCP": 0,
+            "document_number_admin": "",
+            "rendimentJCP": [],
+            "document_number_principal": "89.637.490/0001-45",
+            "amountRendiment": 0
+        },
+        "MXRF12": {
+            "amountJcp": 0,
+            "rendiments": [
+                0.82,
+                1.84
+            ],
+            "amountDividend": 0,
+            "jcp": [],
+            "dividends": [],
+            "name": "MAXI RENDA",
+            "document_number_admin": "",
+            "rendimentJCP": [],
+            "amountRendimentJCP": 0,
+            "document_number_principal": "97.521.225/0001-25",
+            "amountRendiment": 2.66
+        },
+        "VGHF11": {
+            "amountJcp": 0,
+            "rendiments": [
+                13.1,
+                13.2,
+                13.2,
+                10.56
+            ],
+            "jcp": [],
+            "amountDividend": 0,
+            "dividends": [],
+            "name": "VALORA HEDGE FUND FDO. INV. IMOB.",
+            "document_number_admin": "",
+            "amountRendimentJCP": 0,
+            "document_number_principal": "36.771.692/0001-19",
+            "rendimentJCP": [],
+            "amountRendiment": 50.06
+        },
+        "PETR4": {
+            "amountJcp": 10.95,
+            "rendiments": [],
+            "amountDividend": 27.47,
+            "jcp": [
+                10.95
+            ],
+            "dividends": [
+                7.29,
+                20.18
+            ],
+            "name": "PETROLEO BRASILEIRO SA PETROBRAS PREFERENCE SHARES",
+            "amountRendimentJCP": 0.6,
+            "rendimentJCP": [
+                0.23,
+                0.37
+            ],
+            "document_number_admin": "",
+            "document_number_principal": "33.000.167/0001-01",
+            "amountRendiment": 0
+        },
+        "TAEE11": {
+            "amountJcp": 0,
+            "rendiments": [],
+            "jcp": [],
+            "amountDividend": 41.69,
+            "dividends": [
+                41.69
+            ],
+            "name": "TRANSMISSORA ALIANCA ENERGIA ELETRICA SA BRAZILIAN UNITS",
+            "document_number_principal": "07.859.971/0001-30",
+            "amountRendimentJCP": 0,
+            "rendimentJCP": [],
+            "document_number_admin": "",
+            "amountRendiment": 0
+        },
+        "KISU11": {
+            "amountJcp": 0,
+            "rendiments": [
+                14,
+                13.12,
+                13.12,
+                13.12
+            ],
+            "amountDividend": 0,
+            "jcp": [],
+            "dividends": [],
+            "name": "KILIMA FIC FDO. IMOB. SUNO 30",
+            "amountRendimentJCP": 0,
+            "document_number_principal": "36.669.660/0001-07",
+            "rendimentJCP": [],
+            "document_number_admin": "",
+            "amountRendiment": 53.35999999999999
+        },
+        "VILG11": {
+            "amountJcp": 0,
+            "rendiments": [
+                7.04,
+                9,
+                8.4,
+                8.7
+            ],
+            "amountDividend": 0,
+            "jcp": [],
+            "dividends": [],
+            "name": "VINCI LOGÍSTICA",
+            "document_number_admin": "",
+            "document_number_principal": "24.853.044/0001-22",
+            "rendimentJCP": [],
+            "amountRendimentJCP": 0,
+            "amountRendiment": 33.14
+        },
+        "RANI3": {
+            "amountJcp": 0,
+            "rendiments": [],
+            "jcp": [],
+            "amountDividend": 2.04,
+            "dividends": [
+                2.04
+            ],
+            "name": "IRANI PAPEL E EMBALAGEM SA",
+            "amountRendimentJCP": 0,
+            "document_number_admin": "",
+            "rendimentJCP": [],
+            "document_number_principal": "92.791.243/0001-03",
+            "amountRendiment": 0
+        },
+        "GGBR4": {
+            "amountJcp": 0,
+            "rendiments": [],
+            "amountDividend": 6,
+            "jcp": [],
+            "dividends": [
+                6
+            ],
+            "name": "GERDAU SA PREFERENCE SHARES",
+            "document_number_admin": "",
+            "amountRendimentJCP": 0,
+            "rendimentJCP": [],
+            "document_number_principal": "33.611.500/0001-19",
+            "amountRendiment": 0
+        },
+        "RZAG11": {
+            "amountJcp": 0,
+            "rendiments": [
+                17.71,
+                17.16,
+                17.16,
+                17.85
+            ],
+            "amountDividend": 0,
+            "jcp": [],
+            "dividends": [],
+            "name": "FDO INV CADEIAS PROD AGRO RIZA AGRO FIAGRO IMOB",
+            "document_number_admin": "",
+            "document_number_principal": "40.413.979/0001-44",
+            "amountRendimentJCP": 0,
+            "rendimentJCP": [],
+            "amountRendiment": 69.88
+        },
+        "RZTR11": {
+            "amountJcp": 0,
+            "rendiments": [
+                15.4,
+                11.9,
+                11.9,
+                12.6
+            ],
+            "amountDividend": 0,
+            "jcp": [],
+            "dividends": [],
+            "name": "FUNDO DE INVESTIMENTO IMOBILIÁRIO RIZA TERRAX",
+            "amountRendimentJCP": 0,
+            "document_number_principal": "36.501.128/0001-86",
+            "document_number_admin": "",
+            "rendimentJCP": [],
+            "amountRendiment": 51.800000000000004
+        },
+        "GARE11": {
+            "amountJcp": 0,
+            "rendiments": [
+                12.93,
+                12.93,
+                13.24,
+                13.39
+            ],
+            "jcp": [],
+            "amountDividend": 0,
+            "dividends": [],
+            "name": "GUARDIAN LOGISTICA FDO. INVEST. IMOB.",
+            "amountRendimentJCP": 0,
+            "document_number_principal": "37.295.919/0001-60",
+            "rendimentJCP": [],
+            "document_number_admin": "",
+            "amountRendiment": 52.49
+        },
+        "VISC11": {
+            "amountJcp": 0,
+            "rendiments": [
+                7,
+                7,
+                7,
+                7
+            ],
+            "jcp": [],
+            "amountDividend": 0,
+            "dividends": [],
+            "name": "VINCI SHOPPING CENTERS",
+            "document_number_admin": "",
+            "rendimentJCP": [],
+            "document_number_principal": "17.554.274/0001-25",
+            "amountRendimentJCP": 0,
+            "amountRendiment": 28
+        },
+        "CPTS11": {
+            "amountJcp": 0,
+            "rendiments": [
+                13,
+                14,
+                15.2,
+                15.8
+            ],
+            "jcp": [],
+            "amountDividend": 0,
+            "dividends": [],
+            "name": "CAPITÂNIA SECURITIES II",
+            "document_number_admin": "",
+            "amountRendimentJCP": 0,
+            "rendimentJCP": [],
+            "document_number_principal": "18.979.895/0001-13",
+            "amountRendiment": 58
+        },
+        "external": {
+            "PLD": {
+                "cambioMonth": {
+                    "3": 4.9931
+                },
+                "amountDividend": 10.44,
+                "document_number_admin": "",
+                "amountRendimentJCP": 0,
+                "amountRendiment": 0,
+                "amountJcp": 0,
+                "rendiments": [],
+                "jcp": [],
+                "dividends": [
+                    10.44
+                ],
+                "name": "Prologis Inc",
+                "rendimentJCP": [],
+                "document_number_principal": "",
+                "dividendPerMonth": {
+                    "3": 14.929369
+                },
+                "taxPerMonth": {
+                    "3": 4.493790000000001
+                },
+                "amountMonth": {
+                    "3": 2.9899999999999998
+                },
+                "amountTax": 4.493790000000001
+            },
+            "JEPI": {
+                "cambioMonth": {
+                    "0": 4.9391,
+                    "1": 4.8759,
+                    "2": 4.9704,
+                    "3": 4.9931
+                },
+                "amountDividend": 21.82,
+                "amountRendimentJCP": 0,
+                "document_number_admin": "",
+                "amountRendiment": 5.12,
+                "amountJcp": 0,
+                "rendiments": [
+                    5.12
+                ],
+                "jcp": [],
+                "dividends": [
+                    7.41,
+                    6.67,
+                    7.74
+                ],
+                "name": "ETF J P MORGAN EXCHANGE TRADED FUND TRUST JPMORGAN EQUITY PREMIUM INCOME ETF",
+                "rendimentJCP": [],
+                "document_number_principal": "",
+                "dividendPerMonth": {
+                    "0": 10.569674000000001,
+                    "1": 7.3138499999999995,
+                    "2": 9.543168,
+                    "3": 11.034751
+                },
+                "amountMonth": {
+                    "0": 2.14,
+                    "1": 1.5,
+                    "2": 1.92,
+                    "3": 2.21
+                },
+                "taxPerMonth": {
+                    "0": 3.161024,
+                    "1": 2.194155,
+                    "2": 2.8828319999999996,
+                    "3": 3.295446
+                },
+                "amountTax": 9.339302
+            }
+        },
+        "FGAA11": {
+            "amountJcp": 0,
+            "rendiments": [
+                22.66,
+                22.66,
+                20.8,
+                20.8
+            ],
+            "amountDividend": 0,
+            "jcp": [],
+            "dividends": [],
+            "name": "FG/AGRO FDO DE INVEST - FIAGRO - IMOBILIÁRIO",
+            "document_number_principal": "42.405.905/0001-91",
+            "rendimentJCP": [],
+            "document_number_admin": "",
+            "amountRendimentJCP": 0,
+            "amountRendiment": 86.92
+        },
+        "MXRF11": {
+            "amountJcp": 0,
+            "rendiments": [
+                13.64,
+                12.4,
+                14.7,
+                14.9
+            ],
+            "jcp": [],
+            "amountDividend": 0,
+            "dividends": [],
+            "name": "MAXI RENDA",
+            "rendimentJCP": [],
+            "document_number_principal": "97.521.225/0001-25",
+            "amountRendimentJCP": 0,
+            "document_number_admin": "",
+            "amountRendiment": 55.63999999999999
+        },
+        "SARE11": {
+            "amountJcp": 0,
+            "rendiments": [
+                10.35,
+                9.2,
+                8.28,
+                9
+            ],
+            "jcp": [],
+            "amountDividend": 0,
+            "dividends": [],
+            "name": "SANTANDER RENDA DE ALUGUÉIS",
+            "document_number_principal": "32.903.702/0001-71",
+            "amountRendimentJCP": 0,
+            "rendimentJCP": [],
+            "document_number_admin": "",
+            "amountRendiment": 36.83
+        }
+    },
+    "sells": {
+        "2022": {
+            "10": {
+                "operations": [
+                    {
+                        "classe": "FII",
+                        "ticker": "VINO11",
+                        "name": "VINCI OFFICES",
+                        "document_number_principal": "12.516.185/0001-70",
+                        "document_number_admin": "",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": 0.05000000000002189,
+                        "transaction": 339.5
+                    },
+                    {
+                        "classe": "FII",
+                        "ticker": "XPPR11",
+                        "name": "XP PROPERTIES",
+                        "document_number_admin": "",
+                        "document_number_principal": "30.654.849/0001-40",
+                        "type": "Renda Variável",
+                        "value": -4.040000000000002,
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "transaction": 314.65000000000003
+                    }
+                ]
+            },
+            "11": {
+                "operations": [
+                    {
+                        "classe": "Ação",
+                        "ticker": "CPLE6",
+                        "name": "CIA PARANAENSE DE EN",
+                        "document_number_principal": "76.483.817/0001-20",
+                        "document_number_admin": "",
+                        "type": "Renda Variável",
+                        "value": 49.44000000000001,
+                        "operation": "SWING TRADE DE AÇÃO",
+                        "transaction": 311.61
+                    },
+                    {
+                        "classe": "FII",
+                        "ticker": "GARE12",
+                        "name": "GUARDIAN LOGISTICA F",
+                        "document_number_principal": "37.295.919/0001-60",
+                        "document_number_admin": "",
+                        "type": "Renda Variável",
+                        "operation": "DIREITOS DE SUBSCRIÇÃO",
+                        "value": 0.10000000000000009,
+                        "transaction": 3.2
+                    }
+                ]
+            }
+        },
+        "2023": {
+            "5": {
+                "operations": [
+                    {
+                        "classe": "FII",
+                        "ticker": "RZTR11",
+                        "name": "FUNDO DE INVESTIMENT",
+                        "document_number_admin": "",
+                        "document_number_principal": "36.501.128/0001-86",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE FII/FIAGRO",
+                        "value": 0.559999999999942,
+                        "transaction": 543.5999999999999
+                    }
+                ]
+            },
+            "7": {
+                "operations": [
+                    {
+                        "ticker": "MATIC-POLYGON",
+                        "classe": "Criptomoeda",
+                        "name": "Polygon",
+                        "document_number_admin": "",
+                        "document_number_principal": "",
+                        "type": "Renda Variável",
+                        "value": 3.1891343620000168,
+                        "operation": "VENDA DE CRIPTOMOEDA",
+                        "transaction": 200.029052718
+                    }
+                ]
+            },
+            "8": {
+                "operations": [
+                    {
+                        "ticker": "BBDC3",
+                        "classe": "Ação",
+                        "name": "BANCO BRADESCO SA",
+                        "document_number_admin": "",
+                        "document_number_principal": "60.746.948/0001-12",
+                        "type": "Renda Variável",
+                        "value": 59.8,
+                        "operation": "SWING TRADE DE AÇÃO",
+                        "transaction": 813.6
+                    },
+                    {
+                        "ticker": "SANB4",
+                        "classe": "Ação",
+                        "name": "BANCO SANTANDER BRAS",
+                        "document_number_admin": "",
+                        "document_number_principal": "90.400.888/0001-42",
+                        "type": "Renda Variável",
+                        "operation": "SWING TRADE DE AÇÃO",
+                        "value": 2.260000000000014,
+                        "transaction": 264.78000000000003
+                    },
+                    {
+                        "classe": "Ação",
+                        "ticker": "BBDC3",
+                        "name": "BANCO BRADESCO SA",
+                        "document_number_admin": "",
+                        "document_number_principal": "60.746.948/0001-12",
+                        "type": "Renda Variável",
+                        "operation": "SWING TRADE DE AÇÃO",
+                        "value": 2.9599999999999995,
+                        "transaction": 40.71
+                    }
+                ]
+            },
+            "10": {
+                "operations": [
+                    {
+                        "ticker": "MATIC-POLYGON",
+                        "classe": "Criptomoeda",
+                        "name": "Polygon",
+                        "document_number_principal": "",
+                        "document_number_admin": "",
+                        "type": "Renda Variável",
+                        "value": 1.59391190825,
+                        "operation": "VENDA DE CRIPTOMOEDA",
+                        "transaction": 618.15350685825
+                    },
+                    {
+                        "classe": "Criptomoeda",
+                        "ticker": "MATIC-POLYGON",
+                        "name": "Polygon",
+                        "document_number_admin": "",
+                        "document_number_principal": "",
+                        "type": "Renda Variável",
+                        "value": -1.49351697989999,
+                        "operation": "VENDA DE CRIPTOMOEDA",
+                        "transaction": 146.8625030235
+                    }
+                ]
+            },
+            "11": {
+                "operations": [
+                    {
+                        "ticker": "RZTR12",
+                        "classe": "FII",
+                        "name": "FUNDO DE INVESTIMENT",
+                        "document_number_principal": "36.501.128/0001-86",
+                        "document_number_admin": "",
+                        "type": "Renda Variável",
+                        "value": 0.36,
+                        "operation": "DIREITOS DE SUBSCRIÇÃO",
+                        "transaction": 0.36
+                    }
+                ]
+            },
+            "12": {
+                "operations": [
+                    {
+                        "classe": "Criptomoeda",
+                        "ticker": "ETH",
+                        "name": "Ethereum",
+                        "document_number_principal": "",
+                        "document_number_admin": "",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE CRIPTOMOEDA",
+                        "value": 24.663266000000014,
+                        "transaction": 179.41975699999998
+                    },
+                    {
+                        "classe": "Criptomoeda",
+                        "ticker": "BTC",
+                        "name": "Bitcoin",
+                        "document_number_principal": "",
+                        "document_number_admin": "",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE CRIPTOMOEDA",
+                        "value": 45.28499041720001,
+                        "transaction": 152.2149887118
+                    }
+                ]
+            }
+        },
+        "2024": {
+            "2": {
+                "operations": [
+                    {
+                        "ticker": "PETR4",
+                        "classe": "Ação",
+                        "name": "PETROLEO BRASILEIRO ",
+                        "document_number_admin": "",
+                        "document_number_principal": "33.000.167/0001-01",
+                        "type": "Renda Variável",
+                        "operation": "SWING TRADE DE AÇÃO",
+                        "value": 447.51999999999987,
+                        "transaction": 1265.6999999999998
+                    },
+                    {
+                        "ticker": "NVDA",
+                        "classe": "STOCK",
+                        "name": "NVIDIA CORPORATION",
+                        "document_number_admin": "",
+                        "document_number_principal": "",
+                        "type": "Renda Variável",
+                        "operation": "VENDA DE AÇÃO ESTRANGEIRA",
+                        "value": 3.858369881040009,
+                        "transaction": 401.54350648104
+                    }
+                ]
+            }
+        }
+    }
+}

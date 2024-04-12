@@ -15,6 +15,7 @@ function _getFirstYear() {
 
     itensWalletFiltered = [];
     provents = {};       
+    bonifications = {};
     
     operationsFII = {}
     tableOperationsFII = {}
@@ -49,7 +50,7 @@ function _loadingData() {
     name = (document.getElementById("input_name").value).toUpperCase();
     document_number = document.getElementById("input_cpf").value;
     if (_local) {
-        getJson(mockFullData2023) // test local
+        getJson(mockBonification2024) // test local
     } else {
         google.script.run
             .withSuccessHandler(getJson)
