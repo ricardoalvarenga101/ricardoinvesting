@@ -16,6 +16,7 @@ function _getFirstYear() {
     itensWalletFiltered = [];
     provents = {};       
     bonifications = {};
+    bonificationsWithFractions = {};
     
     operationsFII = {}
     tableOperationsFII = {}

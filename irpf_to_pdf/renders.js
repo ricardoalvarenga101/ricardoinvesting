@@ -91,15 +91,23 @@ function renderRendimentsJCP() {
 }
 
 function renderBonifications() {
-    console.log("ITENS BONIFICACOES", bonifications)
+    console.log("ITENS BONIFICACOES", bonifications, bonificationsWithFractions)    
 
-    if (!(Object.keys(bonifications)).length) {
+
+    if (!(Object.keys(bonifications)).length && !(Object.keys(bonificationsWithFractions)).length) {
         return [{}]
     }
     const listBonification = [];
-    _.map(bonifications, (item, ticker) => {
+
+    _.map(bonificationsWithFractions, (item, ticker) => {        
         listBonification.push(["18", item.cnpj, item.name, convertCurrencyReal(item.amount)])
     })
+    _.map(bonifications, (item, ticker) => {
+        if(!bonificationsWithFractions.hasOwnProperty(ticker)) {
+            listBonification.push(["18", item.cnpj, item.name, convertCurrencyReal(item.amount)])
+        }
+    })
+
     const title = {
         text: "Bonificações",
         style: "title"

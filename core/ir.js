@@ -31,29 +31,29 @@ const CLASS_ACOES_LIST = [
 ]
 
 
-function composeDescription(classe, ticker, quantity, name, cnpj, coin, pm, valueBuy, cambio = 1, bonification = 0) {
+function composeDescription(classe, ticker, quantity, name, cnpj, coin, pm, valueBuy, cambio = 1, bonification = 0, trigger = null) {
     try {
         const composePm = pm; //.split(" ")[1].replace(",",".");
         const composeValueBuy = valueBuy; //.split(" ")[1].replace(",",".");
         const messageBonification = bonification ? `(SENDO QUE ${bonification} VIERAM DE BONIFICAÇÕES)` : "";
         if (CLASS_EXTERNAL_LIST.includes(classe)) { // exterior
-            return `(${ticker}) - ${quantity} ${getRenderType(classe, quantity)} DE ${name.toUpperCase()}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${coin} ${composePm} E CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy} - (CÂMBIO DE R$ ${cambio.toFixed(4)}) ${messageBonification}`
+            return `(${ticker}) - ${quantity} ${getRenderType(classe, quantity)} DE ${name.toUpperCase()}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${composeCurrency(composePm, classe, 2)} E CUSTO TOTAL DE AQUISIÇÃO DE ${composeCurrency(composeValueBuy, classe)} - (CÂMBIO DE R$ ${cambio.toFixed(4)}) ${messageBonification}`
         } else if (CLASS_FIXED_LIST.includes(classe)) { // renda fixa
-            return `APLICAÇÃO EM ${name.toUpperCase()} NO CNPJ: ${cnpj} TOTALIZANDO ${quantity} ${getRenderType(classe, quantity)}, COM CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy} ${messageBonification}`;
+            return `APLICAÇÃO EM ${name.toUpperCase()} NO CNPJ: ${cnpj} TOTALIZANDO ${quantity} ${getRenderType(classe, quantity)}, COM CUSTO TOTAL DE AQUISIÇÃO DE ${composeCurrencyReal(composeValueBuy)} ${messageBonification}`;
 
         } else { // subscrições e outros tipos de renda variavel
             const number = parseInt(ticker.replace(/\D/g, ''));
             if (SUBSCRICOES_IDS.includes(number)) { // subscrições
                 if (quantity <= 1) {
-                    return `(${ticker}) - ${quantity} RECIBO DE SUBSCRIÇÃO DE ${name.toUpperCase()}, CNPJ: ${cnpj}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${coin} ${composePm} E CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy}`;
+                    return `(${ticker}) - ${quantity} RECIBO DE SUBSCRIÇÃO DE ${name.toUpperCase()}, CNPJ: ${cnpj}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${composeCurrencyReal(composePm)} E CUSTO TOTAL DE AQUISIÇÃO DE ${composeCurrencyReal(composeValueBuy)}`;
                 } else {
-                    return `(${ticker}) - ${quantity} RECIBOS DE SUBSCRIÇÕES DE ${name.toUpperCase()}, CNPJ: ${cnpj}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${coin} ${composePm} E CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy}`;
+                    return `(${ticker}) - ${quantity} RECIBOS DE SUBSCRIÇÕES DE ${name.toUpperCase()}, CNPJ: ${cnpj}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${composeCurrencyReal(composePm)} E CUSTO TOTAL DE AQUISIÇÃO DE ${composeCurrencyReal(composeValueBuy)}`;
                 }
             }
             if (classe === CLASS.CRIPTOMOEDA) {
-                return `(${ticker}) - ${quantity} ${getRenderType(classe, quantity)} DE ${name.toUpperCase()}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${coin} ${composePm} E CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy} ${messageBonification}`;
+                return `(${ticker}) - ${quantity} ${getRenderType(classe, quantity)} DE ${name.toUpperCase()}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${composeCurrencyReal(composeCurrencyReal(composePm))} E CUSTO TOTAL DE AQUISIÇÃO DE ${composeCurrencyReal(composeValueBuy)} ${messageBonification}`;
             }
-            return `(${ticker}) - ${quantity} ${getRenderType(classe, quantity)} DE ${name.toUpperCase()}, CNPJ: ${cnpj}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${coin} ${composePm} E CUSTO TOTAL DE AQUISIÇÃO DE ${coin} ${composeValueBuy} ${messageBonification}`;
+            return `(${ticker}) - ${quantity} ${getRenderType(classe, quantity)} DE ${name.toUpperCase()}, CNPJ: ${cnpj}, CÓDIGO DE NEGOCIAÇÃO: ${ticker}. PREÇO MÉDIO DE ${composeCurrencyReal(composePm)} E CUSTO TOTAL DE AQUISIÇÃO DE ${composeCurrencyReal(composeValueBuy)} ${messageBonification}`;
         }
     } catch {
         return "-"
@@ -166,6 +166,8 @@ function composeProvents(year = 2023, database = {}) {
                 if (!tickers.hasOwnProperty(rowTicker)) {
                     if (!isExternal) {
                         tickers[rowTicker] = {
+                            bonification: [],
+                            amountBonification: 0,
                             dividends: [],
                             amountDividend: 0,
                             jcp: [],
@@ -182,6 +184,8 @@ function composeProvents(year = 2023, database = {}) {
                         if (tickers.hasOwnProperty("external")) {
                             if (!tickers["external"].hasOwnProperty(rowTicker)) {
                                 tickers["external"][rowTicker] = {
+                                    bonification: [],
+                                    amountBonification: 0,
                                     dividends: [],
                                     amountDividend: 0,
                                     jcp: [],
@@ -203,6 +207,8 @@ function composeProvents(year = 2023, database = {}) {
                         } else {
                             tickers["external"] = {
                                 [rowTicker]: {
+                                    bonification: [],
+                                    amountBonification: 0,
                                     dividends: [],
                                     amountDividend: 0,
                                     jcp: [],
@@ -262,6 +268,12 @@ function composeProvents(year = 2023, database = {}) {
                         if (!isExternal) {
                             tickers[rowTicker].jcp.push(dataRows[i][10]);
                             tickers[rowTicker].amountJcp += dataRows[i][10];
+                        }
+                        break;
+                    case "Bonificação em Frações":
+                        if (!isExternal) {
+                            tickers[rowTicker].bonification.push(dataRows[i][10]);
+                            tickers[rowTicker].amountBonification += dataRows[i][10];
                         }
                         break;
                 }
@@ -575,10 +587,32 @@ function irReportLoadingData(year = 2024, historyCurrent = false, historyPast = 
     const jsonIRPast = calculateAmmountIRPFFull(year - 1, "", historyPast);
     const walletList = getWalletReport(jsonIR, jsonIRPast);
     const itensWallletFiltered = composeBensEDireitos(walletList, jsonIR, jsonIRPast, database);
-    const bonifications = composeBonificationToYear(jsonIR, database);
     const provents = composeProvents(Number(year), database);
-    return { itensWallletFiltered, provents, sells, bonifications };
+    const bonifications = composeBonificationToYear(jsonIR, database);
+    const bonificationsWithFractions = composeBonficationFractionsToYear(provents, bonifications, database)
+    return { itensWallletFiltered, provents, sells, bonifications, bonificationsWithFractions };
 
+}
+
+function composeBonficationFractionsToYear(provents, bonifications, database) {
+    let bonificationsModify = {}
+    const tickerList = Object.keys(provents)
+    tickerList.forEach(item => {
+        if (item !== "external") {
+            if (provents[item].amountBonification) {
+                let accumulated = 0
+                if (bonifications.hasOwnProperty(item)) {
+                    accumulated += bonifications[item].amount;
+                }
+                bonificationsModify[item] = {
+                    amount: provents[item].amountBonification + accumulated,
+                    cnpj: database[item].document_number_principal || database[item].document_number_admin,
+                    name: database[item].name
+                }
+            }
+        }
+    })
+    return bonificationsModify
 }
 
 function composeBonificationToYear(jsonIR, database) {
