@@ -24,8 +24,10 @@ function getJson(data) {
     itensWalletFiltered = data.itensWallletFiltered;
     provents = composeProvents(data.provents);
     bonifications = data.bonifications;
+    bonificationsWithFractions = data.bonificationsWithFractions;
 
     console.log("Provents", provents)
+    console.log("Bonificaçoes + fraçõe", bonificationsWithFractions)
 
     operations = {};
     const t = _.map(data.sells, (year, indexYear) => _.map(year, (month, indexMonth) => {

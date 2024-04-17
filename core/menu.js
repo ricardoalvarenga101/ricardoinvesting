@@ -135,6 +135,20 @@ function clearAll() {
         GuiaTDConsolidado.getRange("V10").clearContent();
         GuiaTDConsolidado.getRange("V13").clearContent();
 
+        const GuiaDashboard = Planilha.getSheetByName(ABAS.DASHBOARD);
+        GuiaDashboard.getRange("A4").setValue(0);
+        GuiaDashboard.getRange("A10").setValue(0);
+        GuiaDashboard.getRange("A12").setValue(0);
+        GuiaDashboard.getRange("A14").setValue(0);
+        GuiaDashboard.getRange("A16").setValue(0);
+        GuiaDashboard.getRange("A18").setValue(0);
+        GuiaDashboard.getRange("A20").setValue(0);
+        GuiaDashboard.getRange("A22").setValue(0);
+        GuiaDashboard.getRange("A24").setValue(0);
+        GuiaDashboard.getRange("A27").setValue(0);
+        GuiaDashboard.getRange("A29").setValue(0);
+        GuiaDashboard.getRange("A31").setValue(0);
+
         return Browser.msgBox("Reset realizado com sucesso!");
     }
 
