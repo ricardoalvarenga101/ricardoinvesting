@@ -111,6 +111,8 @@ function updateCotation() {
             } else {
                 offlineCotations.push([value])
             }
+        } else {
+            offlineCotations.push([value])
         }
         console.log(`[✔] ---- ${type} (${ticker})`);
     }

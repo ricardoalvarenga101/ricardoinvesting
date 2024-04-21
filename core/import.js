@@ -161,7 +161,7 @@ function importDataOtherVersion(fase = null) {
             copyData(TAB_IMPORT, "D10", 1, 4, 2, 1, "E10", ABAS.PRECO_TETO, externalSheet, Sheet, 2, true, fase);
             copyData(TAB_IMPORT, "D10", 1, 4, 7, 2, "E10", ABAS.PRECO_TETO, externalSheet, Sheet, 2, false, fase);
 
-            copyData(TAB_IMPORT, "D11", 2, 4, 8, 3, "E11", ABAS.SIMULADOR_PM, externalSheet, Sheet, 2, false, fase);
+            copyData(TAB_IMPORT, "D11", 2, 4, 10, 3, "E11", ABAS.SIMULADOR_PM, externalSheet, Sheet, 2, false, fase);
 
             copyData(TAB_IMPORT, "D12", 2, 4, 2, 1, "E12", ABAS.BALANCEAMENTO_ATIVO, externalSheet, Sheet, 2, true, fase);
             copyData(TAB_IMPORT, "D12", 2, 4, 7, 1, "E12", ABAS.BALANCEAMENTO_ATIVO, externalSheet, Sheet, 2, false, fase);
@@ -192,7 +192,7 @@ function importDataOtherVersion(fase = null) {
             copyData(TAB_IMPORT, "D16", 3, 2, 4, 2, "E16", ABAS.EVOLUCAO_PATRIMONIAL, externalSheet, Sheet, 4, true, fase);
             copyData(TAB_IMPORT, "D16", 3, 2, 7, 1, "E16", ABAS.EVOLUCAO_PATRIMONIAL, externalSheet, Sheet, 4, false, fase);
 
-            copyData(TAB_IMPORT, "D17", 3, 2, 3, 9, "E17", ABAS.LANCAMENTO_CDB, externalSheet, Sheet, 3, false, fase);
+            copyData(TAB_IMPORT, "D17", 3, 2, 3, 9, "E17", ABAS.LANCAMENTO_CDB, externalSheet, Sheet, 2, false, fase);
 
             copyData(TAB_IMPORT, "D18", 3, 2, 3, 3, "E18", ABAS.LANCAMENTO_MANUAL, externalSheet, Sheet, 3, true, fase);
             copyData(TAB_IMPORT, "D18", 3, 2, 8, 4, "E18", ABAS.LANCAMENTO_MANUAL, externalSheet, Sheet, 3, true, fase);
