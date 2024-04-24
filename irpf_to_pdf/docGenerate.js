@@ -123,14 +123,15 @@ function generatePdf() {
                     ]
                 }
             },
-            ...renderRendimentsPrint(),            
-            ...renderBonifications(),   
+            ...renderRendimentsPrint(),
+            ...renderBonifications(),
             ...renderDividends(),   
             ...renderRendimentsIsentos(),            
             ...renderLow20kMonth(),
             ...renderCriptoLow35kMonth(),
             ...renderJCPs(),           
             ...renderRendimentsJCP(),            
+            ...renderRentals(),
         ],
         pageMargin: [0, 0],
         defaultStyle: { alignment: "justify" },

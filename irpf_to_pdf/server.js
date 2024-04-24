@@ -17,6 +17,7 @@ function _getFirstYear() {
     provents = {};       
     bonifications = {};
     bonificationsWithFractions = {};
+    rentals = {}
     
     operationsFII = {}
     tableOperationsFII = {}

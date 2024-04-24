@@ -51,7 +51,7 @@ function getEvolutionRentability() {
     const now = new Date().getHours()
 
     if (days.includes(new Date().getDay())) {
-        if (now === 9 || now === 10) {
+        if (now == "09" || now === 9 || now === 10) {
             const currentMonth = composeIndiceDate(0)
             const oldMonth = composeIndiceDate(1)
             // Utilities.sleep(120000);// uma pausa de 2min para atualizar os dados antes de capturar as informações
@@ -225,5 +225,3 @@ function checkVersion(version, trigger) {
         return getFrases(trigger);
     }
 }
-
-

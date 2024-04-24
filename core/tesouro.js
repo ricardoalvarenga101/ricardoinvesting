@@ -61,4 +61,3 @@ function getTesouroService(ticker, trigger = null) {
         throw new Error("Not Found");
     }
 }
-

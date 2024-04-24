@@ -25,9 +25,11 @@ function getJson(data) {
     provents = composeProvents(data.provents);
     bonifications = data.bonifications;
     bonificationsWithFractions = data.bonificationsWithFractions;
+    rentals = data.rentals;
 
     console.log("Provents", provents)
     console.log("Bonificaçoes + fraçõe", bonificationsWithFractions)
+    console.log("Aluguel", rentals)
 
     operations = {};
     const t = _.map(data.sells, (year, indexYear) => _.map(year, (month, indexMonth) => {
