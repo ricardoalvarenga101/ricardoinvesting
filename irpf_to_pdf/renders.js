@@ -27,18 +27,18 @@ function renderLow20kMonth() {
 
 function renderCriptoLow35kMonth() {
     // mount operation cripto
-    const tableOperationsCripto = composeTableOperationsCriptos(operationsFull);        
+    const tableOperationsCripto = composeTableOperationsCriptos(operationsFull);
     console.log("tableOperationsCripto", tableOperationsCripto)
     _.map(tableOperationsCripto, (item, indexYear) => {
         const sum = []
         _.map(item, (month) => {
-            if(month.hasOwnProperty("totalCommon")) {
-                sum.push(month.totalCommon) 
+            if (month.hasOwnProperty("totalCommon")) {
+                sum.push(month.totalCommon)
             }
         })
         SUM_SWING_TRADE_CRIPTO_FREE[indexYear] = _.sumBy(sum)
     })
-    
+
     console.log("SUM_SWING_TRADE_CRIPTO_FREE", SUM_SWING_TRADE_CRIPTO_FREE)
     const lines = [];
     if (!SUM_SWING_TRADE_CRIPTO_FREE.hasOwnProperty(year)) {
@@ -49,7 +49,7 @@ function renderCriptoLow35kMonth() {
             ["05", SUM_SWING_TRADE_CRIPTO_FREE.hasOwnProperty(year) ? convertCurrencyReal(SUM_SWING_TRADE_CRIPTO_FREE[year]) : convertCurrencyReal(0)]
         )
     }
-    if(SUM_SWING_TRADE_CRIPTO_FREE[year]===0) {
+    if (SUM_SWING_TRADE_CRIPTO_FREE[year] === 0) {
         return [{}]
     }
     const title = {
@@ -91,7 +91,7 @@ function renderRendimentsJCP() {
 }
 
 function renderBonifications() {
-    console.log("ITENS BONIFICACOES", bonifications, bonificationsWithFractions)    
+    console.log("ITENS BONIFICACOES", bonifications, bonificationsWithFractions)
 
 
     if (!(Object.keys(bonifications)).length && !(Object.keys(bonificationsWithFractions)).length) {
@@ -99,11 +99,11 @@ function renderBonifications() {
     }
     const listBonification = [];
 
-    _.map(bonificationsWithFractions, (item, ticker) => {        
+    _.map(bonificationsWithFractions, (item, ticker) => {
         listBonification.push(["18", item.cnpj, item.name, convertCurrencyReal(item.amount)])
     })
     _.map(bonifications, (item, ticker) => {
-        if(!bonificationsWithFractions.hasOwnProperty(ticker)) {
+        if (!bonificationsWithFractions.hasOwnProperty(ticker)) {
             listBonification.push(["18", item.cnpj, item.name, convertCurrencyReal(item.amount)])
         }
     })
@@ -122,6 +122,36 @@ function renderBonifications() {
             ]
         },
         pageBreak: "after"
+    }
+    return [title, content1]
+}
+
+function renderRentals() {
+    console.log("ITENS ALUGUEL", rentals)
+
+
+    if (!(Object.keys(rentals)).length) {
+        return [{}]
+    }
+    const listRentals = [];
+
+    _.map(rentals, (item, ticker) => {
+        listRentals.push(["06", item.cnpj, item.name, convertCurrencyReal(item.amount)])
+    })
+
+    const title = {
+        text: "Aluguéis",
+        style: "title"
+    }
+    const content1 = {
+        style: "table",
+        table: {
+            widths: [30, "*", 200, "*"],
+            body: [
+                composeHeaderTable(["Tipo", "CNPJ", "Nome da fonte pagadora", "Valor"]),
+                ...listRentals,
+            ]
+        }
     }
     return [title, content1]
 }
@@ -292,7 +322,7 @@ function renderOperationsFII(docDefinition) {
     _.map(operationsFII, (opYear, indexYear) => _.map([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], (mes) => {
         if (mes === 1) {
             if (tableOperationsFII.hasOwnProperty(indexYear)) {
-                if (tableOperationsFII[indexYear].hasOwnProperty(mes)) {                    
+                if (tableOperationsFII[indexYear].hasOwnProperty(mes)) {
                     const lossesOldYear = Number(indexYear) === Number(_firstYear) ? 0 : tableOperationsFII[indexYear - 1][12][2] > 0 ? tableOperationsFII[indexYear - 1][12][2] * -1 : 0
                     tableOperationsFII[indexYear][mes] = [
                         MONTHS_LABEL[mes].slice(0, 3),
@@ -446,7 +476,7 @@ function renderRendimentsPrint() {
             "Vendas mensais de ações abaixo de 20 mil reais (Brasil)",
             "Dividendos de ações",
             "Rendimentos de (FII, FIAGRO e FI-INFRA)",
-            "Vendas de ativos com benefício fiscal\n\n",            
+            "Vendas de ativos com benefício fiscal\n\n",
         ]
     }
     const content3 = {
