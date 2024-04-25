@@ -16,6 +16,14 @@
  * UTILS.GS
  */
 
+function sum(obj, colindex) {
+    let sum = 0;
+    for (let el in obj) {
+        sum += parseFloat(obj[el][colindex]);
+    }
+    return sum;
+}
+
 function getUuid() {
     return Utilities.getUuid();
 }
@@ -65,16 +73,6 @@ function getSheetId(ticker, trigger = null) {
     const Dash = Planilha.getSheetByName(ABAS.DASHBOARD_CONSOLIDADO);
     return Dash.getSheetId();
 }
-
-// function doGet(request) {
-//   return HtmlService.createTemplateFromFile('@ricardoinvesting-showIR')
-//       .evaluate();
-// }
-
-// function include(filename) {
-//   return HtmlService.createHtmlOutputFromFile(filename)
-//       .getContent();
-// }
 
 function getRenderType(classe, qtd) {
     switch (classe) {
