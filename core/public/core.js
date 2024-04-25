@@ -149,6 +149,14 @@ const FRASES = [
  * UTILS.GS
  */
 
+function sum(obj, colindex) {
+    let sum = 0;
+    for (let el in obj) {
+        sum += parseFloat(obj[el][colindex]);
+    }
+    return sum;
+}
+
 function getUuid() {
     return Utilities.getUuid();
 }
@@ -198,16 +206,6 @@ function getSheetId(ticker, trigger = null) {
     const Dash = Planilha.getSheetByName(ABAS.DASHBOARD_CONSOLIDADO);
     return Dash.getSheetId();
 }
-
-// function doGet(request) {
-//   return HtmlService.createTemplateFromFile('@ricardoinvesting-showIR')
-//       .evaluate();
-// }
-
-// function include(filename) {
-//   return HtmlService.createHtmlOutputFromFile(filename)
-//       .getContent();
-// }
 
 function getRenderType(classe, qtd) {
     switch (classe) {
@@ -377,8 +375,7 @@ function getCache(key, keyValue) {
 function removeCache(key) {
     const cache = CacheService.getScriptCache();
     cache.remove(key);
-}
-/**
+}/**
  * Desenvolvimento: Ricardo Alvarenga
  * Contato: ricardoinvesting10@gmail.com
  * Youtube: https://www.youtube.com/@ricardoinvesting
@@ -619,6 +616,9 @@ function createTrigger() {
 function getEvolutionRentability() {
     const Planilha = SpreadsheetApp.getActiveSpreadsheet();
     const Guia = Planilha.getSheetByName(ABAS.DASHBOARD);
+    const GuiaMeusAtivos = Planilha.getSheetByName(ABAS.MEUS_ATIVOS);
+    const variations = GuiaMeusAtivos.getRange("Y2:Y102").getValues()
+    const total = sum(variations, 0);
     const Cell = Guia.getRange("A4");
     const days = [1, 2, 3, 4, 5];
     const now = new Date().getHours()
@@ -627,9 +627,7 @@ function getEvolutionRentability() {
         if (now == "09" || now === 9 || now === 10) {
             const currentMonth = composeIndiceDate(0)
             const oldMonth = composeIndiceDate(1)
-            // Utilities.sleep(120000);// uma pausa de 2min para atualizar os dados antes de capturar as informações
-            const value = Guia.getRange('A5').getValue();
-            Cell.setValue(value);
+            Cell.setValue(total);
             const acoes = Guia.getRange("E9").getValue(); // acoes
             Guia.getRange("A10").setValue(acoes);
             const fiis = Guia.getRange("E11").getValue(); // fiis
@@ -654,7 +652,7 @@ function getEvolutionRentability() {
             Guia.getRange("A31").setValue(etfexterior);
 
             if (currentMonth > oldMonth) {
-                updatePerformance(value);
+                updatePerformance(total);
             }
         }
     }
@@ -798,6 +796,8 @@ function checkVersion(version, trigger) {
         return getFrases(trigger);
     }
 }
+
+
 /**
  * Desenvolvimento: Ricardo Alvarenga
  * Contato: ricardoinvesting10@gmail.com
