@@ -52,7 +52,7 @@ function _loadingData() {
     name = (document.getElementById("input_name").value).toUpperCase();
     document_number = document.getElementById("input_cpf").value;
     if (_local) {
-        getJson(mockBonification2024) // test local
+        getJson(mockAluguel2024) // test local
     } else {
         google.script.run
             .withSuccessHandler(getJson)

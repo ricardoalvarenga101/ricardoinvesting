@@ -69,3 +69,5 @@ const MONTHS_LABEL = {
     11: "Novembro",
     12: "Dezembro",
 }
+const CNPJ_B3 = "09.346.601/0001-25"
+const NAME_B3 = "B3 S.A. – BRASIL, BOLSA, BALCÃO"

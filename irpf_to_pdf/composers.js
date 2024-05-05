@@ -479,7 +479,7 @@ function composeProvents(provents) {
         }
         if (provents[item].amountRendimentJCP) {
             rendimentsJCP.push([
-                "12",
+                "06",
                 provents[item].document_number_principal,
                 provents[item].name,
                 `Rendimentos tributados sobre juros recebidos de (${provents[item].name})`,

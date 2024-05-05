@@ -93,7 +93,6 @@ function renderRendimentsJCP() {
 function renderBonifications() {
     console.log("ITENS BONIFICACOES", bonifications, bonificationsWithFractions)
 
-
     if (!(Object.keys(bonifications)).length && !(Object.keys(bonificationsWithFractions)).length) {
         return [{}]
     }
@@ -102,11 +101,17 @@ function renderBonifications() {
     _.map(bonificationsWithFractions, (item, ticker) => {
         listBonification.push(["18", item.cnpj, item.name, convertCurrencyReal(item.amount)])
     })
-    _.map(bonifications, (item, ticker) => {
-        if (!bonificationsWithFractions.hasOwnProperty(ticker)) {
+    if (bonificationsWithFractions) {
+        _.map(bonifications, (item, ticker) => {
+            if (!bonificationsWithFractions.hasOwnProperty(ticker)) {
+                listBonification.push(["18", item.cnpj, item.name, convertCurrencyReal(item.amount)])
+            }
+        })
+    } else {
+        _.map(bonifications, (item, ticker) => {
             listBonification.push(["18", item.cnpj, item.name, convertCurrencyReal(item.amount)])
-        }
-    })
+        })
+    }
 
     const title = {
         text: "Bonificações",
@@ -128,16 +133,20 @@ function renderBonifications() {
 
 function renderRentals() {
     console.log("ITENS ALUGUEL", rentals)
-
-
-    if (!(Object.keys(rentals)).length) {
+    
+    if (!rentals || !(Object.keys(rentals)).length) {
         return [{}]
     }
     const listRentals = [];
+    let sumRetals = 0
 
-    _.map(rentals, (item, ticker) => {
-        listRentals.push(["06", item.cnpj, item.name, convertCurrencyReal(item.amount)])
+    Object.keys(rentals).forEach(item => {
+        sumRetals += rentals[item].amount;
     })
+
+    // _.map(rentals, (item, ticker) => {
+    listRentals.push(["06", CNPJ_B3, NAME_B3, convertCurrencyReal(sumRetals)])
+    // })
 
     const title = {
         text: "Aluguéis",
