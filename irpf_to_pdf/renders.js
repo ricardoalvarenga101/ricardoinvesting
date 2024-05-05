@@ -133,8 +133,7 @@ function renderBonifications() {
 
 function renderRentals() {
     console.log("ITENS ALUGUEL", rentals)
-
-    debugger;
+    
     if (!rentals || !(Object.keys(rentals)).length) {
         return [{}]
     }
