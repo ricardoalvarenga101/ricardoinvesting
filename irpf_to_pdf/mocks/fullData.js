@@ -6747,10 +6747,10 @@ const mockAluguel2024 = {
             "amountRendimentJCP": 0.17,
             "document_number_admin": "",
             "rentals": [
-                0.44
+                0.44, 1
             ],
             "amountRendiment": 0,
-            "amountRental": 0.44,
+            "amountRental": 1.44,
             "amountJcp": 14.45,
             "amountBonification": 0,
             "bonification": [],
@@ -7262,7 +7262,7 @@ const mockAluguel2024 = {
     "rentals": {
         "BBAS3": {
             "name": "BANCO DO BRASIL SA",
-            "amount": 0.44,
+            "amount": 1.44,
             "cnpj": "00.000.000/0001-91"
         }
     },
