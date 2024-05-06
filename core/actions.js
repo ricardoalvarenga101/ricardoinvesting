@@ -140,10 +140,7 @@ function updateCotationManual() {
 
 }
 
-function updatePMManual() {
-
-    const outputClose = HtmlService.createHtmlOutput('<script>google.script.host.close();</script>');
-    const ui = SpreadsheetApp.getUi();
+function updatePM() {
     const uuid = Utilities.getUuid();
 
     const Sheet = SpreadsheetApp.getActiveSpreadsheet();
@@ -154,11 +151,8 @@ function updatePMManual() {
     const listYears = composeAvaiableYears(firstYear, limitYear)
 
 
-    ui.showSidebar(HtmlService.createHtmlOutputFromFile("@ricardoinvesting-pm-html")
-        .setTitle("Recalculando Preço Médio"));
 
     const content1 = calcPMFull(uuid);
-    TbDinamic.getRange("AN2").setValue(content1);
     GuideDinamicConsolid.getRange("V10").setValue(content1);
     const data = [];
     for (let i = 0; i < listYears.length; i++) {
@@ -171,6 +165,16 @@ function updatePMManual() {
     GuideDinamicConsolid.getRange(`V3:Z${data.length + 2}`).setValues(data)
     const GuideTDConsolidado = Sheet.getSheetByName(ABAS.TABELA_DINAMICA_CONSOLIDADO);
     GuideTDConsolidado.getRange("V13").setValue(uuid);
+}
+
+function updatePMManual() {
+
+    const outputClose = HtmlService.createHtmlOutput('<script>google.script.host.close();</script>');
+    const ui = SpreadsheetApp.getUi();
+    ui.showSidebar(HtmlService.createHtmlOutputFromFile("@ricardoinvesting-pm-html")
+        .setTitle("Recalculando Preço Médio"));
+
+    updatePM()
 
     ui.showSidebar(outputClose.setTitle("Recalculando Preço Médio"));
 
@@ -226,5 +230,3 @@ function checkVersion(version, trigger) {
         return getFrases(trigger);
     }
 }
-
-

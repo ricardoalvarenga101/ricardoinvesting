@@ -189,5 +189,4 @@ function onlyTabsDefault() {
     Planilha.getSheetByName(ABAS.MOVIMENTACOES).hideSheet();
     Planilha.getSheetByName(ABAS.MOVIMENTACOES_CDB).hideSheet();
     Planilha.getSheetByName(ABAS.IMPORT).hideSheet();
-
 }
