@@ -172,5 +172,4 @@ function importarDadosB3() {
         Browser.msgBox("💰 Lançamentos importados com sucesso!");
         return ui.showModalDialog(outputClose, IMPORT_TITLE);
     }
-
 }

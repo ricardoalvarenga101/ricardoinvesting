@@ -237,6 +237,7 @@ function getCache(key, keyValue) {
         const data = JSON.parse(cached);
         return data[keyValue];
     }
+    return null;
 }
 
 function removeCache(key) {

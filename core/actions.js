@@ -82,7 +82,7 @@ function getEvolutionRentability() {
             Guia.getRange("A31").setValue(etfexterior);
 
             if (currentMonth > oldMonth) {
-                updatePerformance(total);
+                updatePerformance(total, oldMonth);
             }
         }
     }
@@ -140,25 +140,16 @@ function updateCotationManual() {
 
 }
 
-function updatePMManual() {
-
-    const outputClose = HtmlService.createHtmlOutput('<script>google.script.host.close();</script>');
-    const ui = SpreadsheetApp.getUi();
+function updatePM() {
     const uuid = Utilities.getUuid();
 
     const Sheet = SpreadsheetApp.getActiveSpreadsheet();
     const GuideDinamicConsolid = Sheet.getSheetByName(ABAS.TABELA_DINAMICA_CONSOLIDADO);
-    const TbDinamic = Sheet.getSheetByName(ABAS.TABELA_DINAMICA);
     const firstYear = getFirstYear();
     const limitYear = new Date().getFullYear() - 5;
-    const listYears = composeAvaiableYears(firstYear, limitYear)
-
-
-    ui.showSidebar(HtmlService.createHtmlOutputFromFile("@ricardoinvesting-pm-html")
-        .setTitle("Recalculando Preço Médio"));
+    const listYears = composeAvaiableYears(firstYear, limitYear);
 
     const content1 = calcPMFull(uuid);
-    TbDinamic.getRange("AN2").setValue(content1);
     GuideDinamicConsolid.getRange("V10").setValue(content1);
     const data = [];
     for (let i = 0; i < listYears.length; i++) {
@@ -171,6 +162,16 @@ function updatePMManual() {
     GuideDinamicConsolid.getRange(`V3:Z${data.length + 2}`).setValues(data)
     const GuideTDConsolidado = Sheet.getSheetByName(ABAS.TABELA_DINAMICA_CONSOLIDADO);
     GuideTDConsolidado.getRange("V13").setValue(uuid);
+}
+
+function updatePMManual() {
+
+    const outputClose = HtmlService.createHtmlOutput('<script>google.script.host.close();</script>');
+    const ui = SpreadsheetApp.getUi();
+    ui.showSidebar(HtmlService.createHtmlOutputFromFile("@ricardoinvesting-pm-html")
+        .setTitle("Recalculando Preço Médio"));
+
+    updatePM()
 
     ui.showSidebar(outputClose.setTitle("Recalculando Preço Médio"));
 
@@ -185,14 +186,24 @@ function formatCNPJ(cnpj) {
     }
 }
 
-function updatePerformance(value) {
+function getLastRowEvolution(GuidePerformance, shortDate) {
+    const rows = GuidePerformance.getRange("A2:A2001").getValues();
+    let countRow = 0;
+    for (let i = 0; i < rows.length; i++) {
+        if (rows[countRow][0] === shortDate) {
+            countRow += 1;
+            break;
+        }
+        countRow += 1;
+    }
+    return countRow + 1;
+}
+
+function updatePerformance(value, shortDate) {
     const Sheet = SpreadsheetApp.getActiveSpreadsheet();
-
     const GuidePerformance = Sheet.getSheetByName(ABAS.EVOLUCAO_PATRIMONIAL);
-
-    const last = GuidePerformance.getRange("Z1").getValue() + 2;
-    const CellPerformance = GuidePerformance.getRange(`G${last}`);
-    CellPerformance.setValue(value)
+    const last = getLastRowEvolution(GuidePerformance, shortDate);
+    GuidePerformance.getRange(`G${last}`).setValue(value)
 }
 
 function hidden() {
@@ -226,5 +237,3 @@ function checkVersion(version, trigger) {
         return getFrases(trigger);
     }
 }
-
-
