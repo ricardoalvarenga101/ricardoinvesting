@@ -33,7 +33,8 @@ function composeAvaiableYears(firstYear, limitYear) {
     let initiate = limitYear;
     const listYears = []
     if (firstYear === currentYear) {
-        return listYears.push(currentYear)
+        listYears.push(currentYear)
+        return listYears
     }
     if (firstYear >= limitYear) {
         initiate = firstYear
