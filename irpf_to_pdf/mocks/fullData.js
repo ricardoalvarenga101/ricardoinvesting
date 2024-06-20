@@ -7267,152 +7267,35 @@ const mockAluguel2024 = {
         }
     },
     "sells": {
-        "2022": {
-            "10": {
-                "operations": [
-                    {
-                        "classe": "FII",
-                        "ticker": "VINO11",
-                        "name": "VINCI OFFICES",
-                        "document_number_admin": "",
-                        "document_number_principal": "12.516.185/0001-70",
-                        "type": "Renda Variável",
-                        "value": 0.05000000000002189,
-                        "operation": "VENDA DE FII/FIAGRO",
-                        "transaction": 339.5
-                    },
-                    {
-                        "ticker": "XPPR11",
-                        "classe": "FII",
-                        "name": "XP PROPERTIES",
-                        "document_number_admin": "",
-                        "document_number_principal": "30.654.849/0001-40",
-                        "type": "Renda Variável",
-                        "operation": "VENDA DE FII/FIAGRO",
-                        "value": -4.040000000000002,
-                        "transaction": 314.65000000000003
-                    }
-                ]
-            },
-            "11": {
-                "operations": [
-                    {
-                        "classe": "Ação",
-                        "ticker": "CPLE6",
-                        "name": "CIA PARANAENSE DE EN",
-                        "document_number_admin": "",
-                        "document_number_principal": "76.483.817/0001-20",
-                        "type": "Renda Variável",
-                        "value": 49.44000000000001,
-                        "operation": "SWING TRADE DE AÇÃO",
-                        "transaction": 311.61
-                    },
-                    {
-                        "classe": "FII",
-                        "ticker": "GARE12",
-                        "name": "GUARDIAN LOGISTICA F",
-                        "document_number_admin": "",
-                        "document_number_principal": "37.295.919/0001-60",
-                        "type": "Renda Variável",
-                        "operation": "DIREITOS DE SUBSCRIÇÃO",
-                        "value": 0.10000000000000009,
-                        "transaction": 3.2
-                    }
-                ]
-            }
-        },
-        "2023": {
+        "2023": {            
             "5": {
                 "operations": [
                     {
-                        "classe": "FII",
-                        "ticker": "RZTR11",
-                        "name": "FUNDO DE INVESTIMENT",
-                        "document_number_admin": "",
-                        "document_number_principal": "36.501.128/0001-86",
-                        "type": "Renda Variável",
-                        "value": 0.559999999999942,
-                        "operation": "VENDA DE FII/FIAGRO",
-                        "transaction": 543.5999999999999
-                    }
-                ]
-            },
-            "7": {
-                "operations": [
-                    {
-                        "ticker": "MATIC-POLYGON",
-                        "classe": "Criptomoeda",
-                        "name": "Polygon",
-                        "document_number_principal": "",
-                        "document_number_admin": "",
-                        "type": "Renda Variável",
-                        "operation": "VENDA DE CRIPTOMOEDA",
-                        "value": 3.1891343620000168,
-                        "transaction": 200.029052718
-                    }
-                ]
-            },
-            "8": {
-                "operations": [
-                    {
                         "ticker": "BBDC3",
                         "classe": "Ação",
                         "name": "BANCO BRADESCO SA",
                         "document_number_admin": "",
                         "document_number_principal": "60.746.948/0001-12",
                         "type": "Renda Variável",
-                        "value": 59.8,
+                        "value": -4.50,
                         "operation": "SWING TRADE DE AÇÃO",
                         "transaction": 813.6
-                    },
-                    {
-                        "classe": "Ação",
-                        "ticker": "SANB4",
-                        "name": "BANCO SANTANDER BRAS",
-                        "document_number_principal": "90.400.888/0001-42",
-                        "document_number_admin": "",
-                        "type": "Renda Variável",
-                        "operation": "SWING TRADE DE AÇÃO",
-                        "value": 2.260000000000014,
-                        "transaction": 264.78000000000003
-                    },
-                    {
-                        "classe": "Ação",
-                        "ticker": "BBDC3",
-                        "name": "BANCO BRADESCO SA",
-                        "document_number_principal": "60.746.948/0001-12",
-                        "document_number_admin": "",
-                        "type": "Renda Variável",
-                        "operation": "SWING TRADE DE AÇÃO",
-                        "value": 2.9599999999999995,
-                        "transaction": 40.71
-                    }
+                    },                    
                 ]
             },
-            "10": {
+            "6": {
                 "operations": [
                     {
-                        "classe": "Criptomoeda",
-                        "ticker": "MATIC-POLYGON",
-                        "name": "Polygon",
-                        "document_number_principal": "",
+                        "ticker": "BBDC3",
+                        "classe": "Ação",
+                        "name": "BANCO BRADESCO SA",
                         "document_number_admin": "",
+                        "document_number_principal": "60.746.948/0001-12",
                         "type": "Renda Variável",
-                        "operation": "VENDA DE CRIPTOMOEDA",
-                        "value": 1.59391190825,
-                        "transaction": 618.15350685825
-                    },
-                    {
-                        "classe": "Criptomoeda",
-                        "ticker": "MATIC-POLYGON",
-                        "name": "Polygon",
-                        "document_number_admin": "",
-                        "document_number_principal": "",
-                        "type": "Renda Variável",
-                        "value": -1.49351697989999,
-                        "operation": "VENDA DE CRIPTOMOEDA",
-                        "transaction": 146.8625030235
-                    }
+                        "value": -176.20,
+                        "operation": "SWING TRADE DE AÇÃO",
+                        "transaction": 813.6
+                    }, 
                 ]
             },
             "11": {
@@ -7432,6 +7315,17 @@ const mockAluguel2024 = {
             },
             "12": {
                 "operations": [
+                    {
+                        "ticker": "BBDC3",
+                        "classe": "Ação",
+                        "name": "BANCO BRADESCO SA",
+                        "document_number_admin": "",
+                        "document_number_principal": "60.746.948/0001-12",
+                        "type": "Renda Variável",
+                        "value": 250,
+                        "operation": "SWING TRADE DE AÇÃO",
+                        "transaction": 21000
+                    },
                     {
                         "classe": "Criptomoeda",
                         "ticker": "ETH",
@@ -7469,7 +7363,7 @@ const mockAluguel2024 = {
                         "type": "Renda Variável",
                         "value": 447.51999999999987,
                         "operation": "SWING TRADE DE AÇÃO",
-                        "transaction": 1265.6999999999998
+                        "transaction": 21000
                     },
                     {
                         "ticker": "NVDA",
