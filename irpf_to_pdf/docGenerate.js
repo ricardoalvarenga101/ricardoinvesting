@@ -138,7 +138,7 @@ function generatePdf() {
         images: {
             ricardoinvesting: "https://i.ibb.co/FDPPj9w/Novo-Projeto-1.png",
             print1: "https://i.ibb.co/HG3hwv0/print-1.png",
-            print2: "https://i.ibb.co/p0bgbwk/print-2.png",
+            print2: "https://i.ibb.co/8zdSn3W/print-2.png",
             print3: "https://i.ibb.co/bs0HY4n/print-3.png",
             print4: "https://i.ibb.co/fk65Jw9/print4.png",
             print5: "https://i.ibb.co/G7Tm0mD/print-5.png",
