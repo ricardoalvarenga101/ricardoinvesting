@@ -57,7 +57,14 @@ const IGNORE_IMPORT_B3 = [
     "Cessão de Direitos - Solicitada",
     "Leilão de Fração",
     "Fração em Ativos",
-    "Bonificação em Ativos"
+    "Bonificação em Ativos",
+    "Fração em Ativos",
+    "Desdobro",
+    "Agrupamento",
+    "Grupamento",
+    "Transferencia",
+    "Transferência",
+    "Atualização",
 ];
 
 const FLAG_PROVENTOS = ["Dividendo", "Juros Sobre Capital Próprio", "Rendimento"];
